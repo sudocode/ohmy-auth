@@ -1,4 +1,4 @@
-ohmyAuth 
+ohmyAuth [![Build Status](https://travis-ci.org/sudocode/oh-my-auth.png?branch=master)](https://travis-ci.org/sudocode/oh-my-auth)
 ========
 
 ohmyAuth is a PHP library that simplifies the OAuth flow into chained function calls. Currently it only supports 2-legged and 3-legged OAuth 1.0a.
