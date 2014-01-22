@@ -8,7 +8,7 @@ ohmyAuth is a PHP library that simplifies the OAuth flow into chained function c
 ohmyAuth requires PHP (>= 5.4.0) and the pecl_http package (>= 2.4.0).
 
 
-### Two-Legged OAuth 1.0a
+### Two-Legged OAuth 1.0a 
 
 ```php
 
