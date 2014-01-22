@@ -1,0 +1,21 @@
+# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
+language: php
+
+# list any PHP version you want to test against
+php:
+  # using major version aliases
+  # aliased to a recent 5.4.x version
+  - 5.4
+  # aliased to a recent 5.5.x version
+  - 5.5
+
+# optionally specify a list of environments, for example to test different RDBMS
+env:
+  - OA=oauth1
+
+# omitting "script:" will default to phpunit
+script: phpunit --configuration phpunit.$OA.xml --coverage-text
+
+# configure notifications (email, IRC, campfire etc)
+notifications:
+  email: "sudocoder@ymail.com"
