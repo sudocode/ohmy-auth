@@ -1,37 +1,38 @@
+<?php require_once __DIR__ . '/../vendor/autoload.php';
+
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
-<?php require_once __DIR__ . '/../vendor/autoload.php';
 
-    use ohmy\Auth;
+use ohmy\Auth;
 
-    # start a session to save oauth data in-between redirects
-    session_start();
-    
-    # initialize 3-legged oauth
-    Auth::init(3) 
+# start a session to save oauth data in-between redirects
+session_start();
 
-        # set your consumer key
-        ->set('key', 'YOUR_CONSUMER_KEY')
+# initialize 3-legged oauth
+Auth::init(3)
 
-        # set your consumer secret
-        ->set('secret', 'YOUR_CONSUMER_SECRET')
+    # set your consumer key
+    ->set('key', 'YOUR_CONSUMER_KEY')
 
-        # set your oauth callback url
-        ->set('callback', 'YOUR_OAUTH_CALLBACK_URL')
+    # set your consumer secret
+    ->set('secret', 'YOUR_CONSUMER_SECRET')
 
-        # 1st leg.. get request token
-        ->leg('http://www.tumblr.com/oauth/request_token')
+    # set your oauth callback url
+    ->set('callback', 'YOUR_OAUTH_CALLBACK_URL')
 
-        # 2nd leg.. redirect user to twitter 
-        ->leg('http://www.tumblr.com/oauth/authorize')
+    # 1st leg.. get request token
+    ->leg('http://www.tumblr.com/oauth/request_token')
 
-        # 3rd leg.. get access token
-        ->leg('http://www.tumblr.com/oauth/access_token', function($data) {
+    # 2nd leg.. redirect user to twitter
+    ->leg('http://www.tumblr.com/oauth/authorize')
 
-              var_dump($data);
+    # 3rd leg.. get access token
+    ->leg('http://www.tumblr.com/oauth/access_token', function($data) {
 
-        });
+          var_dump($data);
+
+    });
 

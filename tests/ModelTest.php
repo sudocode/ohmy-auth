@@ -1,14 +1,14 @@
+<?php
+
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
-<?php
 
-    use ohmy\Auth1\Model;
+use ohmy\Auth1\Model;
 
-class ModelTest extends PHPUnit_Framework_TestCase
-{
+class ModelTest extends PHPUnit_Framework_TestCase {
     /**
      * @var Model
      */
