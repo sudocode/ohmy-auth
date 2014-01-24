@@ -41,10 +41,8 @@ Auth::init(3, array(
     ->leg('http://www.tumblr.com/oauth/request_token')
     ->leg('http://www.tumblr.com/oauth/authorize')
     ->leg('http://www.tumblr.com/oauth/access_token', function($data) {
-    
         # dump access token
         var_dump($data);
-        
         # destroy session data
         session_destroy();
     });
