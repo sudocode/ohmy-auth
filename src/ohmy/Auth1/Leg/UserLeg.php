@@ -30,5 +30,6 @@ class UserLeg extends Leg {
             $this->oauth_params['oauth_token']
         );
         header($location);
+        exit();
     }
 }
