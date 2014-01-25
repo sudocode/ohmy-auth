@@ -11,10 +11,10 @@ ohmyAuth requires PHP (>= 5.4.0) and the pecl_http package (>= 2.4.0).
 ### Two-Legged OAuth 1.0a 
 
 ```php
-use ohmy\Auth;
+use ohmy\Auth1;
 
 # 2-legged oauth
-Auth::init(2)
+Auth1::init(2)
     ->set('key', 'key')
     ->set('secret', 'secret')
     ->request('http://term.ie/oauth/example/request_token.php')
@@ -27,13 +27,13 @@ Auth::init(2)
 ### Three-Legged OAuth 1.0a
 
 ```php
-use ohmy\Auth;
+use ohmy\Auth1;
 
 # start session for saving data in between redirects
 session_start();
 
 # 3-legged oauth
-Auth::init(3, array(
+Auth1::init(3, array(
         'consumer_key'    => 'YOUR_CONSUMER_KEY',
         'consumer_secret' => 'YOUR_CONSUMER_SECRET',
         'callback'        => 'YOUR_OAUTH_CALLBACK_URL'
