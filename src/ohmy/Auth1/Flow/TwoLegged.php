@@ -1,7 +1,7 @@
 <?php namespace ohmy\Auth1\Flow;
 
 use ohmy\Auth1\Promise,
-    ohmy\Auth1\SignedRequest,
+    ohmy\Auth1\Security\SignedRequest,
     http\Client;
 
 class TwoLegged extends Promise {
