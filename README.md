@@ -17,8 +17,8 @@ use ohmy\Auth;
 Auth::init(2)
     ->set('key', 'key')
     ->set('secret', 'secret')
-    ->leg('http://term.ie/oauth/example/request_token.php')
-    ->leg('http://term.ie/oauth/example/access_token.php', function($data) {
+    ->request('http://term.ie/oauth/example/request_token.php')
+    ->access('http://term.ie/oauth/example/access_token.php', function($data) {
         # dump access token
         var_dump($data);
     });
@@ -38,9 +38,9 @@ Auth::init(3, array(
         'consumer_secret' => 'YOUR_CONSUMER_SECRET',
         'callback'        => 'YOUR_OAUTH_CALLBACK_URL'
     ))
-    ->leg('http://www.tumblr.com/oauth/request_token')
-    ->leg('http://www.tumblr.com/oauth/authorize')
-    ->leg('http://www.tumblr.com/oauth/access_token', function($data) {
+    ->request('http://www.tumblr.com/oauth/request_token')
+    ->authorize('http://www.tumblr.com/oauth/authorize')
+    ->access('http://www.tumblr.com/oauth/access_token', function($data) {
         # dump access token
         var_dump($data);
         # destroy session data

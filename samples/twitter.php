@@ -6,13 +6,13 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth;
+use ohmy\Auth1;
 
 # start a session to save oauth data in-between redirects
 session_start();
 
 # initialize 3-legged oauth
-Auth::init(3)
+Auth1::init(3)
 
     # set your consumer key
     ->set('key', 'YOUR_CONSUMER_KEY')
@@ -24,13 +24,13 @@ Auth::init(3)
     ->set('callback', 'YOUR_OAUTH_CALLBACK_URL')
 
     # 1st leg.. get request token
-    ->leg('https://api.twitter.com/oauth/request_token')
+    ->request('https://api.twitter.com/oauth/request_token')
 
     # 2nd leg.. redirect user to twitter
-    ->leg('https://api.twitter.com/oauth/authorize')
+    ->authorize('https://api.twitter.com/oauth/authorize')
 
     # 3rd leg.. get access token
-    ->leg('https://api.twitter.com/oauth/access_token', function($data) {
+    ->access('https://api.twitter.com/oauth/access_token', function($data) {
 
           var_dump($data);
 

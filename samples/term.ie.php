@@ -6,21 +6,21 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth;
+use ohmy\Auth1;
 
 
 # initialize 2-legged oauth
-Auth::init(2)
+Auth1::init(2)
 
     # set key/secret
     ->set('key', 'key')
     ->set('secret', 'secret')
 
     # 1st leg.. get request token
-    ->leg('http://term.ie/oauth/example/request_token.php')
+    ->request('http://term.ie/oauth/example/request_token.php')
 
     # 2nd leg.. get acesss token
-    ->leg('http://term.ie/oauth/example/access_token.php', function($data) {
+    ->access('http://term.ie/oauth/example/access_token.php', function($data) {
 
           # dump access token
           var_dump($data);
