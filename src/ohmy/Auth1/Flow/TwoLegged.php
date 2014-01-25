@@ -1,69 +1,82 @@
 <?php namespace ohmy\Auth1\Flow;
 
-/*
- * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
- * Copyrights licensed under the New BSD License.
- * See the accompanying LICENSE file for terms.
- */
+use ohmy\Auth1\Promise,
+    ohmy\Auth1\SignedRequest,
+    http\Client;
 
-use ohmy\Auth1\Flow,
-    ohmy\Auth1\Model;
+class TwoLegged extends Promise {
 
-class TwoLegged extends Flow {
+    private $client;
+    private $model;
 
-    public function __construct(
-        Model $model,
-        $request_token_url,
-        $access_token_url
-    ) {
-        parent::__construct(
-            $model,
-            array(
-                # first leg
-                array(
-                    'type'     => 'machine',
-                    'url'      => $request_token_url,
-                    'have'     => array(
-                        'oauth_consumer_key',
-                        'oauth_consumer_secret',
-                        'oauth_timestamp',
-                        'oauth_nonce',
-                        'oauth_signature_method',
-                        'oauth_version'
-                    ),
-                    'want'     => array(
-                        'oauth_token',
-                        'oauth_token_secret'
-                    ),
-                    'params'   => array(),
-                    'headers'  => array(),
-                    'callback' => function($data) use($model) {
-                        $model->setArray($data);
-                    }
-                ),
-                # second leg
-                array(
-                    'type'     => 'machine',
-                    'url'      => $request_token_url,
-                    'have'     => array(
-                        'oauth_consumer_key',
-                        'oauth_consumer_secret',
-                        'oauth_token',
-                        'oauth_token_secret',
-                        'oauth_timestamp',
-                        'oauth_nonce',
-                        'oauth_signature_method',
-                        'oauth_version',
-                        'oauth_callback'
-                    ),
-                    'want'     => array(
-                        'nop'
-                    ),
-                    'params'   => array(),
-                    'headers'  => array(),
-                    'callback' => function() {}
-                )
-            )
-        );
+    public function __construct($model, $callback, $client=null) {
+        parent::__construct($callback);
+        $this->model = $model;
+        $this->client = ($client) ?  $client : new Client;
+    }
+
+    public function request($url, $success, $failure, $options) {
+        $promise = $this;
+        return (new TwoLegged($this->model, function($resolve, $reject) use($promise, $url, $options) {
+            // sign request
+            $request = new SignedRequest(
+                ($options['method']) ? $options['method'] : 'POST',
+                $url,
+                $promise->model->getArray(array(
+                    'oauth_consumer_key',
+                    'oauth_consumer_secret',
+                    'oauth_timestamp',
+                    'oauth_nonce',
+                    'oauth_signature_method',
+                    'oauth_version'
+                ))
+            );
+
+            $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
+                if ($response->getResponseCode() === 200) {
+                    $resolve($response->getBody()->toString());
+                }
+            });
+            $promise->client->send();
+        }, $this->client))->then(function($data) use($promise) {
+            parse_str($data, $array);
+            $promise->model->setArray($array);
+        });
+    }
+
+    public function access($url, $success, $failure, $options) {
+        $promise = $this;
+        return (new TwoLegged($this->model, function($resolve, $reject) use($promise, $url, $options) {
+
+            // sign request
+            $request = new SignedRequest(
+                ($options['method']) ? $options['method'] : 'POST',
+                $url,
+                $promise->model->getArray(array(
+                    'oauth_consumer_key',
+                    'oauth_consumer_secret',
+                    'oauth_token',
+                    'oauth_token_secret',
+                    'oauth_timestamp',
+                    'oauth_nonce',
+                    'oauth_signature_method',
+                    'oauth_version',
+                    'oauth_callback'
+                ))
+            );
+
+            $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
+                if ($response->getResponseCode() === 200) {
+                    $resolve($response->getBody()->toString());
+                }
+            });
+
+            $promise->client->send();
+
+        }, $this->client))->then(function($data) {
+            parse_str($data, $array);
+            var_dump($array);
+            # $promise->model->setArray($array);
+        });
     }
 }

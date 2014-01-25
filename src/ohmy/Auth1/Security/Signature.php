@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1;
+<?php namespace ohmy\Auth1\Security;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.

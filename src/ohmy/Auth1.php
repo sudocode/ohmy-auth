@@ -7,9 +7,10 @@
  */
 
 use ohmy\Auth1\Model,
-    ohmy\Auth1\Flow\Factory;
+    ohmy\Auth1\Flow\TwoLegged,
+    ohmy\Auth1\Flow\ThreeLegged;
 
-class Auth {
+class Auth1 {
 
     public static function init($type, $params=array()) {
         $model = new Model(array(
@@ -21,7 +22,20 @@ class Auth {
             'oauth_callback'           => ($params['callback']) ? $params['callback'] : '',
             'oauth_callback_confirmed' => $_SESSION['oauth_callback_confirmed']
         ));
-        return Factory::construct($type, $params, $model);
+
+        switch($type) {
+            case 2:
+                return new TwoLegged($model, function($resolve) {
+                    $resolve(true);
+                });
+                break;
+            case 3:
+                return new ThreeLegged($model, function($resolve) {
+                    $resolve(true);
+                });
+                break;
+            default:
+        }
     }
 
 }
