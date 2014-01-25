@@ -17,7 +17,16 @@ class Promise3L extends Promise {
 
     public function request($url, $success, $failure, $options) {
         $promise = $this;
-        return new Promise2L($this->model, function($resolve, $reject) use($promise, $url, $options) {
+        return new Promise3L($this->model, function($resolve, $reject) use($promise, $url, $options) {
+
+            $model = $promise->model;
+
+            # check session
+            if ($model->get('oauth_token')) {
+                $resolve();
+                return;
+            }
+
             // sign request
             $request = new SignedRequest(
                 ($options['method']) ? $options['method'] : 'POST',
@@ -51,14 +60,16 @@ class Promise3L extends Promise {
 
     public function authorize($url, $success, $failure, $options) {
         $promise = $this;
-        return new Promise2L($this->model, function($resolve, $reject) use($promise, $url, $options) {
+        return new Promise3L($this->model, function($resolve, $reject) use($promise, $url, $options) {
 
             $model = $promise->model;
 
             # check session
             if ($model->get('oauth_token') && $model->get('oauth_verifier')) {
                 $resolve();
+                return;
             }
+
             $location = sprintf(
                 'Location: %s?oauth_token=%s',
                 $url,
@@ -74,7 +85,8 @@ class Promise3L extends Promise {
         echo '<pre>';
         var_dump($this->model);
         echo '</pre>';
-        return new Promise2L($this->model, function($resolve, $reject) use($promise, $url, $options) {
+        echo 'accessing</br>';
+        return new Promise3L($this->model, function($resolve, $reject) use($promise, $url, $options) {
             // sign request
             $request = new SignedRequest(
                 ($options['method']) ? $options['method'] : 'POST',
@@ -92,11 +104,16 @@ class Promise3L extends Promise {
                 ))
             );
 
+            echo 'made signed request</br>';
+
             $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
+                echo 'inside request callback</br>';
+                var_dump($response->getBody()->toString());
                 if ($response->getResponseCode() === 200) {
                     $string = $response->getBody()->toString();
                     parse_str($string, $array);
                     var_dump($array);
+                    echo 'got access token';
                     $promise->model->setArray($array);
                     $resolve($array);
                 }
