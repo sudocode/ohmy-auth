@@ -6,7 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth1\Promise,
+use ohmy\Auth\Promise,
     ohmy\Auth1\Security\SignedRequest,
     http\Client;
 
@@ -109,8 +109,6 @@ class ThreeLegged extends Promise {
                     'oauth_verifier'
                 ))
             );
-
-            echo 'made signed request</br>';
 
             $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
                 echo 'inside request callback</br>';

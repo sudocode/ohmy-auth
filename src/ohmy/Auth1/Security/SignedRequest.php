@@ -16,16 +16,22 @@ class SignedRequest extends Request {
     public function __construct($method, $url, $oauth_params=array(), $params=array(), $headers=array(), $sig_location='header') {
 
         parent::__construct($method, $url, $headers);
+
+        $url= parse_url($url);
         $params = array_merge($oauth_params, $params);
+        parse_str($url['query'], $_params);
+        $params = array_merge($params, $_params);
         $oauth_consumer_secret = $params['oauth_consumer_secret'];
         $oauth_token_secret = (isset($params['oauth_token_secret'])) ? $params['oauth_token_secret'] : '';
 
         unset($params['oauth_consumer_secret']);
         unset($params['oauth_token_secret']);
 
+        ksort($params);
+
         $this->signature = new Signature(
             $method,
-            $url,
+            $url['scheme'].'://'.$url['host'].$url['path'],
             $params,
             $oauth_consumer_secret,
             $oauth_token_secret
@@ -51,8 +57,8 @@ class SignedRequest extends Request {
             $output,
             'oauth_signature="'. rawurlencode($this->signature) .'"'
         );
+        # sort($output);
         $output = 'OAuth '.implode(', ', $output);
-        # var_dump($output);
         $this->addHeader('Authorization', $output);
         $this->addHeader('Content-Length', 0);
         return $output;
