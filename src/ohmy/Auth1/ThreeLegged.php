@@ -23,6 +23,12 @@ class ThreeLegged extends Promise {
     public function request($url, $options) {
         $promise = $this;
         return (new Request(function($resolve, $reject) use($promise, $url, $options) {
+
+            if ($promise->value['oauth_token']) {
+                $resolve($promise->value);
+                return;
+            }
+
             // sign request
             $request = new SignedRequest(
                 ($options['method']) ? $options['method'] : 'POST',
@@ -57,7 +63,9 @@ class ThreeLegged extends Promise {
         }, $this->client))
 
     ->then(function($data) use($promise) {
+            if (is_array($data)) return $data;
             parse_str($data, $array);
+            $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
             return array_merge($promise->value, $array);
         });
     }

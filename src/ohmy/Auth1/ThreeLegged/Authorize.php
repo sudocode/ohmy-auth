@@ -22,6 +22,10 @@ class Authorize extends Promise {
         $promise = $this;
         return (new Access(function($resolve, $reject) use($promise, $url, $options) {
 
+            # $promise->value['oauth_verifier'] .= '#_=_';
+            echo '<pre>';
+            var_dump($promise->value);
+
             // sign request
             $request = new SignedRequest(
                 ($options['method']) ? $options['method'] : 'POST',
@@ -29,7 +33,6 @@ class Authorize extends Promise {
                 array_intersect_key(
                     $promise->value,
                     array_flip(array(
-                        'oauth_callback',
                         'oauth_consumer_key',
                         'oauth_consumer_secret',
                         'oauth_nonce',
@@ -37,12 +40,14 @@ class Authorize extends Promise {
                         'oauth_timestamp',
                         'oauth_token',
                         'oauth_token_secret',
+                        'oauth_verifier',
                         'oauth_version'
                     ))
                 )
             );
 
             $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
+                echo 'finished access';
                 echo '<pre>';
                 var_dump($response->getBody()->toString());
                 echo '</pre>';
