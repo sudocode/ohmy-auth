@@ -62,6 +62,7 @@ class Signature {
     private function getQueryString() {
         $output = array();
         foreach($this->params as $key => $value) {
+            echo "$key ";
             array_push($output, "$key=$value");
         }
         return implode('&', $output);
