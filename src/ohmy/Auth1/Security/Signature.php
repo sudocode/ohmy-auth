@@ -14,30 +14,45 @@ class Signature {
     private $type;
     private $oauth_consumer_secret;
     private $oauth_token_secret;
-    private $debug = false;
+    private $debug = true;
 
     public function __construct(
         $method,
         $url,
-        $params,
-        $oauth_consumer_secret = '',
-        $oauth_token_secret = '',
-        $type='HMAC-SHA1'
+        $oauth_params=array(),
+        $params=array(),
+        $headers=array()
     ) {
 
+        $url = parse_url($url);
+        $params = array_merge($oauth_params, $params);
+        parse_str($url['query'], $_params);
+        $params = array_merge($params, $_params);
+
+        # set consumer/token secrets
+        $this->oauth_consumer_secret = $params['oauth_consumer_secret'];
+        $this->oauth_token_secret = (isset($params['oauth_token_secret'])) ? $params['oauth_token_secret'] : '';
+
+        unset($params['oauth_consumer_secret']);
+        unset($params['oauth_token_secret']);
+
+        # sort params
+        ksort($params);
+
+        # constructor
         $this->method = $method;
-        $this->url = $url;
+        $this->url = $url['scheme'].'://'.$url['host'].$url['path'];
         $this->params = $params;
-        $this->oauth_consumer_secret = $oauth_consumer_secret;
-        $this->oauth_token_secret = $oauth_token_secret;
-        $this->type = $type;
+        $this->type = $params['oauth_signature_method'];
 
     }
 
     public function __toString() {
+
         $base_string = $this->getBaseString();
         $signing_key = $this->getSigningKey();
         $oauth_signature = null;
+        $output = array();
 
         switch($this->type) {
             case 'PLAINTEXT':
@@ -56,14 +71,27 @@ class Signature {
         }
 
         if ($this->debug) error_log("OAUTH_SIGNATURE: $oauth_signature");
-        return $oauth_signature;
+
+        foreach($this->params as $key => $value) {
+            array_push($output, "$key=\"". $value ."\"");
+        }
+
+        array_push(
+            $output,
+            'oauth_signature="'. rawurlencode($oauth_signature) .'"'
+        );
+
+        # sort($output);
+        $output = 'OAuth '.implode(', ', $output);
+
+        # return $oauth_signature;
+        return $output;
     }
 
     private function getQueryString() {
         $output = array();
         foreach($this->params as $key => $value) {
-            echo "$key ";
-            array_push($output, "$key=$value");
+            array_push($output, rawurlencode($key).'='.rawurlencode($value));
         }
         return implode('&', $output);
     }

@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth2;
+<?php namespace ohmy\Auth2\Flow;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -6,17 +6,15 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\AuthPromise,
-    http\Client;
+use ohmy\Auth\Promise;
 
-class TwoLegged extends AuthPromise {
+class TwoLegged extends Promise {
 
     private $client;
     private $model;
 
     public function __construct($model, $callback, $client=null) {
         parent::__construct($callback);
-        $this->model = $model;
         $this->client = ($client) ?  $client : new Client;
     }
 

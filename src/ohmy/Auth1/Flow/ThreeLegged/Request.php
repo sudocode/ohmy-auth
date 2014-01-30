@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\ThreeLegged;
+<?php namespace ohmy\Auth1\Flow\ThreeLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -6,21 +6,20 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Promise,
-    ohmy\Auth1\ThreeLegged\Authorize,
-    ohmy\Auth1\Security\SignedRequest,
-    http\Client;
+use ohmy\Auth\Promise;
 
 class Request extends Promise {
 
     public function __construct($callback, $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
     public function authorize($url, $options) {
         $promise = $this;
         return (new Authorize(function($resolve, $reject) use($promise, $url, $options) {
+
+            error_log('DATA IS '.json_encode($promise->value));
 
             # check session
             if ($promise->value['oauth_token'] && $promise->value['oauth_verifier']) {
@@ -33,6 +32,7 @@ class Request extends Promise {
                 $url,
                 $promise->value['oauth_token']
             );
+            error_log("LOCATION IS $location");
 
             header($location);
             exit();

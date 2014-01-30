@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\ThreeLegged;
+<?php namespace ohmy\Auth1\Flow\ThreeLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -7,9 +7,8 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\TwoLegged\Access,
-    ohmy\Auth1\Security\SignedRequest,
-    http\Client;
+    ohmy\Auth1\Security\Signature,
+    ohmy\Auth1\Flow\ThreeLegged\Access;
 
 class Authorize extends Promise {
 
@@ -22,13 +21,8 @@ class Authorize extends Promise {
         $promise = $this;
         return (new Access(function($resolve, $reject) use($promise, $url, $options) {
 
-            # $promise->value['oauth_verifier'] .= '#_=_';
-            echo '<pre>';
-            var_dump($promise->value);
-
-            // sign request
-            $request = new SignedRequest(
-                ($options['method']) ? $options['method'] : 'POST',
+            $signature = new Signature(
+                'POST', #($options['method']) ? $options['method'] : 'POST',
                 $url,
                 array_intersect_key(
                     $promise->value,
@@ -46,17 +40,13 @@ class Authorize extends Promise {
                 )
             );
 
-            $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
-                echo 'finished access';
-                echo '<pre>';
-                var_dump($response->getBody()->toString());
-                echo '</pre>';
-                if ($response->getResponseCode() === 200) {
-                    $resolve($response->getBody()->toString());
-                }
+            $promise->client->POST($url, null, array(
+                'Authorization'  => $signature,
+                'Content-Length' => 0
+            ))
+            ->then(function($response) use($resolve) {
+                $resolve($response->text());
             });
-
-            $promise->client->send();
 
         }, $this->client))
 

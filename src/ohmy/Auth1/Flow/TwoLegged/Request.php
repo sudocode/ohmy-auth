@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\Flow;
+<?php namespace ohmy\Auth1\Flow\TwoLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -6,41 +6,34 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Flow,
-    ohmy\Auth1\Security\Signature,
-    ohmy\Auth1\Flow\ThreeLegged\Request;
+use ohmy\Auth\Promise,
+    ohmy\Auth1\Security\Signature;
 
-class ThreeLegged extends Flow {
-
-    private $client;
+class Request extends Promise {
 
     public function __construct($callback, $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
-    public function request($url, $options) {
-
+    public function access($url, $options=null) {
         $promise = $this;
-        return (new Request(function($resolve, $reject) use($promise, $url, $options) {
+        return (new Access(function($resolve, $reject) use($promise, $url, $options) {
 
-            if ($promise->value['oauth_token']) {
-                $resolve($promise->value);
-                return;
-            }
-
+            # sign request
             $signature = new Signature(
                 ($options['method']) ? $options['method'] : 'POST',
                 $url,
                 array_intersect_key(
                     $promise->value,
                     array_flip(array(
-                        'oauth_callback',
                         'oauth_consumer_key',
                         'oauth_consumer_secret',
                         'oauth_nonce',
-                        'oauth_timestamp',
                         'oauth_signature_method',
+                        'oauth_timestamp',
+                        'oauth_token',
+                        'oauth_token_secret',
                         'oauth_version'
                     ))
                 )
@@ -54,14 +47,12 @@ class ThreeLegged extends Flow {
                 $resolve($response->text());
             });
 
+
         }, $this->client))
 
-    ->then(function($data) use($promise) {
-            if (is_array($data)) return $data;
+        ->then(function($data) use($promise) {
             parse_str($data, $array);
-            $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
             return array_merge($promise->value, $array);
         });
     }
-
 }

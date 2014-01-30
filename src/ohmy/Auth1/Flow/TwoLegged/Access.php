@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\TwoLegged;
+<?php namespace ohmy\Auth1\Flow\TwoLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -8,29 +8,29 @@
 
 use ohmy\Auth\Promise,
     ohmy\Auth\Response,
-    ohmy\Auth1\Security\SignedRequest;
+    ohmy\Auth1\Security\Signature;
 
 class Access extends Promise {
 
     public function __construct($callback, $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
-    public function GET($url, $options) {
-        $this->request('GET', $url, $options);
+    public function GET($url, $params=null) {
+        return $this->request('GET', $url, $params);
     }
 
-    public function POST($url, $options) {
-       $this->request('POST', $url, $options);
+    public function POST($url, $params=null) {
+        return $this->request('POST', $url, $params);
     }
 
-    private function request($method, $url, $options) {
+    private function request($method, $url, $options=null) {
         $promise = $this;
         return new Response(function($resolve, $reject) use($promise, $method, $url, $options) {
 
             # sign request
-            $request = new SignedRequest(
+            $signature = new Signature(
                 $method,
                 $url,
                 array_intersect_key(
@@ -48,14 +48,13 @@ class Access extends Promise {
                 )
             );
 
-            $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
-                if ($response->getResponseCode() === 200) {
-                    $resolve($response->getBody()->toString());
-                }
+            $promise->client->{$method}($url, null, array(
+                'Authorization'  => $signature,
+                'Content-Length' => 0
+            ))
+            ->then(function($response) use($resolve) {
+                $resolve($response->text());
             });
-
-            # send request
-            $promise->client->send();
 
         });
     }
