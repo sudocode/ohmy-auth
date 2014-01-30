@@ -1,12 +1,11 @@
-ohmyAuth [![Build Status](https://travis-ci.org/sudocode/ohmy-auth.png?branch=master)](https://travis-ci.org/sudocode/ohmy-auth)
+ohmy-auth [![Build Status](https://travis-ci.org/sudocode/ohmy-auth.png?branch=master)](https://travis-ci.org/sudocode/ohmy-auth)
 ========
 
-ohmyAuth is a PHP library that simplifies the OAuth flow into chained function calls. Currently it only supports 2-legged and 3-legged OAuth 1.0a.
+ohmy-auth (Oma) is a PHP library that simplifies the OAuth flow using [promises](http://en.wikipedia.org/wiki/Futures_and_promises). Currently Oma only supports 2-legged and 3-legged OAuth 1.0a.
 
 ### Dependencies
 
-ohmyAuth requires PHP (>= 5.4.0) and the pecl_http package (>= 2.4.0).
-
+Oma only requires PHP (>= 5.3.0) and the Curl extension.
 
 ### Two-Legged OAuth 1.0a 
 
@@ -18,7 +17,8 @@ Auth1::init(2)
     ->set('key', 'key')
     ->set('secret', 'secret')
     ->request('http://term.ie/oauth/example/request_token.php')
-    ->access('http://term.ie/oauth/example/access_token.php', function($data) {
+    ->access('http://term.ie/oauth/example/access_token.php')
+    ->then(function($data) {
         # dump access token
         var_dump($data);
     });
@@ -40,7 +40,8 @@ Auth1::init(3, array(
     ))
     ->request('http://www.tumblr.com/oauth/request_token')
     ->authorize('http://www.tumblr.com/oauth/authorize')
-    ->access('http://www.tumblr.com/oauth/access_token', function($data) {
+    ->access('http://www.tumblr.com/oauth/access_token') 
+    ->then(function($data) {
         # dump access token
         var_dump($data);
         # destroy session data
