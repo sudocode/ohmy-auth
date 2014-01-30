@@ -1,0 +1,44 @@
+<?php namespace ohmy\Http\Curl;
+
+use ohmy\Auth\Promise;
+
+class Response extends Promise {
+
+    private $headers = array();
+    private $text;
+
+    public function __construct($callback) {
+        parent::__construct($callback);
+        list($headers, $text) = explode("\r\n\r\n", $this->value, 2);
+        if (strpos($headers, ' 100 Continue') !== false) {
+            list($headers, $text) = explode("\r\n\r\n", $text, 2);
+        }
+
+        # parse the headers
+        $headers = explode("\n", str_replace("\r", '', $headers));
+        foreach ($headers as $header) {
+            $header = explode(': ', $header);
+            if (count($header) === 2) {
+                $this->headers[$header[0]] = $header[1];
+            }
+        }
+        $this->text = $text;
+    }
+
+    public function json() {
+        return json_decode($this->value);
+    }
+
+    public function headers() {
+        return $this->headers;
+    }
+
+    public function raw() {
+        return $this->value;
+    }
+
+    public function text() {
+        return $this->text;
+    }
+}
+

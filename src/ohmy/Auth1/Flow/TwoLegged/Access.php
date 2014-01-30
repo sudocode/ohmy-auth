@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\TwoLegged;
+<?php namespace ohmy\Auth1\Flow\TwoLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -17,15 +17,15 @@ class Access extends Promise {
         $this->client = ($client) ?  $client : new Client;
     }
 
-    public function GET($url, $options) {
+    public function GET($url, $options=null) {
         $this->request('GET', $url, $options);
     }
 
-    public function POST($url, $options) {
+    public function POST($url, $options=null) {
        $this->request('POST', $url, $options);
     }
 
-    private function request($method, $url, $options) {
+    private function request($method, $url, $options=null) {
         $promise = $this;
         return new Response(function($resolve, $reject) use($promise, $method, $url, $options) {
 

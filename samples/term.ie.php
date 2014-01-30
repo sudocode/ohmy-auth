@@ -11,19 +11,11 @@ use ohmy\Auth1;
 
 # initialize 2-legged oauth
 Auth1::init(2)
-
-    # set key/secret
-    ->set('key', 'key')
-    ->set('secret', 'secret')
-
-    # 1st leg.. get request token
-    ->request('http://term.ie/oauth/example/request_token.php')
-
-    # 2nd leg.. get acesss token
-    ->access('http://term.ie/oauth/example/access_token.php', function($data) {
-
-          # dump access token
-          var_dump($data);
-
-    });
+     ->set('oauth_consumer_key', 'key')
+     ->set('oauth_consumer_secret', 'secret')
+     ->request('http://term.ie/oauth/example/request_token.php')
+     ->access('http://term.ie/oauth/example/access_token.php')
+     ->then(function($data) {
+         var_dump($data);
+     });
 

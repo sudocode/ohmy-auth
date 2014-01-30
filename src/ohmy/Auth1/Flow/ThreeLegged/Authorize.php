@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\ThreeLegged;
+<?php namespace ohmy\Auth1\Flow\ThreeLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -7,7 +7,6 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\TwoLegged\Access,
     ohmy\Auth1\Security\SignedRequest,
     http\Client;
 
@@ -49,10 +48,10 @@ class Authorize extends Promise {
             $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
                 echo 'finished access';
                 echo '<pre>';
-                var_dump($response->getBody()->toString());
+                var_dump($response->getbody()->tostring());
                 echo '</pre>';
-                if ($response->getResponseCode() === 200) {
-                    $resolve($response->getBody()->toString());
+                if ($response->getresponsecode() === 200) {
+                    $resolve($response->getbody()->tostring());
                 }
             });
 

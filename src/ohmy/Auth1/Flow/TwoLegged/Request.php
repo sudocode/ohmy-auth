@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\TwoLegged;
+<?php namespace ohmy\Auth1\Flow\TwoLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -7,8 +7,7 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\TwoLegged\Access,
-    ohmy\Auth1\Security\SignedRequest;
+    ohmy\Auth1\Security\Signature;
 
 class Request extends Promise {
 
@@ -17,12 +16,12 @@ class Request extends Promise {
         $this->client = ($client) ?  $client : new Client;
     }
 
-    public function access($url) {
+    public function access($url, $options=null) {
         $promise = $this;
         return (new Access(function($resolve, $reject) use($promise, $url, $options) {
 
             // sign request
-            $request = new SignedRequest(
+            $signature = new Signature(
                 ($options['method']) ? $options['method'] : 'POST',
                 $url,
                 array_intersect_key(
@@ -40,16 +39,12 @@ class Request extends Promise {
                 )
             );
 
-            $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
-                echo '<pre>';
-                var_dump($response->getBody()->toString());
-                echo '</pre>';
-                if ($response->getResponseCode() === 200) {
-                    $resolve($response->getBody()->toString());
-                }
-            });
+            $response = $promise->client->POST($url, null, array(
+                'Authorization'  => $signature,
+                'Content-Length' => 0
+            ));
 
-            $promise->client->send();
+            $resolve($response->text());
 
         }, $this->client))
 

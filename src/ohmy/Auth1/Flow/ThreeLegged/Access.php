@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1;
+<?php namespace ohmy\Auth1\ThreeLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -7,41 +7,42 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\Security\SignedRequest,
-    ohmy\Auth1\ThreeLegged\Request,
-    http\Client;
+    ohmy\Auth\Response,
+    ohmy\Auth1\Security\SignedRequest;
 
-class ThreeLegged extends Promise {
-
-    private $client;
+class Access extends Promise {
 
     public function __construct($callback, $client=null) {
         parent::__construct($callback);
         $this->client = ($client) ?  $client : new Client;
     }
 
-    public function request($url, $options) {
+    public function GET($url, $options) {
+        $this->request('GET', $url, $options);
+    }
+
+    public function POST($url, $options) {
+        $this->request('POST', $url, $options);
+    }
+
+    private function request($method, $url, $options) {
         $promise = $this;
-        return (new Request(function($resolve, $reject) use($promise, $url, $options) {
+        return new Response(function($resolve, $reject) use($promise, $method, $url, $options) {
 
-            if ($promise->value['oauth_token']) {
-                $resolve($promise->value);
-                return;
-            }
-
-            // sign request
+            # sign request
             $request = new SignedRequest(
-                ($options['method']) ? $options['method'] : 'POST',
+                $method,
                 $url,
                 array_intersect_key(
                     $promise->value,
                     array_flip(array(
-                        'oauth_callback',
                         'oauth_consumer_key',
                         'oauth_consumer_secret',
-                        'oauth_timestamp',
                         'oauth_nonce',
                         'oauth_signature_method',
+                        'oauth_timestamp',
+                        'oauth_token',
+                        'oauth_token_secret',
                         'oauth_version'
                     ))
                 )
@@ -49,10 +50,6 @@ class ThreeLegged extends Promise {
 
             $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
                 if ($response->getResponseCode() === 200) {
-                    # return a string
-                    echo '<pre>';
-                    var_dump($response->getBody()->toString());
-                    echo '</pre>';
                     $resolve($response->getBody()->toString());
                 }
             });
@@ -60,14 +57,6 @@ class ThreeLegged extends Promise {
             # send request
             $promise->client->send();
 
-        }, $this->client))
-
-    ->then(function($data) use($promise) {
-            if (is_array($data)) return $data;
-            parse_str($data, $array);
-            $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
-            return array_merge($promise->value, $array);
         });
     }
-
 }

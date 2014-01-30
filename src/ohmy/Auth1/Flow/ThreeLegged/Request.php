@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\ThreeLegged;
+<?php namespace ohmy\Auth1\Flow\ThreeLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -7,8 +7,6 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\ThreeLegged\Authorize,
-    ohmy\Auth1\Security\SignedRequest,
     http\Client;
 
 class Request extends Promise {
