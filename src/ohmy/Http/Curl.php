@@ -17,7 +17,7 @@ class Curl {
             # set curl options
             curl_setopt_array($handle, array(
                 CURLOPT_POST       => true,
-                CURLOPT_VERBOSE    => true,
+                CURLOPT_VERBOSE    => false,
                 CURLOPT_URL        => $url,
                 CURLOPT_POSTFIELDS => http_build_query($arguments, '', '&'),
                 CURLOPT_HTTPHEADER => $self->_headers($headers),
@@ -46,7 +46,7 @@ class Curl {
 
             # set curl options
             curl_setopt_array($handle, array(
-                CURLOPT_VERBOSE    => true,
+                CURLOPT_VERBOSE    => false,
                 CURLOPT_URL        => $url,
                 CURLOPT_HTTPHEADER => $self->_headers($headers),
                 CURLOPT_HEADER     => true,

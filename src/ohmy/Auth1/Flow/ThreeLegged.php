@@ -38,8 +38,8 @@ class ThreeLegged extends Flow {
                         'oauth_callback',
                         'oauth_consumer_key',
                         'oauth_consumer_secret',
-                        'oauth_timestamp',
                         'oauth_nonce',
+                        'oauth_timestamp',
                         'oauth_signature_method',
                         'oauth_version'
                     ))

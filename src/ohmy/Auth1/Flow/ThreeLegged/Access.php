@@ -1,4 +1,4 @@
-<?php namespace ohmy\Auth1\ThreeLegged;
+<?php namespace ohmy\Auth1\Flow\ThreeLegged;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -26,6 +26,7 @@ class Access extends Promise {
     }
 
     private function request($method, $url, $options) {
+        echo 'access';
         $promise = $this;
         return new Response(function($resolve, $reject) use($promise, $method, $url, $options) {
 

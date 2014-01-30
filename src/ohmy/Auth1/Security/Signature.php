@@ -91,7 +91,7 @@ class Signature {
     private function getQueryString() {
         $output = array();
         foreach($this->params as $key => $value) {
-            array_push($output, "$key=$value");
+            array_push($output, rawurlencode($key).'='.rawurlencode($value));
         }
         return implode('&', $output);
     }
