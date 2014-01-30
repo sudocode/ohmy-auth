@@ -20,6 +20,7 @@ class ThreeLegged extends Flow {
     }
 
     public function request($url, $options) {
+
         $promise = $this;
         return (new Request(function($resolve, $reject) use($promise, $url, $options) {
 
@@ -28,9 +29,7 @@ class ThreeLegged extends Flow {
                 return;
             }
 
-            // sign request
-            /*
-            $request = new SignedRequest(
+            $signature = new Signature(
                 ($options['method']) ? $options['method'] : 'POST',
                 $url,
                 array_intersect_key(
@@ -47,19 +46,13 @@ class ThreeLegged extends Flow {
                 )
             );
 
-            $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
-                if ($response->getResponseCode() === 200) {
-                    # return a string
-                    echo '<pre>';
-                    var_dump($response->getBody()->toString());
-                    echo '</pre>';
-                    $resolve($response->getBody()->toString());
-                }
+            $promise->client->POST($url, null, array(
+                'Authorization'  => $signature,
+                'Content-Length' => 0
+            ))
+            ->then(function($response) use($resolve) {
+                $resolve($response->text());
             });
-
-            # send request
-            $promise->client->send();
-            */
 
         }, $this->client))
 

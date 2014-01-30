@@ -3,15 +3,12 @@
 use ohmy\Auth1;
 
 
-Auth1::init(2)
-    ->set('oauth_consumer_key', 'key')
-    ->set('oauth_consumer_secret', 'secret')
-    ->request('http://term.ie/oauth/example/request_token.php')
-    ->access('http://term.ie/oauth/example/access_token.php')
-    ->then(function($data) {
-        echo 'got data</br>';
+Auth1::init(3)
+    ->set('oauth_consumer_key', '')
+    ->set('oauth_consumer_secret', '')
+    ->set('oauth_callback', 'YOUR_OAUTH_CALLBACK_URL')
+    ->request('http://www.tumblr.com/oauth/request_token')
+    ->authorize('http://www.tumblr.com/oauth/authorize')
+    ->access('http://www.tumblr.com/oauth/access_token', function($data) {
         var_dump($data);
     });
-
-echo 'done';
-

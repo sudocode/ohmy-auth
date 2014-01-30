@@ -14,7 +14,7 @@ class Signature {
     private $type;
     private $oauth_consumer_secret;
     private $oauth_token_secret;
-    private $debug = false;
+    private $debug = true;
 
     public function __construct(
         $method,

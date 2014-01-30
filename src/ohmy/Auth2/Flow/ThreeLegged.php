@@ -24,8 +24,6 @@ class ThreeLegged extends Promise {
         return new Authorize(function($resolve, $reject) use($promise, $url, $options) {
 
 
-
-
             $location = sprintf(
                 'Location: %s?oauth_token=%s',
                 $url,

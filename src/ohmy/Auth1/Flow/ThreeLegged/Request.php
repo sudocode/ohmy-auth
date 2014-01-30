@@ -6,14 +6,13 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Promise,
-    http\Client;
+use ohmy\Auth\Promise;
 
 class Request extends Promise {
 
     public function __construct($callback, $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
     public function authorize($url, $options) {

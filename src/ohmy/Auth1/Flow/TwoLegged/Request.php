@@ -13,14 +13,14 @@ class Request extends Promise {
 
     public function __construct($callback, $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
     public function access($url, $options=null) {
         $promise = $this;
         return (new Access(function($resolve, $reject) use($promise, $url, $options) {
 
-            // sign request
+            # sign request
             $signature = new Signature(
                 ($options['method']) ? $options['method'] : 'POST',
                 $url,
@@ -39,12 +39,14 @@ class Request extends Promise {
                 )
             );
 
-            $response = $promise->client->POST($url, null, array(
+            $promise->client->POST($url, null, array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
-            ));
+            ))
+            ->then(function($response) use($resolve) {
+                $resolve($response->text());
+            });
 
-            $resolve($response->text());
 
         }, $this->client))
 

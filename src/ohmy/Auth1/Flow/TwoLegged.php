@@ -39,12 +39,13 @@ class TwoLegged extends Flow {
                 )
             );
 
-            $response = $promise->client->POST($url, null, array(
+            $promise->client->POST($url, null, array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
-            ));
-
-            $resolve($response->text());
+            ))
+            ->then(function($response) use($resolve) {
+                $resolve($response->text());
+            });
 
         }, $this->client))
 

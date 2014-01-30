@@ -7,7 +7,7 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\Security\SignedRequest,
+    ohmy\Auth1\Security\Signature,
     http\Client;
 
 class Authorize extends Promise {
@@ -21,12 +21,7 @@ class Authorize extends Promise {
         $promise = $this;
         return (new Access(function($resolve, $reject) use($promise, $url, $options) {
 
-            # $promise->value['oauth_verifier'] .= '#_=_';
-            echo '<pre>';
-            var_dump($promise->value);
-
-            // sign request
-            $request = new SignedRequest(
+            $signature = new Signature(
                 ($options['method']) ? $options['method'] : 'POST',
                 $url,
                 array_intersect_key(
@@ -45,17 +40,13 @@ class Authorize extends Promise {
                 )
             );
 
-            $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
-                echo 'finished access';
-                echo '<pre>';
-                var_dump($response->getbody()->tostring());
-                echo '</pre>';
-                if ($response->getresponsecode() === 200) {
-                    $resolve($response->getbody()->tostring());
-                }
+            $promise->client->POST($url, null, array(
+                'Authorization'  => $signature,
+                'Content-Length' => 0
+            ))
+            ->then(function($response) use($resolve) {
+                $resolve($response->text());
             });
-
-            $promise->client->send();
 
         }, $this->client))
 

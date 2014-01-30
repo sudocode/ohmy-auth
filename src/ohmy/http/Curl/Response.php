@@ -23,6 +23,7 @@ class Response extends Promise {
             }
         }
         $this->text = $text;
+        $this->value = $this;
     }
 
     public function json() {

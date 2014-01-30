@@ -4,8 +4,7 @@ use ohmy\Http\Curl\Response;
 
 class Curl {
 
-    public function __construct() {
-    }
+    public function __construct() {}
 
     public function POST($url, $arguments, $headers) {
 
@@ -18,8 +17,37 @@ class Curl {
             # set curl options
             curl_setopt_array($handle, array(
                 CURLOPT_POST       => true,
+                CURLOPT_VERBOSE    => true,
                 CURLOPT_URL        => $url,
                 CURLOPT_POSTFIELDS => http_build_query($arguments, '', '&'),
+                CURLOPT_HTTPHEADER => $self->_headers($headers),
+                CURLOPT_HEADER     => true,
+                CURLOPT_RETURNTRANSFER => true
+            ));
+
+            # execute curl
+            $raw = curl_exec($handle);
+
+            # close curl handle
+            curl_close($handle);
+
+            # resolve
+            $resolve($raw);
+        });
+    }
+
+    public function GET($url, $arguments, $headers) {
+
+        $self = $this;
+        return new Response(function($resolve, $reject) use($self, $url, $arguments, $headers) {
+
+            # initialize curl
+            $handle = curl_init();
+
+            # set curl options
+            curl_setopt_array($handle, array(
+                CURLOPT_VERBOSE    => true,
+                CURLOPT_URL        => $url,
                 CURLOPT_HTTPHEADER => $self->_headers($headers),
                 CURLOPT_HEADER     => true,
                 CURLOPT_RETURNTRANSFER => true

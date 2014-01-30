@@ -8,7 +8,7 @@
 
 use ohmy\Auth\Promise,
     ohmy\Auth\Response,
-    ohmy\Auth1\Security\SignedRequest;
+    ohmy\Auth1\Security\Signature;
 
 class Access extends Promise {
 
@@ -18,11 +18,11 @@ class Access extends Promise {
     }
 
     public function GET($url, $options) {
-        $this->request('GET', $url, $options);
+        return $this->request('GET', $url, $options);
     }
 
     public function POST($url, $options) {
-        $this->request('POST', $url, $options);
+        return $this->request('POST', $url, $options);
     }
 
     private function request($method, $url, $options) {
@@ -30,7 +30,7 @@ class Access extends Promise {
         return new Response(function($resolve, $reject) use($promise, $method, $url, $options) {
 
             # sign request
-            $request = new SignedRequest(
+            $signature = new Signature(
                 $method,
                 $url,
                 array_intersect_key(
@@ -48,14 +48,13 @@ class Access extends Promise {
                 )
             );
 
-            $promise->client->enqueue($request, function($response) use($promise, $resolve, $reject) {
-                if ($response->getResponseCode() === 200) {
-                    $resolve($response->getBody()->toString());
-                }
+            $promise->client->{$method}($url, null, array(
+                'Authorization'  => $signature,
+                'Content-Length' => 0
+            ))
+            ->then(function($response) use($resolve) {
+                $resolve($response->text());
             });
-
-            # send request
-            $promise->client->send();
 
         });
     }
