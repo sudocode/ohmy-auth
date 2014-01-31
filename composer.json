@@ -2,7 +2,7 @@
     "name": "ohmy/auth",
     "description": "OAuth so easy.. you won't even believe it's OAuth",
     "keywords": ["oauth", "OAuth"]
-    "homepage": "http://ohmyauth.com/"
+    "homepage": "https://github.com/sudocode/ohmy-auth"
     "license": "New BSD",
     "authors": [
         {
