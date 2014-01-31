@@ -32,7 +32,7 @@ class Access extends Promise {
         $url = parse_url($url);
         if (isset($url['query'])) parse_str($url['query'], $params);
         return $this->request(
-            'GET', 
+            'POST',
             $url['scheme'].'://'.$url['host'].$url['path'],
             $params,
             $headers
