@@ -83,4 +83,4 @@ $github->GET('https://api.github.com/user', null, array('User-Agent' => 'ohmy-au
 
 __PHP license__: PHP License
 
-__ohmyAuth__: New BSD License.
+__ohmy-auth__: New BSD License.
