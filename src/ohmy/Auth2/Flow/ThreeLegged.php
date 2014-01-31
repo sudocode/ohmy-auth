@@ -27,7 +27,7 @@ class ThreeLegged extends Flow {
                 return;
             }
 
-            $location = $url.http_build_query(array(
+            $location = $url.'?'.http_build_query(array(
                 'client_id'     => $promise->value['client_id'],
                 'redirect_uri'  => $promise->value['redirect_uri'],
                 'response_type' => $promise->value['response_type'],
@@ -35,7 +35,7 @@ class ThreeLegged extends Flow {
 
             ));
 
-            header($location);
+            header("Location: $location");
             exit();
 
         }, $this->client);

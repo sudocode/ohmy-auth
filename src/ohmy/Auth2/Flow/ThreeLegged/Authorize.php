@@ -22,7 +22,7 @@ class Authorize extends Promise {
                 $resolve($response->text());
             });
 
-        }))
+        }, $this->client))
         ->then(function($data) use($promise) {
             parse_str($data, $array);
             return array_merge($promise->value, $array);

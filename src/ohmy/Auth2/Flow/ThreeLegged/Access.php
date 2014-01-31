@@ -10,22 +10,38 @@ class Access extends Promise {
         $this->client = $client;
     }
 
-    public function GET($url, $options=null) {
-        $this->request('GET', $url, $options);
+    public function GET($url, $params=null, $headers=null) {
+        $url = parse_url($url);
+        parse_str($url['query'], $params);
+        return $this->request(
+            'GET', 
+            $url['scheme'].'://'.$url['host'].$url['path'],
+            $params,
+            $headers
+        );
     }
 
-    public function POST($url, $options=null) {
-        $this->request('POST', $url, $options);
+    public function POST($url, $params=null, $headers=null) {
+        $url = parse_url($url);
+        parse_str($url['query'], $params);
+        return $this->request(
+            'GET', 
+            $url['scheme'].'://'.$url['host'].$url['path'],
+            $params,
+            $headers
+        );
     }
 
-    private function request($method, $url, $options=null) {
+    private function request($method, $url, $params=null, $headers=null) {
         $promise = $this;
-        return new Response(function($resolve, $reject) use($promise, $method, $url, $options) {
-            $promise->client->{$method}($url, null, array(
-            ))
-            ->then(function($response) use($resolve) {
-                $resolve($response->text());
-            });
+        return new Response(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
+            $params['access_token'] = $promise->value['access_token'];
+            var_dump($params);
+            $promise->client->{$method}($url, $params, $headers)
+                    ->then(function($response) use($resolve) {
+                        var_dump($response->text());
+                        $resolve($response->text());
+                    });
         });
     }
 }

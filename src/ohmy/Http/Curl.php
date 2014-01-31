@@ -44,10 +44,12 @@ class Curl {
             # initialize curl
             $handle = curl_init();
 
+            var_dump("getting $url");
+
             # set curl options
             curl_setopt_array($handle, array(
-                CURLOPT_VERBOSE    => false,
-                CURLOPT_URL        => $url,
+                CURLOPT_VERBOSE    => true,
+                CURLOPT_URL        => $url.'?'.http_build_query($arguments),
                 CURLOPT_HTTPHEADER => $self->_headers($headers),
                 CURLOPT_HEADER     => true,
                 CURLOPT_RETURNTRANSFER => true
@@ -58,6 +60,8 @@ class Curl {
 
             # close curl handle
             curl_close($handle);
+
+            var_dump($raw);
 
             # resolve
             $resolve($raw);
