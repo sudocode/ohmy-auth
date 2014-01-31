@@ -94,12 +94,20 @@ class Promise {
             if ($failure) array_push($this->failure_pending, $failure);
         }
         else if ($this->state === self::RESOLVED) {
-            $this->value = $success($this->value);
+            $value = $success($this->value);
         }
         else if ($this->state === self::REJECTED) {
-            if ($failure) $this->value = $failure($this->value);
+            $value = $failure($this->value);
         }
+
+        if ($value) $this->value = $value;
         return $this;
+    }
+
+    public function __call($function, $arguments) {
+        if ($function === 'catch') {
+            call_user_func(array($this, '_catch'), $arguments[0]);
+        }
     }
 
     /**
@@ -107,7 +115,7 @@ class Promise {
      * @param $callback
      * @return $this
      */
-    public function trap($callback) {
+    private function _catch($callback) {
         if ($this->state === self::REJECTED) {
             $callback($this->value);
         }

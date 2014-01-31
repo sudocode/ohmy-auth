@@ -7,8 +7,7 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\Security\Signature,
-    ohmy\Auth1\Flow\ThreeLegged\Access;
+    ohmy\Auth1\Security\Signature;
 
 class Authorize extends Promise {
 
@@ -17,12 +16,12 @@ class Authorize extends Promise {
         $this->client = ($client) ?  $client : new Client;
     }
 
-    public function access($url, $options) {
+    public function access($url, $options=array()) {
         $promise = $this;
         return (new Access(function($resolve, $reject) use($promise, $url, $options) {
 
             $signature = new Signature(
-                'POST', #($options['method']) ? $options['method'] : 'POST',
+                'POST',
                 $url,
                 array_intersect_key(
                     $promise->value,
@@ -40,7 +39,7 @@ class Authorize extends Promise {
                 )
             );
 
-            $promise->client->POST($url, null, array(
+            $promise->client->POST($url, array(), array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
             ))

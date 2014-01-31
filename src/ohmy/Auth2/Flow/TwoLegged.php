@@ -6,16 +6,16 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Promise;
+use ohmy\Auth\Flow;
 
-class TwoLegged extends Promise {
+class TwoLegged extends Flow {
 
     private $client;
     private $model;
 
     public function __construct($model, $callback, $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
     public function authorize($url) {
@@ -25,9 +25,4 @@ class TwoLegged extends Promise {
             exit();
         });
     }
-
-    public function access() {
-        return new TwoLegged(function($resolve, $reject) {
-        });
-    }
-} 
+}

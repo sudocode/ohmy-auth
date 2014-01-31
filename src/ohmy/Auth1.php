@@ -12,20 +12,20 @@ use ohmy\Auth1\Flow\TwoLegged,
 
 class Auth1 {
 
-    public static function init($type, $params=array()) {
+    public static function init($type) {
 
         $client = new Curl;
         $oauth = array(
             'oauth_callback'           => '',
-            'oauth_callback_confirmed' => $_SESSION['oauth_callback_confirmed'],
+            # 'oauth_callback_confirmed' => ''
             'oauth_consumer_key'       => '',
             'oauth_consumer_secret'    => '',
             'oauth_nonce'              => md5(mt_rand()),
             'oauth_signature_method'   => 'HMAC-SHA1',
             'oauth_timestamp'          => time(),
-            'oauth_token'              => $_REQUEST['oauth_token'],
-            'oauth_token_secret'       => $_SESSION['oauth_token_secret'],
-            'oauth_verifier'           => $_REQUEST['oauth_verifier'],
+            'oauth_token'              => isset($_REQUEST['oauth_token']) ? $_REQUEST['oauth_token'] : '',
+            'oauth_token_secret'       => isset($_SESSION['oauth_token_secret']) ? $_SESSION['oauth_token_secret'] : '',
+            'oauth_verifier'           => isset($_REQUEST['oauth_verifier']) ? $_REQUEST['oauth_verifier'] : '',
             'oauth_version'            => '1.0'
         );
 

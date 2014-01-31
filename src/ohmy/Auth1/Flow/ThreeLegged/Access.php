@@ -17,18 +17,31 @@ class Access extends Promise {
         $this->client = ($client) ?  $client : new Client;
     }
 
-    public function GET($url, $options) {
-        return $this->request('GET', $url, $options);
+    public function GET($url, Array $params=array(), Array $headers=array()) {
+        $url = parse_url($url);
+        if (isset($url['query'])) parse_str($url['query'], $params);
+        return $this->request(
+            'GET', 
+            $url['scheme'].'://'.$url['host'].$url['path'],
+            $params,
+            $headers
+        );
     }
 
-    public function POST($url, $options) {
-        return $this->request('POST', $url, $options);
+    public function POST($url, Array $params=array(), Array $headers=array()) {
+        $url = parse_url($url);
+        if (isset($url['query'])) parse_str($url['query'], $params);
+        return $this->request(
+            'GET', 
+            $url['scheme'].'://'.$url['host'].$url['path'],
+            $params,
+            $headers
+        );
     }
 
-    private function request($method, $url, $options) {
-        echo 'access';
+    private function request($method, $url, Array $params=null, Array $headers=array()) {
         $promise = $this;
-        return new Response(function($resolve, $reject) use($promise, $method, $url, $options) {
+        return new Response(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
 
             # sign request
             $signature = new Signature(
@@ -46,16 +59,18 @@ class Access extends Promise {
                         'oauth_token_secret',
                         'oauth_version'
                     ))
-                )
+                ),
+                $params,
+                $headers
             );
 
-            $promise->client->{$method}($url, null, array(
-                'Authorization'  => $signature,
-                'Content-Length' => 0
-            ))
-            ->then(function($response) use($resolve) {
-                $resolve($response->text());
-            });
+            # set Authorization header
+            $headers['Authorization'] = $signature;
+
+            $promise->client->{$method}($url, $params, $headers)
+                    ->then(function($response) use($resolve) {
+                        $resolve($response->text());
+                    });
 
         });
     }

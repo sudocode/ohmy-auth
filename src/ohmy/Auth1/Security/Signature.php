@@ -14,7 +14,7 @@ class Signature {
     private $type;
     private $oauth_consumer_secret;
     private $oauth_token_secret;
-    private $debug = true;
+    private $debug = false;
 
     public function __construct(
         $method,
@@ -26,7 +26,10 @@ class Signature {
 
         $url = parse_url($url);
         $params = array_merge($oauth_params, $params);
-        parse_str($url['query'], $_params);
+
+        if (isset($url['query'])) parse_str($url['query'], $_params);
+        else $_params = array();
+
         $params = array_merge($params, $_params);
 
         # set consumer/token secrets
@@ -72,14 +75,13 @@ class Signature {
 
         if ($this->debug) error_log("OAUTH_SIGNATURE: $oauth_signature");
 
-        foreach($this->params as $key => $value) {
+        $params = $this->params;
+        $params['oauth_signature'] = rawurlencode($oauth_signature);
+        ksort($params);
+
+        foreach($params as $key => $value) {
             array_push($output, "$key=\"". $value ."\"");
         }
-
-        array_push(
-            $output,
-            'oauth_signature="'. rawurlencode($oauth_signature) .'"'
-        );
 
         # sort($output);
         $output = 'OAuth '.implode(', ', $output);

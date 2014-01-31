@@ -6,7 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Flow,
+use ohmy\Auth1\Flow,
     ohmy\Auth1\Security\Signature,
     ohmy\Auth1\Flow\TwoLegged\Request;
 
@@ -39,7 +39,7 @@ class TwoLegged extends Flow {
                 )
             );
 
-            $promise->client->POST($url, null, array(
+            $promise->client->POST($url, array(), array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
             ))

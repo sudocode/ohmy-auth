@@ -1,18 +1,25 @@
 <?php namespace ohmy\Http;
 
+/*
+ * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
+
 use ohmy\Http\Curl\Response;
 
-class Curl {
+class Curl implements Rest {
 
     public function __construct() {}
 
-    public function POST($url, $arguments, $headers) {
+    public function POST($url, Array $arguments=array(), Array $headers=array()) {
 
         $self = $this;
         return new Response(function($resolve, $reject) use($self, $url, $arguments, $headers) {
 
             # initialize curl
             $handle = curl_init();
+            $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
             # set curl options
             curl_setopt_array($handle, array(
@@ -36,13 +43,14 @@ class Curl {
         });
     }
 
-    public function GET($url, $arguments, $headers) {
+    public function GET($url, Array $arguments=array(), Array $headers=array()) {
 
         $self = $this;
         return new Response(function($resolve, $reject) use($self, $url, $arguments, $headers) {
 
             # initialize curl
             $handle = curl_init();
+            $url = (count($arguments)) ? "$url?".http_build_query($arguments) : $url;
 
             # set curl options
             curl_setopt_array($handle, array(
@@ -72,38 +80,4 @@ class Curl {
         }
         return $output;
     }
-    /*
-    public function GET($url, $arguments=null, $headers=null, $callback=null) {
-
-        $request = new Request(array(
-            CURLOPT_URL        => "$url?".http_build_query($arguments),
-            CURLOPT_HTTPHEADER => self::_headers($headers)
-        ));
-
-        $response = new Response(
-            $request->exec()
-        );
-
-        if (!$callback) return $response;
-        else $callback($response);
-    }
-
-    public function PST($url, $arguments=null, $headers=null, $callback=null) {
-
-        $request = new Request(array(
-            CURLOPT_POST       => true,
-            CURLOPT_URL        => $url,
-            CURLOPT_POSTFIELDS => http_build_query($arguments, '', '&'),
-            CURLOPT_HTTPHEADER => self::_headers($headers)
-        ));
-
-        $response = new Response(
-            $request->exec()
-        );
-
-        if (!$callback) return $response;
-        else $callback($response);
-    }
-    */
-
 }

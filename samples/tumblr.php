@@ -12,27 +12,24 @@ use ohmy\Auth1;
 session_start();
 
 # initialize 3-legged oauth
-Auth1::init(3)
+$tumblr = Auth1::init(3)
+               # configuration
+               ->set('key', 'your tumblr consumer key')
+               ->set('secret', 'your tumblr consumer secret')
+               ->set('callback', 'your callback url')
 
-    # set your consumer key
-    ->set('key', 'YOUR_CONSUMER_KEY')
-
-    # set your consumer secret
-    ->set('secret', 'YOUR_CONSUMER_SECRET')
-
-    # set your oauth callback url
-    ->set('callback', 'YOUR_OAUTH_CALLBACK_URL')
-
-    # 1st leg.. get request token
-    ->request('http://www.tumblr.com/oauth/request_token')
-
-    # 2nd leg.. redirect user to twitter
-    ->authorize('http://www.tumblr.com/oauth/authorize')
-
-    # 3rd leg.. get access token
-    ->access('http://www.tumblr.com/oauth/access_token', function($data) {
-
+               # oauth flow
+               ->request('http://www.tumblr.com/oauth/request_token')
+               ->authorize('http://www.tumblr.com/oauth/authorize')
+               ->access('http://www.tumblr.com/oauth/access_token')
+               ->then(function($data) {
+                   # destroy session
+                   session_destroy();
+               });
+    
+# test GET method
+$tumblr->GET('https://api.tumblr.com/v2/user/info')
+       ->then(function($data) {
           var_dump($data);
-
-    });
+       });
 
