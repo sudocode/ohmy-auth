@@ -1,16 +1,20 @@
 {
     "name": "ohmy/auth",
-    "description": "easy oauth",
-    "license": "MIT",
+    "description": "OAuth so easy.. you won't even believe it's OAuth",
+    "keywords": ["oauth", "OAuth"]
+    "homepage": "http://ohmyauth.com/"
+    "license": "New BSD",
     "authors": [
         {
             "name": "Daniel Park",
-            "email": "daniel@sudoco.de"
+            "email": "sudocoder@ymail.com",
+            "homepage": "http://sudoco.de/",
+            "role": "Developer"
         }
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.3.0"
     },
     "autoload": {
         "psr-0": {
