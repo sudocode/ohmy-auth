@@ -13,9 +13,11 @@ use ohmy\Auth2,
 $github = new ThreeLegged(function($resolve) {
     $resolve(array(
         'client_id'    => '',
+        'client_secret' => ''
         'redirect_uri' => '',
         'scope'        => '',
-        'state'        => ''
+        'state'        => '',
+        'code'         => $_REQUEST['code']
     ));
 });
 

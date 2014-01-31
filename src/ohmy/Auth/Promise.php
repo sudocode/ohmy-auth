@@ -102,12 +102,18 @@ class Promise {
         return $this;
     }
 
+    public function __call($function, $arguments) {
+        if ($function === 'catch') {
+            call_user_func(array($this, '_catch'), $arguments[0]);
+        }
+    }
+
     /**
      * Execute a callback if the promise has been rejected.
      * @param $callback
      * @return $this
      */
-    public function trap($callback) {
+    private function _catch($callback) {
         if ($this->state === self::REJECTED) {
             $callback($this->value);
         }

@@ -8,7 +8,24 @@
 
 class Flow extends Promise {
     public function set($key, $value) {
-        $this->value[$key] = $value;
+        switch($key) {
+            case 'oauth_consumer_key':
+            case 'consumer_key':
+            case 'key':
+                $this->value['oauth_consumer_key'] = $value;
+                break;
+            case 'oauth_consumer_secret':
+            case 'consumer_secret':
+            case 'secret':
+                $this->value['oauth_consumer_secret'] = $value;
+                break;
+            case 'oauth_callback':
+            case 'callback':
+                $this->value['oauth_callback'] = $value;
+                break;
+            default:
+                $this->value[$key] = $value;
+        }
         return $this;
     }
 }

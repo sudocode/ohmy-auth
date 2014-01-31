@@ -7,8 +7,7 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\Security\Signature,
-    ohmy\Auth1\Flow\ThreeLegged\Access;
+    ohmy\Auth1\Security\Signature;
 
 class Authorize extends Promise {
 

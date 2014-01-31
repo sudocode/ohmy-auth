@@ -6,29 +6,34 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Promise,
-    ohmy\Auth2\Flow\ThreeLegged\Authorize,
-    http\Client;
+use ohmy\Auth\Flow,
+    ohmy\Auth2\Flow\ThreeLegged\Authorize;
 
-class ThreeLegged extends Promise {
+class ThreeLegged extends Flow {
 
     private $client;
 
     public function __construct($callback, $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
     public function authorize($url, $options) {
         $promise = $this;
         return new Authorize(function($resolve, $reject) use($promise, $url, $options) {
 
+            if($promise->value['code']) {
+                $resolve($promise->value);
+                return;
+            }
 
-            $location = sprintf(
-                'Location: %s?oauth_token=%s',
-                $url,
-                $promise->value['oauth_token']
-            );
+            $location = $url.http_build_query(array(
+                'client_id'     => $promise->value['client_id'],
+                'redirect_uri'  => $promise->value['redirect_uri'],
+                'response_type' => $promise->value['response_type'],
+                'scope'         => $promise->value['scoep']
+
+            ));
 
             header($location);
             exit();
