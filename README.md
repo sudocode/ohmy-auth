@@ -13,15 +13,16 @@ Oma only requires PHP (>= 5.3.0) and the Curl extension.
 use ohmy\Auth1;
 
 # 2-legged oauth
-Auth1::init(2)
-    ->set('key', 'key')
-    ->set('secret', 'secret')
-    ->request('http://term.ie/oauth/example/request_token.php')
-    ->access('http://term.ie/oauth/example/access_token.php')
-    ->then(function($data) {
-        # dump access token
-        var_dump($data);
-    });
+$termie = Auth1::init(2)
+               ->set('key', 'key')
+               ->set('secret', 'secret')
+               ->request('http://term.ie/oauth/example/request_token.php')
+               ->access('http://term.ie/oauth/example/access_token.php');
+               
+$termie->GET('http://term.ie/oauth/example/echo_api.php')
+       ->then(function($data) {
+           # got data
+       });
 ```
 
 ### Three-Legged OAuth 1.0a
@@ -34,24 +35,19 @@ session_start();
 
 # 3-legged oauth
 $tumblr = Auth1::init(3)
-               ->set('consumer_key', 'YOUR_CONSUMER_KEY')
-               ->set('consumer_secret', 'YOUR_CONSUMER_SECRET')
-               ->set('callback', 'YOUR_OAUTH_CALLBACK_URL');
-
-$tumblr = $tumblr->request('http://www.tumblr.com/oauth/request_token')
-                 ->authorize('http://www.tumblr.com/oauth/authorize')
-                 ->access('http://www.tumblr.com/oauth/access_token') 
-                 ->then(function($data) {
-                      # dump access token
-                      var_dump($data);
-                      # destroy session data
-                      session_destroy();
-                 });
+               ->set('consumer_key', 'your_consumer_key')
+               ->set('consumer_secret', 'your_consumer_secret')
+               ->set('callback', 'your_callback_url');
+               ->request('http://www.tumblr.com/oauth/request_token')
+               ->authorize('http://www.tumblr.com/oauth/authorize')
+               ->access('http://www.tumblr.com/oauth/access_token') 
+               ->then(function($data) {
+                    session_destroy();
+               });
                  
 $tumblr->GET('https://api.tumblr.com/v2/user/info')
        ->then(function($data) {
            # got user data
-           var_dump($data);
        });
 ```
 
@@ -60,30 +56,23 @@ $tumblr->GET('https://api.tumblr.com/v2/user/info')
 ```php
 use ohmy\Auth2;
 
-$github = Auth2::init(3);
+$github = Auth2::init(3)->set('id', 'your_github_client_id')
+                        ->set('secret', 'your_github_client_secret')
+                        ->set('redirect', 'your_redirect_uri');
 
-# configuration
-$github->set('id', 'your github client id')
-       ->set('secret', 'your github client secret')
-       ->set('redirect', 'your redirect uri');
-
-# oauth steps
-$github = $github->authorize('https://github.com/login/oauth/authorize')
-                 ->access('https://github.com/login/oauth/access_token');
+                        # oauth steps
+                        ->authorize('https://github.com/login/oauth/authorize')
+                        ->access('https://github.com/login/oauth/access_token');
 
 # access github api
 $github->GET('https://api.github.com/user', null, array('User-Agent' => 'ohmy-auth'))
        ->then(function($data) {
-           echo '<pre>';
-           var_dump(json_decode($data));
-           echo '</pre>';
+           # got user data
        });
 ```
 
 ### Licenses
 
 __PHP license__: PHP License
-
-__pecl_http license__: BSD, revised
 
 __ohmyAuth__: New BSD License.
