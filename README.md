@@ -1,14 +1,25 @@
-ohmy-auth [![Build Status](https://travis-ci.org/sudocode/ohmy-auth.png?branch=master)](https://travis-ci.org/sudocode/ohmy-auth)
+ohmy-auth [![Build Status](httphttps://github.com/sudocode/ohmy-auth/edit/master/README.md#s://travis-ci.org/sudocode/ohmy-auth.png?branch=master)](https://travis-ci.org/sudocode/ohmy-auth)
 ========
 
 ohmy-auth (Oma) is a PHP library that simplifies the OAuth flow using [promises](http://en.wikipedia.org/wiki/Futures_and_promises). Currently Oma supports 2-legged and 3-legged OAuth 1.0a and 3-legged Oauth 2.0.
 
 ### Dependencies
+Oma only requires PHP (>= 5.3.0) and the Curl extension. 
 
-Oma only requires PHP (>= 5.3.0) and the Curl extension.
+### Installing with Composer
+The best way to install Oma is via Composer. Just add ```ohmy/auth``` to your project's ```composer.json``` and run ```composer install```. eg:
+```json
+{
+    "require": {
+        "ohmy/auth": "*"
+    }
+}
+```
+
+### Installing manually
+If you prefer not to use Composer, you can download an archive or clone this repo and put ```src/ohmy``` into your project setup. 
 
 ### Two-Legged OAuth 1.0a 
-
 ```php
 use ohmy\Auth1;
 
@@ -29,7 +40,6 @@ $termie->GET('http://term.ie/oauth/example/echo_api.php')
 ```
 
 ### Three-Legged OAuth 1.0a
-
 ```php
 use ohmy\Auth1;
 
@@ -58,7 +68,6 @@ $tumblr->GET('https://api.tumblr.com/v2/user/info')
 ```
 
 ### Three-Legged OAuth 2.0
-
 ```php
 use ohmy\Auth2;
 
@@ -80,7 +89,5 @@ $github->GET('https://api.github.com/user', null, array('User-Agent' => 'ohmy-au
 ```
 
 ### Licenses
-
-__PHP license__: PHP License
-
-__ohmy-auth__: New BSD License.
+ - __PHP license__: PHP License
+ - __ohmy-auth__: New BSD License.
