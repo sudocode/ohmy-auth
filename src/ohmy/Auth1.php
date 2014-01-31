@@ -12,7 +12,7 @@ use ohmy\Auth1\Flow\TwoLegged,
 
 class Auth1 {
 
-    public static function init($type, $params=array()) {
+    public static function init($type) {
 
         $client = new Curl;
         $oauth = array(

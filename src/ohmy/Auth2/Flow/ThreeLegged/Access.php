@@ -1,5 +1,11 @@
 <?php namespace ohmy\Auth2\Flow\ThreeLegged;
 
+/*
+ * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
+
 use ohmy\Auth\Promise,
     ohmy\Auth\Response;
 
@@ -36,10 +42,8 @@ class Access extends Promise {
         $promise = $this;
         return new Response(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
             $params['access_token'] = $promise->value['access_token'];
-            var_dump($params);
             $promise->client->{$method}($url, $params, $headers)
                     ->then(function($response) use($resolve) {
-                        var_dump($response->text());
                         $resolve($response->text());
                     });
         });

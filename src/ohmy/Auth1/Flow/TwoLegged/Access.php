@@ -17,17 +17,17 @@ class Access extends Promise {
         $this->client = $client;
     }
 
-    public function GET($url, $params=null) {
-        return $this->request('GET', $url, $params);
+    public function GET($url, $params=null, $headers=null) {
+        return $this->request('GET', $url, $params, $headers);
     }
 
-    public function POST($url, $params=null) {
-        return $this->request('POST', $url, $params);
+    public function POST($url, $params=null, $headers=null) {
+        return $this->request('POST', $url, $params, $headers);
     }
 
-    private function request($method, $url, $options=null) {
+    private function request($method, $url, $params=null, $headers=null) {
         $promise = $this;
-        return new Response(function($resolve, $reject) use($promise, $method, $url, $options) {
+        return new Response(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
 
             # sign request
             $signature = new Signature(
@@ -45,16 +45,18 @@ class Access extends Promise {
                         'oauth_token_secret',
                         'oauth_version'
                     ))
-                )
+                ),
+                $params,
+                $headers
             );
 
-            $promise->client->{$method}($url, null, array(
-                'Authorization'  => $signature,
-                'Content-Length' => 0
-            ))
-            ->then(function($response) use($resolve) {
-                $resolve($response->text());
-            });
+            # set Authorization header
+            $headers['Authorization'] = $signature;
+
+            $promise->client->{$method}($url, $params, $headers)
+                    ->then(function($response) use($resolve) {
+                        $resolve($response->text());
+                    });
 
         });
     }

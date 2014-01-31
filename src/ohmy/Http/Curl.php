@@ -1,12 +1,18 @@
 <?php namespace ohmy\Http;
 
+/*
+ * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
+
 use ohmy\Http\Curl\Response;
 
-class Curl {
+class Curl implements Rest {
 
     public function __construct() {}
 
-    public function POST($url, $arguments, $headers) {
+    public function POST($url, Array $arguments, Array $headers) {
 
         $self = $this;
         return new Response(function($resolve, $reject) use($self, $url, $arguments, $headers) {
@@ -36,7 +42,7 @@ class Curl {
         });
     }
 
-    public function GET($url, $arguments, $headers) {
+    public function GET($url, Array $arguments, Array $headers) {
 
         $self = $this;
         return new Response(function($resolve, $reject) use($self, $url, $arguments, $headers) {
@@ -44,11 +50,9 @@ class Curl {
             # initialize curl
             $handle = curl_init();
 
-            var_dump("getting $url");
-
             # set curl options
             curl_setopt_array($handle, array(
-                CURLOPT_VERBOSE    => true,
+                CURLOPT_VERBOSE    => false,
                 CURLOPT_URL        => $url.'?'.http_build_query($arguments),
                 CURLOPT_HTTPHEADER => $self->_headers($headers),
                 CURLOPT_HEADER     => true,
@@ -60,8 +64,6 @@ class Curl {
 
             # close curl handle
             curl_close($handle);
-
-            var_dump($raw);
 
             # resolve
             $resolve($raw);
@@ -76,38 +78,4 @@ class Curl {
         }
         return $output;
     }
-    /*
-    public function GET($url, $arguments=null, $headers=null, $callback=null) {
-
-        $request = new Request(array(
-            CURLOPT_URL        => "$url?".http_build_query($arguments),
-            CURLOPT_HTTPHEADER => self::_headers($headers)
-        ));
-
-        $response = new Response(
-            $request->exec()
-        );
-
-        if (!$callback) return $response;
-        else $callback($response);
-    }
-
-    public function PST($url, $arguments=null, $headers=null, $callback=null) {
-
-        $request = new Request(array(
-            CURLOPT_POST       => true,
-            CURLOPT_URL        => $url,
-            CURLOPT_POSTFIELDS => http_build_query($arguments, '', '&'),
-            CURLOPT_HTTPHEADER => self::_headers($headers)
-        ));
-
-        $response = new Response(
-            $request->exec()
-        );
-
-        if (!$callback) return $response;
-        else $callback($response);
-    }
-    */
-
 }

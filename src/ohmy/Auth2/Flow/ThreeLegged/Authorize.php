@@ -1,5 +1,11 @@
 <?php namespace ohmy\Auth2\Flow\ThreeLegged;
 
+/*
+ * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
+
 use ohmy\Auth\Promise;
 
 class Authorize extends Promise {

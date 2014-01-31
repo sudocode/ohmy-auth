@@ -12,21 +12,20 @@ use ohmy\Auth2\Flow\TwoLegged,
 
 class Auth2 {
 
-    public static function init($type, $params=array()) {
+    public static function init($type) {
 
         $curl = new Curl;
         switch($type) {
             case 2:
                 return new TwoLegged(function($resolve) {
-                    $resolve(array(
-                    ));
+                    $resolve(array());
                 }, $curl);
                 break;
             case 3:
                 return new ThreeLegged(function($resolve) {
                     $resolve(array(
                         'client_id'     => '',
-                        'client_secret' => ''
+                        'client_secret' => '',
                         'redirect_ uri' => '',
                         'response_type' => 'code',
                         'code'          => $_REQUEST['code']
