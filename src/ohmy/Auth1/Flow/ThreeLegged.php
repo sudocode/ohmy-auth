@@ -6,7 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Flow,
+use ohmy\Auth1\Flow,
     ohmy\Auth1\Security\Signature,
     ohmy\Auth1\Flow\ThreeLegged\Request;
 
