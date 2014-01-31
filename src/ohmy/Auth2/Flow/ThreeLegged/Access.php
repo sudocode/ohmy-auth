@@ -16,9 +16,9 @@ class Access extends Promise {
         $this->client = $client;
     }
 
-    public function GET($url, $params=null, $headers=null) {
+    public function GET($url, $params=array(), $headers=array()) {
         $url = parse_url($url);
-        parse_str($url['query'], $params);
+        if (isset($url['query'])) parse_str($url['query'], $params);
         return $this->request(
             'GET', 
             $url['scheme'].'://'.$url['host'].$url['path'],
@@ -27,9 +27,9 @@ class Access extends Promise {
         );
     }
 
-    public function POST($url, $params=null, $headers=null) {
+    public function POST($url, $params=array(), $headers=array()) {
         $url = parse_url($url);
-        parse_str($url['query'], $params);
+        if (isset($url['query'])) parse_str($url['query'], $params);
         return $this->request(
             'GET', 
             $url['scheme'].'://'.$url['host'].$url['path'],

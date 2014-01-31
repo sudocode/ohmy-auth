@@ -15,7 +15,7 @@ class Authorize extends Promise {
         $this->client = $client;
     }
 
-    public function access($url, $options) {
+    public function access($url, Array $options=array()) {
         $promise = $this;
         return (new Access(function($resolve, $reject) use($promise, $url, $options) {
             $promise->client->POST($url, array(

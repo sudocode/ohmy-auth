@@ -6,6 +6,8 @@
  * See the accompanying LICENSE file for terms.
  */
 
+use ohmy\Auth\Promise;
+
 class Flow extends Promise {
     public function set($key, $value) {
         switch($key) {

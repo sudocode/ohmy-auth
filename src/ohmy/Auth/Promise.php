@@ -94,11 +94,13 @@ class Promise {
             if ($failure) array_push($this->failure_pending, $failure);
         }
         else if ($this->state === self::RESOLVED) {
-            $this->value = $success($this->value);
+            $value = $success($this->value);
         }
         else if ($this->state === self::REJECTED) {
-            if ($failure) $this->value = $failure($this->value);
+            $value = $failure($this->value);
         }
+
+        if ($value) $this->value = $value;
         return $this;
     }
 

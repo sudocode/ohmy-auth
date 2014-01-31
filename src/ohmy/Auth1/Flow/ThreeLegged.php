@@ -19,7 +19,7 @@ class ThreeLegged extends Flow {
         $this->client = ($client) ?  $client : new Client;
     }
 
-    public function request($url, $options) {
+    public function request($url, $options=array()) {
 
         $promise = $this;
         return (new Request(function($resolve, $reject) use($promise, $url, $options) {
@@ -30,7 +30,7 @@ class ThreeLegged extends Flow {
             }
 
             $signature = new Signature(
-                ($options['method']) ? $options['method'] : 'POST',
+                'POST',
                 $url,
                 array_intersect_key(
                     $promise->value,
@@ -46,7 +46,7 @@ class ThreeLegged extends Flow {
                 )
             );
 
-            $promise->client->POST($url, null, array(
+            $promise->client->POST($url, array(), array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
             ))

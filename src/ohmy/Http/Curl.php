@@ -12,13 +12,14 @@ class Curl implements Rest {
 
     public function __construct() {}
 
-    public function POST($url, Array $arguments, Array $headers) {
+    public function POST($url, Array $arguments=array(), Array $headers=array()) {
 
         $self = $this;
         return new Response(function($resolve, $reject) use($self, $url, $arguments, $headers) {
 
             # initialize curl
             $handle = curl_init();
+            $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
             # set curl options
             curl_setopt_array($handle, array(
@@ -42,18 +43,19 @@ class Curl implements Rest {
         });
     }
 
-    public function GET($url, Array $arguments, Array $headers) {
+    public function GET($url, Array $arguments=array(), Array $headers=array()) {
 
         $self = $this;
         return new Response(function($resolve, $reject) use($self, $url, $arguments, $headers) {
 
             # initialize curl
             $handle = curl_init();
+            $url = (count($arguments)) ? "$url?".http_build_query($arguments) : $url;
 
             # set curl options
             curl_setopt_array($handle, array(
                 CURLOPT_VERBOSE    => false,
-                CURLOPT_URL        => $url.'?'.http_build_query($arguments),
+                CURLOPT_URL        => $url,
                 CURLOPT_HTTPHEADER => $self->_headers($headers),
                 CURLOPT_HEADER     => true,
                 CURLOPT_RETURNTRANSFER => true

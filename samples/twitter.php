@@ -12,27 +12,25 @@ use ohmy\Auth1;
 session_start();
 
 # initialize 3-legged oauth
-Auth1::init(3)
+$twitter = Auth1::init(3);
 
-    # set your consumer key
-    ->set('key', 'YOUR_CONSUMER_KEY')
+# configuration
+$twitter->set('key', 'your twitter consumer key')
+        ->set('secret', 'your twitter consumer secret')
+        ->set('callback', 'your callback');
 
-    # set your consumer secret
-    ->set('secret', 'YOUR_CONSUMER_SECRET')
+# oauth flow
+$twitter = $twitter->request('https://api.twitter.com/oauth/request_token')
+                   ->authorize('https://api.twitter.com/oauth/authorize')
+                   ->access('https://api.twitter.com/oauth/access_token')
+                   ->then(function($data) {
+                       # destroy session
+                       session_destroy();
+                   });
 
-    # set your oauth callback url
-    ->set('callback', 'YOUR_OAUTH_CALLBACK_URL')
-
-    # 1st leg.. get request token
-    ->request('https://api.twitter.com/oauth/request_token')
-
-    # 2nd leg.. redirect user to twitter
-    ->authorize('https://api.twitter.com/oauth/authorize')
-
-    # 3rd leg.. get access token
-    ->access('https://api.twitter.com/oauth/access_token', function($data) {
-
-          var_dump($data);
-
-    });
+# test GET call
+$twitter->GET('https://api.twitter.com/1.1/statuses/home_timeline.json', array('count' => 5))
+        ->then(function($data) {
+            var_dump($data);
+        });
 

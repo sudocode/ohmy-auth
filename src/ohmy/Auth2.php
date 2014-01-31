@@ -28,7 +28,8 @@ class Auth2 {
                         'client_secret' => '',
                         'redirect_ uri' => '',
                         'response_type' => 'code',
-                        'code'          => $_REQUEST['code']
+                        'code'          => isset($_REQUEST['code']) ? $_REQUEST['code'] : null,
+                        'scope'         => ''
                     ));
                 }, $curl);
                 break;

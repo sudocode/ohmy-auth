@@ -17,16 +17,29 @@ class Access extends Promise {
         $this->client = ($client) ?  $client : new Client;
     }
 
-    public function GET($url, Array $params=null, Array $headers=array()) {
-        return $this->request('GET', $url, $params, $headers);
+    public function GET($url, Array $params=array(), Array $headers=array()) {
+        $url = parse_url($url);
+        if (isset($url['query'])) parse_str($url['query'], $params);
+        return $this->request(
+            'GET', 
+            $url['scheme'].'://'.$url['host'].$url['path'],
+            $params,
+            $headers
+        );
     }
 
-    public function POST($url, Array $params=null, Array $headers=array()) {
-        return $this->request('POST', $url, $params, $headers);
+    public function POST($url, Array $params=array(), Array $headers=array()) {
+        $url = parse_url($url);
+        if (isset($url['query'])) parse_str($url['query'], $params);
+        return $this->request(
+            'GET', 
+            $url['scheme'].'://'.$url['host'].$url['path'],
+            $params,
+            $headers
+        );
     }
 
     private function request($method, $url, Array $params=null, Array $headers=array()) {
-        echo 'access';
         $promise = $this;
         return new Response(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
 

@@ -15,11 +15,9 @@ class Request extends Promise {
         $this->client = $client;
     }
 
-    public function authorize($url, $options) {
+    public function authorize($url, $options=array()) {
         $promise = $this;
         return (new Authorize(function($resolve, $reject) use($promise, $url, $options) {
-
-            error_log('DATA IS '.json_encode($promise->value));
 
             # check session
             if ($promise->value['oauth_token'] && $promise->value['oauth_verifier']) {
@@ -32,7 +30,6 @@ class Request extends Promise {
                 $url,
                 $promise->value['oauth_token']
             );
-            error_log("LOCATION IS $location");
 
             header($location);
             exit();

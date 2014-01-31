@@ -39,7 +39,7 @@ class Request extends Promise {
                 )
             );
 
-            $promise->client->POST($url, null, array(
+            $promise->client->POST($url, array(), array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
             ))

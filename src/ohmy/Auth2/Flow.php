@@ -19,6 +19,11 @@ class Flow extends Promise {
             case 'secret':
                 $this->value['client_secret'] = $value;
                 break;
+            case 'callback':
+            case 'redirect':
+            case 'redirect_uri':
+                $this->value['redirect_uri'] = $value;
+                break;
             default:
                 $this->value[$key] = $value;
         }

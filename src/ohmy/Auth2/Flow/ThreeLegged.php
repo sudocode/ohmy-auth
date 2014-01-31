@@ -6,7 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Flow,
+use ohmy\Auth2\Flow,
     ohmy\Auth2\Flow\ThreeLegged\Authorize;
 
 class ThreeLegged extends Flow {
@@ -18,7 +18,7 @@ class ThreeLegged extends Flow {
         $this->client = $client;
     }
 
-    public function authorize($url, $options) {
+    public function authorize($url, Array $options=array()) {
         $promise = $this;
         return new Authorize(function($resolve, $reject) use($promise, $url, $options) {
 
@@ -31,7 +31,7 @@ class ThreeLegged extends Flow {
                 'client_id'     => $promise->value['client_id'],
                 'redirect_uri'  => $promise->value['redirect_uri'],
                 'response_type' => $promise->value['response_type'],
-                'scope'         => $promise->value['scoep']
+                'scope'         => $promise->value['scope']
 
             ));
 

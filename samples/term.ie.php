@@ -10,12 +10,24 @@ use ohmy\Auth1;
 
 
 # initialize 2-legged oauth
-Auth1::init(2)
-     ->set('oauth_consumer_key', 'key')
-     ->set('oauth_consumer_secret', 'secret')
-     ->request('http://term.ie/oauth/example/request_token.php')
-     ->access('http://term.ie/oauth/example/access_token.php')
-     ->then(function($data) {
-         var_dump($data);
-     });
+$termie = Auth1::init(2)
+                ->set('oauth_consumer_key', 'key')
+                ->set('oauth_consumer_secret', 'secret')
+                ->request('http://term.ie/oauth/example/request_token.php')
+                ->access('http://term.ie/oauth/example/access_token.php');
 
+# test GET call
+$termie->GET('http://term.ie/oauth/example/echo_api.php?method=get')
+       ->then(function($data) {
+            echo '<pre>';
+            var_dump($data);
+            echo '</pre>';
+        });
+
+# test POST call
+$termie->POST('http://term.ie/oauth/example/echo_api.php', array('method' => 'post'))
+       ->then(function($data) {
+            echo '<pre>';
+            var_dump($data);
+            echo '</pre>';
+        });
