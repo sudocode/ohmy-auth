@@ -39,13 +39,7 @@ class Access extends Promise {
     }
 
     private function request($method, $url, $params=null, $headers=null) {
-        $promise = $this;
-        return new Response(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
-            $params['access_token'] = $promise->value['access_token'];
-            $promise->client->{$method}($url, $params, $headers)
-                    ->then(function($response) use($resolve) {
-                        $resolve($response->text());
-                    });
-        });
+        $params['access_token'] = $this->value['access_token'];
+        return $this->client->{$method}($url, $params, $headers);
     }
 }

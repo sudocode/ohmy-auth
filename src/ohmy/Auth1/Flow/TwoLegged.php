@@ -20,14 +20,13 @@ class TwoLegged extends Flow {
     }
 
     public function request($url, $options=null) {
-        $promise = $this;
-        return (new Request(function($resolve, $reject) use($promise, $url, $options) {
+        return (new Request(function($resolve, $reject) use($url, $options) {
 
             $signature = new Signature(
                 ($options['method']) ? $options['method'] : 'POST',
                 $url,
                 array_intersect_key(
-                    $promise->value,
+                    $this->value,
                     array_flip(array(
                         'oauth_consumer_key',
                         'oauth_consumer_secret',
@@ -39,7 +38,7 @@ class TwoLegged extends Flow {
                 )
             );
 
-            $promise->client->POST($url, array(), array(
+            $this->client->POST($url, array(), array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
             ))
@@ -49,9 +48,9 @@ class TwoLegged extends Flow {
 
         }, $this->client))
 
-        ->then(function($data) use($promise) {
+        ->then(function($data) {
             parse_str($data, $array);
-            return array_merge($promise->value, $array);
+            return array_merge($this->value, $array);
         });
     }
 

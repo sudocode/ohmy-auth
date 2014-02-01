@@ -19,8 +19,7 @@ class TwoLegged extends Flow {
     }
 
     public function authorize($url) {
-        $promise = $this;
-        return new TwoLegged($this->model, function($resolve, $reject) use($promise, $url) {
+        return new TwoLegged($this->model, function($resolve, $reject) use($url) {
             header("Location: $url");
             exit();
         });

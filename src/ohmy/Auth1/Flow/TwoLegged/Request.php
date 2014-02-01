@@ -17,15 +17,14 @@ class Request extends Promise {
     }
 
     public function access($url, $options=null) {
-        $promise = $this;
-        return (new Access(function($resolve, $reject) use($promise, $url, $options) {
+        return (new Access(function($resolve, $reject) use($url, $options) {
 
             # sign request
             $signature = new Signature(
                 ($options['method']) ? $options['method'] : 'POST',
                 $url,
                 array_intersect_key(
-                    $promise->value,
+                    $this->value,
                     array_flip(array(
                         'oauth_consumer_key',
                         'oauth_consumer_secret',
@@ -39,7 +38,7 @@ class Request extends Promise {
                 )
             );
 
-            $promise->client->POST($url, array(), array(
+            $this->client->POST($url, array(), array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
             ))
@@ -50,9 +49,9 @@ class Request extends Promise {
 
         }, $this->client))
 
-        ->then(function($data) use($promise) {
+        ->then(function($data) {
             parse_str($data, $array);
-            return array_merge($promise->value, $array);
+            return array_merge($this->value, $array);
         });
     }
 }

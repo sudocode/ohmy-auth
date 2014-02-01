@@ -22,7 +22,7 @@ $tumblr = Auth1::init(3)
                ->request('http://www.tumblr.com/oauth/request_token')
                ->authorize('http://www.tumblr.com/oauth/authorize')
                ->access('http://www.tumblr.com/oauth/access_token')
-               ->then(function($data) {
+               ->finally(function($data) {
                    # destroy session
                    session_destroy();
                });

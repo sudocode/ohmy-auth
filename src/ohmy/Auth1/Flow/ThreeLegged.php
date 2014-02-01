@@ -22,11 +22,10 @@ class ThreeLegged extends Flow {
 
     public function request($url, $options=array()) {
 
-        $promise = $this;
-        return (new Request(function($resolve, $reject) use($promise, $url, $options) {
+        return (new Request(function($resolve, $reject) use($url, $options) {
 
-            if ($promise->value['oauth_token']) {
-                $resolve($promise->value);
+            if ($this->value['oauth_token']) {
+                $resolve($this->value);
                 return;
             }
 
@@ -34,7 +33,7 @@ class ThreeLegged extends Flow {
                 'POST',
                 $url,
                 array_intersect_key(
-                    $promise->value,
+                    $this->value,
                     array_flip(array(
                         'oauth_callback',
                         'oauth_consumer_key',
@@ -47,7 +46,7 @@ class ThreeLegged extends Flow {
                 )
             );
 
-            $promise->client->POST($url, array(), array(
+            $this->client->POST($url, array(), array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
             ))
@@ -57,11 +56,11 @@ class ThreeLegged extends Flow {
 
         }, $this->client))
 
-    ->then(function($data) use($promise) {
+    ->then(function($data) {
             if (is_array($data)) return $data;
             parse_str($data, $array);
             $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
-            return array_merge($promise->value, $array);
+            return array_merge($this->value, $array);
         });
     }
 

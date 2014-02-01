@@ -16,22 +16,21 @@ class Authorize extends Promise {
     }
 
     public function access($url, Array $options=array()) {
-        $promise = $this;
-        return (new Access(function($resolve, $reject) use($promise, $url, $options) {
-            $promise->client->POST($url, array(
-                'client_id'     => $promise->value['client_id'],
-                'client_secret' => $promise->value['client_secret'],
-                'code'          => $promise->value['code'],
-                'redirect_uri'  => $promise->value['redirect_uri']
+        return (new Access(function($resolve, $reject) use($url, $options) {
+            $this->client->POST($url, array(
+                'client_id'     => $this->value['client_id'],
+                'client_secret' => $this->value['client_secret'],
+                'code'          => $this->value['code'],
+                'redirect_uri'  => $this->value['redirect_uri']
             ))
             ->then(function($response) use($resolve) {
                 $resolve($response->text());
             });
 
         }, $this->client))
-        ->then(function($data) use($promise) {
+        ->then(function($data) {
             parse_str($data, $array);
-            return array_merge($promise->value, $array);
+            return array_merge($this->value, $array);
         });
     }
 }

@@ -16,11 +16,6 @@ class Auth2 {
 
         $curl = new Curl;
         switch($type) {
-            case 2:
-                return new TwoLegged(function($resolve) {
-                    $resolve(array());
-                }, $curl);
-                break;
             case 3:
                 return new ThreeLegged(function($resolve) {
                     $resolve(array(

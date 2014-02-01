@@ -40,38 +40,31 @@ class Access extends Promise {
     }
 
     private function request($method, $url, Array $params=null, Array $headers=array()) {
-        $promise = $this;
-        return new Promise(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
 
-            # sign request
-            $signature = new Signature(
-                $method,
-                $url,
-                array_intersect_key(
-                    $promise->value,
-                    array_flip(array(
-                        'oauth_consumer_key',
-                        'oauth_consumer_secret',
-                        'oauth_nonce',
-                        'oauth_signature_method',
-                        'oauth_timestamp',
-                        'oauth_token',
-                        'oauth_token_secret',
-                        'oauth_version'
-                    ))
-                ),
-                $params,
-                $headers
-            );
+        # sign request
+        $signature = new Signature(
+            $method,
+            $url,
+            array_intersect_key(
+                $this->value,
+                array_flip(array(
+                    'oauth_consumer_key',
+                    'oauth_consumer_secret',
+                    'oauth_nonce',
+                    'oauth_signature_method',
+                    'oauth_timestamp',
+                    'oauth_token',
+                    'oauth_token_secret',
+                    'oauth_version'
+                ))
+            ),
+            $params,
+            $headers
+        );
 
-            # set Authorization header
-            $headers['Authorization'] = $signature;
+        # set Authorization header
+        $headers['Authorization'] = $signature;
 
-            $promise->client->{$method}($url, $params, $headers)
-                    ->then(function($response) use($resolve) {
-                        $resolve($response->text());
-                    });
-
-        });
+        return $this->client->{$method}($url, $params, $headers);
     }
 }

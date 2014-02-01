@@ -19,19 +19,18 @@ class ThreeLegged extends Flow {
     }
 
     public function authorize($url, Array $options=array()) {
-        $promise = $this;
-        return new Authorize(function($resolve, $reject) use($promise, $url, $options) {
+        return new Authorize(function($resolve, $reject) use($url, $options) {
 
-            if($promise->value['code']) {
-                $resolve($promise->value);
+            if($this->value['code']) {
+                $resolve($this->value);
                 return;
             }
 
             $location = $url.'?'.http_build_query(array(
-                'client_id'     => $promise->value['client_id'],
-                'redirect_uri'  => $promise->value['redirect_uri'],
-                'response_type' => $promise->value['response_type'],
-                'scope'         => $promise->value['scope']
+                'client_id'     => $this->value['client_id'],
+                'redirect_uri'  => $this->value['redirect_uri'],
+                'response_type' => $this->value['response_type'],
+                'scope'         => $this->value['scope']
 
             ));
 

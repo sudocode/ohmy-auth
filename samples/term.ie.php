@@ -18,16 +18,12 @@ $termie = Auth1::init(2)
 
 # test GET call
 $termie->GET('http://term.ie/oauth/example/echo_api.php?method=get')
-       ->then(function($data) {
-            echo '<pre>';
-            var_dump($data);
-            echo '</pre>';
+       ->then(function($response) {
+            var_dump($response->text());
         });
 
 # test POST call
 $termie->POST('http://term.ie/oauth/example/echo_api.php', array('method' => 'post'))
-       ->then(function($data) {
-            echo '<pre>';
-            var_dump($data);
-            echo '</pre>';
+       ->then(function($response) {
+            var_dump($response->text());
         });

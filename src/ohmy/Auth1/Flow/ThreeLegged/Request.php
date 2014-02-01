@@ -17,19 +17,18 @@ class Request extends Promise {
     }
 
     public function authorize($url, $options=array()) {
-        $promise = $this;
-        return (new Authorize(function($resolve, $reject) use($promise, $url, $options) {
+        return (new Authorize(function($resolve, $reject) use($url, $options) {
 
             # check session
-            if ($promise->value['oauth_token'] && $promise->value['oauth_verifier']) {
-                $resolve($promise->value);
+            if ($this->value['oauth_token'] && $this->value['oauth_verifier']) {
+                $resolve($this->value);
                 return;
             }
 
             $location = sprintf(
                 'Location: %s?oauth_token=%s',
                 $url,
-                $promise->value['oauth_token']
+                $this->value['oauth_token']
             );
 
             header($location);
