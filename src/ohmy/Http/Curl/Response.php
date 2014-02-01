@@ -33,7 +33,7 @@ class Response extends Promise {
     }
 
     public function json() {
-        return json_decode($this->text);
+        return json_decode($this->text, true);
     }
 
     public function headers() {
