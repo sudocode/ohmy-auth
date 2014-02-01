@@ -13,8 +13,27 @@ class PromiseTest extends PHPUnit_Framework_TestCase {
     public function setUp(){}
     public function tearDown(){}
 
-    public function testResolve() {
+    public function testStaticResolve() {
+        $promise = Promise::resolve(0);
 
+        $promise->then(function($data) {
+            $this->assertEquals($data, 0);
+        }, function($data) {
+            $this->fail('This should not run!');
+        });
+    }
+
+    public function testStaticReject() {
+        $promise = Promise::reject(0);
+
+        $promise->then(function($data) {
+            $this->fail('This should not run!');
+        }, function($data) {
+            $this->assertEquals($data, 0);
+        });
+    }
+
+    public function testResolve() {
 
         $promise = new Promise(function($resolve) {
             $resolve(0);

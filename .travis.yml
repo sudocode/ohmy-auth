@@ -3,10 +3,7 @@ language: php
 
 # list any PHP version you want to test against
 php:
-  # using major version aliases
-  # aliased to a recent 5.4.x version
   - 5.4
-  # aliased to a recent 5.5.x version
   - 5.5
 
 # optionally specify a list of environments, for example to test different RDBMS
@@ -14,7 +11,11 @@ env:
   - OA=oauth1
 
 # omitting "script:" will default to phpunit
-script: phpunit --configuration phpunit.$OA.xml --coverage-text
+script: phpunit --colors --configuration phpunit.$OA.xml --coverage-text --coverage-clover=coverage.clover
+
+after_script:
+ - wget https://scrutinizer-ci.com/ocular.phar
+ - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
