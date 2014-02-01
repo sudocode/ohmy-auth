@@ -83,7 +83,7 @@ class Promise {
 
     /**
      * Execute success/failure callbacks after the promise's fate
-     * has been determined.
+     * has been determined. Return value changes promise's value.
      * @param $success
      * @param null $failure
      * @return $this
@@ -94,19 +94,20 @@ class Promise {
             if ($failure) array_push($this->failure_pending, $failure);
         }
         else if ($this->state === self::RESOLVED) {
-            $value = $success($this->value);
+            if($success) $this->value = $success($this->value);
         }
         else if ($this->state === self::REJECTED) {
-            $value = $failure($this->value);
+            if($failure) $this->value = $failure($this->value);
         }
-
-        if ($value) $this->value = $value;
         return $this;
     }
 
     public function __call($function, $arguments) {
         if ($function === 'catch') {
-            call_user_func(array($this, '_catch'), $arguments[0]);
+            return call_user_func(array($this, '_catch'), $arguments[0]);
+        }
+        if ($function === 'finally') {
+            return call_user_func(array($this, '_finally'), $arguments[0]);
         }
     }
 
@@ -117,6 +118,18 @@ class Promise {
      */
     private function _catch($callback) {
         if ($this->state === self::REJECTED) {
+            $this->value = $callback($this->value);
+        }
+        return $this;
+    }
+
+    /**
+     * Execute a callback without changing value of promise.
+     * @param $callback
+     * @return $this
+     */
+    private function _finally($callback) {
+        if ($this->state !== self::PENDING) {
             $callback($this->value);
         }
         return $this;

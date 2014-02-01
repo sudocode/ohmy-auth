@@ -6,11 +6,12 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Promise;
+use ohmy\Auth\Promise,
+    ohmy\Http\Rest;
 
 class Request extends Promise {
 
-    public function __construct($callback, $client=null) {
+    public function __construct($callback, Rest $client=null) {
         parent::__construct($callback);
         $this->client = $client;
     }

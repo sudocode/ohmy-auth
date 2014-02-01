@@ -13,18 +13,147 @@ class PromiseTest extends PHPUnit_Framework_TestCase {
     public function setUp(){}
     public function tearDown(){}
 
-    public function testPromiseResolve()
-    {
+    public function testResolve() {
 
-        $test = $this;
 
         $promise = new Promise(function($resolve) {
-            $resolve('helloWorld');
+            $resolve(0);
         });
 
-        $promise->then(function($data) use($test) {
-            $test->assertEquals($data, 'helloWorld');
+        $promise->then(function($data) {
+            $this->assertEquals($data, 0);
+        }, function($data) {
+            $this->fail('This should not run!');
         });
 
+    }
+
+    public function testReject() {
+
+        $promise = new Promise(function($resolve, $reject) {
+            $reject(0);
+        });
+
+        $promise->then(function($data)  {
+            $this->fail('This should not run!');
+        }, function($data) {
+            $this->assertEquals($data, 0);
+        });
+    }
+
+    public function testCatchWithResolve() {
+
+        $promise = new Promise(function($resolve, $reject) {
+            $resolve(0);
+        });
+
+        $promise->then(function($data)  {
+            $this->assertEquals($data, 0);
+        }, function($data) {
+            $this->fail('This should not run!');
+        })
+        ->catch(function($data) {
+            $this->fail('This should not run!');
+        });
+
+    }
+
+    public function testCatchWithReject() {
+
+        $promise = new Promise(function($resolve, $reject) {
+            $reject(0);
+        });
+
+        $promise->then(function($data)  {
+            $this->fail('This should not run!');
+        }, function($data) {
+            $this->assertEquals($data, 0);
+            return $data + 1;
+        })
+        ->catch(function($data) {
+            $this->assertEquals($data, 1);
+        });
+
+    }
+
+    public function testValueAfterCatchWithResolve() {
+
+        $promise = new Promise(function($resolve, $reject) {
+            $resolve(0);
+        });
+
+        $promise->then(function($data)  {
+            $this->assertEquals($data, 0);
+            return $data + 1;
+        }, function($data) {
+            $this->fail('This should not run!');
+        })
+        ->catch(function($data) {
+            $this->fail('This should not run!');
+        })
+        ->then(function($data) {
+            $this->assertEquals($data, 1);
+        });
+
+    }
+
+    public function testValueAfterCatchWithReject() {
+
+        $promise = new Promise(function($resolve, $reject) {
+            $reject(0);
+        });
+
+        $promise->then(function($data)  {
+            $this->fail('This should not run!');
+        }, function($data) {
+            $this->assertEquals($data, 0);
+            return $data + 1;
+        })
+        ->catch(function($data) {
+            $this->assertEquals($data, 1);
+            return $data + 1;
+        })
+        ->then(function($data) {
+            $this->assertEquals($data, 2);
+        });
+
+    }
+
+    public function testFinallyAfterResolve() {
+
+        $promise = new Promise(function($resolve) {
+            $resolve(0);
+        });
+
+        $promise->then(function($data)  {
+            $this->assertEquals($data, 0);
+            return $data + 1;
+        }, function($data) {
+            $this->fail('This should not run!');
+        })
+        ->finally(function($data) {
+            $this->assertEquals($data, 1);
+        });
+    }
+
+    public function testFinallyAfterReject() {
+
+        $promise = new Promise(function($resolve, $reject) {
+            $reject(0);
+        });
+
+        $promise->then(function($data)  {
+            $this->fail('This should not run!');
+        }, function($data) {
+            $this->assertEquals($data, 0);
+            return $data + 1;
+        })
+        ->catch(function($data) {
+            $this->assertEquals($data, 1);
+            return $data + 1;
+        })
+        ->finally(function($data) {
+            $this->assertEquals($data, 2);
+        });
     }
 }

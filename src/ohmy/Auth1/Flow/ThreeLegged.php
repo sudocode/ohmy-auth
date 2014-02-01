@@ -8,15 +8,16 @@
 
 use ohmy\Auth1\Flow,
     ohmy\Auth1\Security\Signature,
-    ohmy\Auth1\Flow\ThreeLegged\Request;
+    ohmy\Auth1\Flow\ThreeLegged\Request,
+    ohmy\Http\Rest;
 
 class ThreeLegged extends Flow {
 
     private $client;
 
-    public function __construct($callback, $client=null) {
+    public function __construct($callback, Rest $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
     public function request($url, $options=array()) {

@@ -7,14 +7,14 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth\Response,
+    ohmy\Http\Rest,
     ohmy\Auth1\Security\Signature;
 
 class Access extends Promise {
 
-    public function __construct($callback, $client=null) {
+    public function __construct($callback, Rest $client=null) {
         parent::__construct($callback);
-        $this->client = ($client) ?  $client : new Client;
+        $this->client = $client;
     }
 
     public function GET($url, Array $params=array(), Array $headers=array()) {
@@ -41,7 +41,7 @@ class Access extends Promise {
 
     private function request($method, $url, Array $params=null, Array $headers=array()) {
         $promise = $this;
-        return new Response(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
+        return new Promise(function($resolve, $reject) use($promise, $method, $url, $params, $headers) {
 
             # sign request
             $signature = new Signature(
