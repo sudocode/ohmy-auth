@@ -103,6 +103,14 @@ $github->GET("https://api.github.com/user?access_token=$access_token", null, arr
            # got user data
        });
 ```
+### More examples
+ - [Facebook](https://github.com/sudocode/ohmy-auth/blob/master/examples/facebook.php)
+ - [Fitbit](https://github.com/sudocode/ohmy-auth/blob/master/examples/fitbit.php)
+ - [GitHub](https://github.com/sudocode/ohmy-auth/blob/master/examples/github.php)
+ - [LinkedIn](https://github.com/sudocode/ohmy-auth/blob/master/examples/linkedin.php)
+ - [Tumblr](https://github.com/sudocode/ohmy-auth/blob/master/examples/tumblr.php)
+ - [Twitter](https://github.com/sudocode/ohmy-auth/blob/master/examples/twitter.php)
+ - [Yahoo](https://github.com/sudocode/ohmy-auth/blob/master/examples/yahoo.php)
 
 ### Licenses
  - __PHP license__: PHP License
