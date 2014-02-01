@@ -39,7 +39,6 @@ class Access extends Promise {
     }
 
     private function request($method, $url, $params=null, $headers=null) {
-        $params['access_token'] = $this->value['access_token'];
         return $this->client->{$method}($url, $params, $headers);
     }
 }

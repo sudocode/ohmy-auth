@@ -22,9 +22,9 @@ class Auth2 {
                         'client_id'     => '',
                         'client_secret' => '',
                         'redirect_ uri' => '',
-                        'response_type' => 'code',
                         'code'          => isset($_REQUEST['code']) ? $_REQUEST['code'] : null,
-                        'scope'         => ''
+                        'scope'         => '',
+                        'state'         => md5(mt_rand())
                     ));
                 }, $curl);
                 break;

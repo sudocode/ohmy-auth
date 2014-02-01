@@ -27,10 +27,11 @@ class ThreeLegged extends Flow {
             }
 
             $location = $url.'?'.http_build_query(array(
+                'response_type' => 'code',
                 'client_id'     => $this->value['client_id'],
                 'redirect_uri'  => $this->value['redirect_uri'],
-                'response_type' => $this->value['response_type'],
-                'scope'         => $this->value['scope']
+                'scope'         => $this->value['scope'],
+                'state'         => $this->value['state']
 
             ));
 
