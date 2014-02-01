@@ -56,7 +56,7 @@ $tumblr = Auth1::init(3)
                ->request('http://www.tumblr.com/oauth/request_token')
                ->authorize('http://www.tumblr.com/oauth/authorize')
                ->access('http://www.tumblr.com/oauth/access_token') 
-               ->then(function($data) {
+               ->finally(function($data) {
                     session_destroy();
                });
 
@@ -79,10 +79,13 @@ $github = Auth2::init(3)
                ->set('redirect', 'your_redirect_uri');
                # oauth flow
                ->authorize('https://github.com/login/oauth/authorize')
-               ->access('https://github.com/login/oauth/access_token');
+               ->access('https://github.com/login/oauth/access_token')
+               ->finally(function($data) use(&$access_token) {
+                   $access_token = $data['access_token'];
+               });
 
 # access github api
-$github->GET('https://api.github.com/user', null, array('User-Agent' => 'ohmy-auth'))
+$github->GET("https://api.github.com/user?access_token=$access_token", null, array('User-Agent' => 'ohmy-auth'))
        ->then(function($data) {
            # got user data
        });
