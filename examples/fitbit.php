@@ -8,9 +8,6 @@
 
 use ohmy\Auth1;
 
-# user id
-$user_id;
-
 # start a session to save oauth data in-between redirects
 session_start();
 
