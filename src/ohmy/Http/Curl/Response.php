@@ -10,8 +10,8 @@ use ohmy\Auth\Promise;
 
 class Response extends Promise {
 
-    private $headers = array();
-    private $text;
+    public $headers = array();
+    public $text;
 
     public function __construct($callback) {
         parent::__construct($callback);
@@ -33,7 +33,7 @@ class Response extends Promise {
     }
 
     public function json() {
-        return json_decode($this->value);
+        return json_decode($this->text);
     }
 
     public function headers() {
@@ -47,5 +47,6 @@ class Response extends Promise {
     public function text() {
         return $this->text;
     }
+
 }
 

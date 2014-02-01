@@ -11,9 +11,9 @@ use ohmy\Auth2;
 Auth2::init(3)
 
      # configuration
-     ->set('id', 'your github client id')
-     ->set('secret', 'your github client secret')
-     ->set('redirect', 'your redirect uri')
+     ->set('id', 'your client id')
+     ->set('secret', 'your client secret')
+     ->set('redirect', 'your callback url')
 
      # oauth steps
      ->authorize('https://github.com/login/oauth/authorize')
@@ -21,8 +21,8 @@ Auth2::init(3)
 
      # access github api
      ->GET('https://api.github.com/user', null, array('User-Agent' => 'ohmy-auth'))
-     ->then(function($data) {
+     ->then(function($response) {
            echo '<pre>';
-           var_dump(json_decode($data));
+           var_dump($response->json());
            echo '</pre>';
       });

@@ -12,26 +12,22 @@ use ohmy\Auth1;
 session_start();
 
 # initialize 3-legged oauth
-Auth1::init(3)
+$yahoo = Auth1::init(3)
 
-    # set your consumer key
-    ->set('key', 'YOUR_CONSUMER_KEY')
+              ->set('key', 'your consumer key')
+              ->set('secret', 'your consumer secret')
+              ->set('callback', 'your callback')
 
-    # set your consumer secret
-    ->set('secret', 'YOUR_CONSUMER_SECRET')
+              ->request('https://api.login.yahoo.com/oauth/v2/get_request_token')
+              ->authorize('https://api.login.yahoo.com/oauth/v2/request_auth')
+              ->access('https://api.login.yahoo.com/oauth/v2/get_token')
+              ->finally(function($data) {
+                  session_destroy();
+              });
 
-    # set your oauth callback url
-    ->set('callback', 'YOUR_CALLBACK')
-
-    # 1st leg.. get request token
-    ->request('https://api.login.yahoo.com/oauth/v2/get_request_token')
-
-    # 2nd leg.. redirect user to yahoo
-    ->authorize('https://api.login.yahoo.com/oauth/v2/request_auth')
-
-    # 3rd leg.. get access token
-    ->access('https://api.login.yahoo.com/oauth/v2/get_token', function($data) {
-
-        var_dump($data);
-
-    });
+$yahoo->GET('http://social.yahooapis.com/v1/me/guid?format=json')
+      ->then(function($response) {
+          echo '<pre>';
+          var_dump($response->json());
+          echo '</pre>';
+      });

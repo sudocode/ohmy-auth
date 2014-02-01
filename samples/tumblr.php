@@ -14,8 +14,8 @@ session_start();
 # initialize 3-legged oauth
 $tumblr = Auth1::init(3)
                # configuration
-               ->set('key', 'your tumblr consumer key')
-               ->set('secret', 'your tumblr consumer secret')
+               ->set('key', 'your consumer key')
+               ->set('secret', 'your consumer secret')
                ->set('callback', 'your callback url')
 
                # oauth flow
@@ -29,7 +29,9 @@ $tumblr = Auth1::init(3)
     
 # test GET method
 $tumblr->GET('https://api.tumblr.com/v2/user/info')
-       ->then(function($data) {
-          var_dump($data);
+       ->then(function($response) {
+          echo '<pre>';
+          var_dump($response->json());
+          echo '</pre>';
        });
 

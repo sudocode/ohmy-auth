@@ -11,6 +11,7 @@ class Signature {
     private $method;
     private $url;
     private $params;
+    private $oauth;
     private $type;
     private $oauth_consumer_secret;
     private $oauth_token_secret;
@@ -19,13 +20,13 @@ class Signature {
     public function __construct(
         $method,
         $url,
-        $oauth_params=array(),
+        $oauth=array(),
         $params=array(),
         $headers=array()
     ) {
 
         $url = parse_url($url);
-        $params = array_merge($oauth_params, $params);
+        $params = array_merge($oauth, $params);
 
         if (isset($url['query'])) parse_str($url['query'], $_params);
         else $_params = array();
@@ -38,6 +39,7 @@ class Signature {
 
         unset($params['oauth_consumer_secret']);
         unset($params['oauth_token_secret']);
+        $oauth['oauth_signature'] = true;
 
         # sort params
         ksort($params);
@@ -46,6 +48,7 @@ class Signature {
         $this->method = $method;
         $this->url = $url['scheme'].'://'.$url['host'].$url['path'];
         $this->params = $params;
+        $this->oauth = $oauth;
         $this->type = $params['oauth_signature_method'];
 
     }
@@ -79,8 +82,12 @@ class Signature {
         $params['oauth_signature'] = rawurlencode($oauth_signature);
         ksort($params);
 
+
         foreach($params as $key => $value) {
-            array_push($output, "$key=\"". $value ."\"");
+            if (isset($this->oauth[$key])) {
+                if ($key == 'oauth_token') array_push($output, "$key=\"". rawurlencode($value) ."\"");
+                else array_push($output, "$key=\"". $value ."\"");
+            }
         }
 
         # sort($output);

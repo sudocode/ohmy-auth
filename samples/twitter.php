@@ -15,22 +15,24 @@ session_start();
 $twitter = Auth1::init(3);
 
 # configuration
-$twitter->set('key', 'your twitter consumer key')
-        ->set('secret', 'your twitter consumer secret')
-        ->set('callback', 'your callback');
+$twitter->set('key', 'your consumer key')
+        ->set('secret', 'your consumer secret')
+        ->set('callback', 'your callback url');
 
 # oauth flow
 $twitter = $twitter->request('https://api.twitter.com/oauth/request_token')
                    ->authorize('https://api.twitter.com/oauth/authorize')
                    ->access('https://api.twitter.com/oauth/access_token')
-                   ->then(function($data) {
+                   ->finally(function($data) {
                        # destroy session
                        session_destroy();
                    });
 
 # test GET call
 $twitter->GET('https://api.twitter.com/1.1/statuses/home_timeline.json', array('count' => 5))
-        ->then(function($data) {
-            var_dump($data);
+        ->then(function($response) {
+            echo '<pre>';
+            var_dump($response->json());
+            echo '</pre>';
         });
 
