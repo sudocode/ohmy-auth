@@ -14,7 +14,10 @@ env:
   - OA=oauth1
 
 # omitting "script:" will default to phpunit
-script: phpunit --configuration phpunit.$OA.xml --coverage-text
+script: 
+  phpunit --configuration phpunit.$OA.xml --coverage-clover=coverage.clover
+  wget https://scrutinizer-ci.com/ocular.phar
+  php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
