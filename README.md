@@ -107,6 +107,7 @@ $github->GET("https://api.github.com/user?access_token=$access_token", null, arr
  - [Facebook](https://github.com/sudocode/ohmy-auth/blob/master/examples/facebook.php)
  - [Fitbit](https://github.com/sudocode/ohmy-auth/blob/master/examples/fitbit.php)
  - [GitHub](https://github.com/sudocode/ohmy-auth/blob/master/examples/github.php)
+ - [Google+](https://github.com/sudocode/ohmy-auth/blob/master/examples/google.php)
  - [LinkedIn](https://github.com/sudocode/ohmy-auth/blob/master/examples/linkedin.php)
  - [Tumblr](https://github.com/sudocode/ohmy-auth/blob/master/examples/tumblr.php)
  - [Twitter](https://github.com/sudocode/ohmy-auth/blob/master/examples/twitter.php)
