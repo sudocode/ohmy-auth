@@ -50,7 +50,7 @@
 
 <p>In just 11 lines, the above code performed a 2-legged OAuth 1.0a exchange with <a href="http://term.ie/oauth/example/">term.ie</a>, made an API request to echo_api.php, and then dumped the results. </p>
 
-<p>Oma uses a pseudo-<a href="http://en.wikipedia.org/wiki/Futures_and_promises">promise pattern</a>, which is how the functions are chained to each other. Once <code>request()</code>, <code>authorize()</code>, or <code>access()</code> is called, ohmy-auth will proceed to the next stage of the OAuth flow, preventing someone from inadvertently performing a leg more than once.   </p>
+<p>Oma uses a pseudo-<a href="http://en.wikipedia.org/wiki/Futures_and_promises">promise pattern</a>, which is how the functions are chained to each other. Once <code>request()</code>, <code>authorize()</code>, or <code>access()</code> is called, Oma will proceed to the next stage of the OAuth flow, preventing someone from inadvertently performing a leg more than once.   </p>
 
 <p><code>then()</code>, <code>catch()</code>, and <code>finally()</code> are standard promise functions that can be inserted at any time of the flow. This is useful if you want to step in and take control of things without interrupting the entire flow.</p>
 
