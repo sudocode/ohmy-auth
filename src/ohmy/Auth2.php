@@ -21,7 +21,7 @@ class Auth2 {
                     $resolve(array(
                         'client_id'     => '',
                         'client_secret' => '',
-                        'redirect_ uri' => '',
+                        'redirect_uri'  => '',
                         'code'          => isset($_REQUEST['code']) ? $_REQUEST['code'] : null,
                         'scope'         => '',
                         'state'         => md5(mt_rand())
