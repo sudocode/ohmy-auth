@@ -69,9 +69,7 @@ $tumblr = Auth1::init(3)
                ->request('http://www.tumblr.com/oauth/request_token')
                ->authorize('http://www.tumblr.com/oauth/authorize')
                ->access('http://www.tumblr.com/oauth/access_token') 
-               ->finally(function($data) {
-                    session_destroy();
-               });
+               ->finally(session_destroy);
 
 # access tumblr api      
 $tumblr->GET('https://api.tumblr.com/v2/user/info')
