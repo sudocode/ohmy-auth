@@ -6,7 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Flow;
+use ohmy\Auth2\Flow;
 
 class TwoLegged extends Flow {
 
@@ -23,5 +23,9 @@ class TwoLegged extends Flow {
             header("Location: $url");
             exit();
         });
+    }
+
+    public function access($token) {
+
     }
 }

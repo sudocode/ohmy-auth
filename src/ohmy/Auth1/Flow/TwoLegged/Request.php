@@ -7,11 +7,12 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth1\Security\Signature;
+    ohmy\Auth1\Security\Signature,
+    ohmy\Http\Rest;
 
 class Request extends Promise {
 
-    public function __construct($callback, $client=null) {
+    public function __construct($callback, Rest $client=null) {
         parent::__construct($callback);
         $this->client = $client;
     }

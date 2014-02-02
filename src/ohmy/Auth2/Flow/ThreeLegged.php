@@ -7,7 +7,8 @@
  */
 
 use ohmy\Auth2\Flow,
-    ohmy\Auth2\Flow\ThreeLegged\Authorize;
+    ohmy\Auth2\Flow\ThreeLegged\Authorize,
+    ohmy\Auth2\Flow\ThreeLegged\Access;
 
 class ThreeLegged extends Flow {
 
@@ -38,6 +39,13 @@ class ThreeLegged extends Flow {
             header("Location: $location");
             exit();
 
+        }, $this->client);
+    }
+
+    public function access($token) {
+        $this->value['access_token'];
+        return new Access(function($resolve) {
+            $resolve($this->value);
         }, $this->client);
     }
 }

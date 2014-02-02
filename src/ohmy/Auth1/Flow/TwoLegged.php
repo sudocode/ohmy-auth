@@ -8,13 +8,15 @@
 
 use ohmy\Auth1\Flow,
     ohmy\Auth1\Security\Signature,
-    ohmy\Auth1\Flow\TwoLegged\Request;
+    ohmy\Auth1\Flow\TwoLegged\Request,
+    ohmy\Auth1\Flow\TwoLegged\Access,
+    ohmy\Http\Rest;
 
 class TwoLegged extends Flow {
 
     private $client;
 
-    public function __construct($callback, $client=null) {
+    public function __construct($callback, Rest $client=null) {
         parent::__construct($callback);
         $this->client = $client;
     }
@@ -23,7 +25,7 @@ class TwoLegged extends Flow {
         return (new Request(function($resolve, $reject) use($url, $options) {
 
             $signature = new Signature(
-                ($options['method']) ? $options['method'] : 'POST',
+                'POST',
                 $url,
                 array_intersect_key(
                     $this->value,
@@ -52,6 +54,14 @@ class TwoLegged extends Flow {
             parse_str($data, $array);
             return array_merge($this->value, $array);
         });
+    }
+
+    public function access($token, $secret) {
+        $this->value['oauth_token'] = $token;
+        $this->value['oauth_token_secret'] = $secret;
+        return new Access(function($resolve) {
+            $resolve($this->value);
+        }, $this->client);
     }
 
 }

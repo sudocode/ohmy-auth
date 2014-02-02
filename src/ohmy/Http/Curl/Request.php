@@ -1,4 +1,4 @@
-<?php namespace ohmy\Http;
+<?php namespace ohmy\Http\Curl;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -6,11 +6,9 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Http\Curl\Response;
+use ohmy\Http\Rest;
 
-class Curl implements Rest {
-
-    public function __construct() {}
+class Request implements Rest {
 
     public function POST($url, Array $arguments=array(), Array $headers=array()) {
 

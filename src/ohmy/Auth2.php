@@ -6,8 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth2\Flow\TwoLegged,
-    ohmy\Auth2\Flow\ThreeLegged,
+use ohmy\Auth2\Flow\ThreeLegged,
     ohmy\Http\Curl;
 
 class Auth2 {
