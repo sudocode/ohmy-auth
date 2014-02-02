@@ -11,7 +11,7 @@ class CurlTest extends PHPUnit_Framework_TestCase {
     private $curl;
 
     public function setUp(){
-        $curl = $this->getMock('ohmy\Http\Curl');
+        $curl = $this->getMock('ohmy\Http\Curl\Request');
         $response = $this->getMockBuilder('ohmy\Http\Curl\Response')
                          ->setConstructorArgs(array(function($resolve, $reject) {
                              $resolve("HTTP\\/1.1 200 OK\r\nAccess-Control-Allow-Origin: *\r\nContent-Type: application\\/json; charset=ISO-8859-1\r\nDate: Sat, 01 Feb 2014 20:16:34 GMT\r\nServer: Google Frontend\r\nCache-Control: private\r\nAlternate-Protocol: 80:quic,80:quic\r\nTransfer-Encoding: chunked\r\n\r\n{\"hello\": \"world\"}\n");
