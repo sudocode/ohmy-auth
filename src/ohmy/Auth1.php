@@ -8,13 +8,13 @@
 
 use ohmy\Auth1\Flow\TwoLegged,
     ohmy\Auth1\Flow\ThreeLegged,
-    ohmy\Http\Curl;
+    ohmy\Http\Curl\Request;
 
 class Auth1 {
 
     public static function init($type) {
 
-        $client = new Curl;
+        $client = new Request;
         $oauth = array(
             'oauth_callback'           => '',
             # 'oauth_callback_confirmed' => ''

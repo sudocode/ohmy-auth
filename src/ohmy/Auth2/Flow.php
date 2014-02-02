@@ -8,7 +8,7 @@
 
 use ohmy\Auth\Promise;
 
-class Flow extends Promise {
+abstract class Flow extends Promise {
     public function set($key, $value) {
         switch($key) {
             case 'client_id':
@@ -29,4 +29,6 @@ class Flow extends Promise {
         }
         return $this;
     }
+
+    public abstract function access($token);
 }

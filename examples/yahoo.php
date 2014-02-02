@@ -13,11 +13,11 @@ session_start();
 
 # initialize 3-legged oauth
 $yahoo = Auth1::init(3)
-
               ->set('key', 'your consumer key')
               ->set('secret', 'your consumer secret')
               ->set('callback', 'your callback')
 
+              # oauth
               ->request('https://api.login.yahoo.com/oauth/v2/get_request_token')
               ->authorize('https://api.login.yahoo.com/oauth/v2/request_auth')
               ->access('https://api.login.yahoo.com/oauth/v2/get_token')

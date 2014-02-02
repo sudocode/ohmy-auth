@@ -6,15 +6,14 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth2\Flow\TwoLegged,
-    ohmy\Auth2\Flow\ThreeLegged,
-    ohmy\Http\Curl;
+use ohmy\Auth2\Flow\ThreeLegged,
+    ohmy\Http\Curl\Request;
 
 class Auth2 {
 
     public static function init($type) {
 
-        $curl = new Curl;
+        $client = new Request;
         switch($type) {
             case 3:
                 return new ThreeLegged(function($resolve) {
@@ -26,7 +25,7 @@ class Auth2 {
                         'scope'         => '',
                         'state'         => md5(mt_rand())
                     ));
-                }, $curl);
+                }, $client);
                 break;
             default:
         }

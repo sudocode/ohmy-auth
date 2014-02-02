@@ -9,20 +9,20 @@
 use ohmy\Auth2;
 
 # initialize 3-legged oauth
-$google = Auth2::init(3);
+$google = Auth2::init(3)
+               ->set('id', 'your client id')
+               ->set('secret', 'your client secret')
+               ->set('redirect', 'your redirect uri')
+               ->set('scope', 'profile')
 
-# configuration
-$google->set('id', 'your client id')
-       ->set('secret', 'your client secret')
-       ->set('redirect', 'your redirect uri')
-       ->set('scope', 'profile');
+               # oauth flow
+               ->authorize('https://accounts.google.com/o/oauth2/auth')
+               ->access('https://accounts.google.com/o/oauth2/token')
 
-# oauth flow
-$google = $google->authorize('https://accounts.google.com/o/oauth2/auth')
-                 ->access('https://accounts.google.com/o/oauth2/token')
-                 ->then(function($data) use(&$access_token) {
-                     $access_token = $data['access_token'];
-                 });
+               # save access token
+               ->finally(function($data) use(&$access_token) {
+                   $access_token = $data['access_token'];
+               });
 
 # test GET call
 $google->GET("https://www.googleapis.com/plus/v1/people/me?access_token=$access_token")

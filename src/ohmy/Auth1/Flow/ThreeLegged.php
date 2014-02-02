@@ -9,6 +9,7 @@
 use ohmy\Auth1\Flow,
     ohmy\Auth1\Security\Signature,
     ohmy\Auth1\Flow\ThreeLegged\Request,
+    ohmy\Auth1\Flow\ThreeLegged\Access,
     ohmy\Http\Rest;
 
 class ThreeLegged extends Flow {
@@ -62,6 +63,14 @@ class ThreeLegged extends Flow {
             $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
             return array_merge($this->value, $array);
         });
+    }
+
+    public function access($token, $secret) {
+        $this->value['oauth_token'] = $token;
+        $this->value['oauth_token_secret'] = $secret;
+        return new Access(function($resolve) {
+            $resolve($this->value);
+        }, $this->client);
     }
 
 }
