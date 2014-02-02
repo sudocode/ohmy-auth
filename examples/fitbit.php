@@ -23,8 +23,7 @@ $fitbit->set('key', 'your consumer key')
 $fitbit = $fitbit->request('http://api.fitbit.com/oauth/request_token')
                  ->authorize('http://www.fitbit.com/oauth/authorize')
                  ->access('http://api.fitbit.com/oauth/access_token')
-                 ->finally(function($data) use(&$user_id) {
-                     # destroy session
+                 ->then(function($data) use(&$user_id) {
                      session_destroy();
                      $user_id = $data['encoded_user_id'];
                  });

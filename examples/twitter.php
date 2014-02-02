@@ -23,10 +23,7 @@ $twitter->set('key', 'your consumer key')
 $twitter = $twitter->request('https://api.twitter.com/oauth/request_token')
                    ->authorize('https://api.twitter.com/oauth/authorize')
                    ->access('https://api.twitter.com/oauth/access_token')
-                   ->finally(function($data) {
-                       # destroy session
-                       session_destroy();
-                   });
+                   ->finally(session_destroy);
 
 # test GET call
 $twitter->GET('https://api.twitter.com/1.1/statuses/home_timeline.json', array('count' => 5))

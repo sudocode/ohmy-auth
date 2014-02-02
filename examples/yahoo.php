@@ -21,9 +21,7 @@ $yahoo = Auth1::init(3)
               ->request('https://api.login.yahoo.com/oauth/v2/get_request_token')
               ->authorize('https://api.login.yahoo.com/oauth/v2/request_auth')
               ->access('https://api.login.yahoo.com/oauth/v2/get_token')
-              ->finally(function($data) {
-                  session_destroy();
-              });
+              ->finally(session_destroy);
 
 $yahoo->GET('http://social.yahooapis.com/v1/me/guid?format=json')
       ->then(function($response) {
