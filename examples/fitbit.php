@@ -12,21 +12,23 @@ use ohmy\Auth1;
 session_start();
 
 # initialize 3-legged oauth
-$fitbit = Auth1::init(3);
+$fitbit = Auth1::init(3)
+               ->set('key', 'your consumer key')
+               ->set('secret', 'your consumer secret')
+               ->set('callback', 'your callback url')
 
-# configuration
-$fitbit->set('key', 'your consumer key')
-       ->set('secret', 'your consumer secret')
-       ->set('callback', 'your callback url');
+               # oauth
+               ->request('http://api.fitbit.com/oauth/request_token')
+               ->authorize('http://www.fitbit.com/oauth/authorize')
+               ->access('http://api.fitbit.com/oauth/access_token')
 
-# oauth flow
-$fitbit = $fitbit->request('http://api.fitbit.com/oauth/request_token')
-                 ->authorize('http://www.fitbit.com/oauth/authorize')
-                 ->access('http://api.fitbit.com/oauth/access_token')
-                 ->then(function($data) use(&$user_id) {
-                     session_destroy();
-                     $user_id = $data['encoded_user_id'];
-                 });
+               # save user id
+               ->finally(function($data) use(&$user_id) {
+                    $user_id = $data['encoded_user_id'];
+               })
+
+               # destroy session
+               ->finally(session_destroy);
 
 # test GET call
 $fitbit->GET("https://api.fitbit.com/1/user/$user_id/profile.json")

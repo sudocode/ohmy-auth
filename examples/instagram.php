@@ -9,20 +9,18 @@
 use ohmy\Auth2;
 
 # initialize 3-legged oauth
-$instagram = Auth2::init(3);
+$instagram = Auth2::init(3)
+                  ->set('id', 'your client id')
+                  ->set('secret', 'your client secret')
+                  ->set('redirect', 'your redirect uri')
+                  ->set('scope', 'basic')
 
-# configuration
-$instagram->set('id', 'your client id')
-          ->set('secret', 'your client secret')
-          ->set('redirect', 'your redirect uri')
-          ->set('scope', 'basic');
-
-# oauth flow
-$instagram = $instagram->authorize('https://api.instagram.com/oauth/authorize')
-                       ->access('https://api.instagram.com/oauth/access_token')
-                       ->then(function($data) use(&$access_token) {
-                           $access_token = $data['access_token'];
-                       });
+                  # oauth flow
+                  ->authorize('https://api.instagram.com/oauth/authorize')
+                  ->access('https://api.instagram.com/oauth/access_token')
+                  ->finally(function($data) use(&$access_token) {
+                      $access_token = $data['access_token'];
+                  });
 
 # test GET call
 $instagram->GET("https://api.instagram.com/v1/users/self/feed/?access_token=$access_token")

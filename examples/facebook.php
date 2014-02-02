@@ -9,20 +9,18 @@
 use ohmy\Auth2;
 
 # initialize 3-legged oauth
-$facebook = Auth2::init(3);
+$facebook = Auth2::init(3)
+                 ->set('id', 'your client id')
+                 ->set('secret', 'your client secret')
+                 ->set('redirect', 'your redirect uri')
+                 ->set('scope', 'read_stream')
 
-# configuration
-$facebook->set('id', 'your client id')
-         ->set('secret', 'your client secret')
-         ->set('redirect', 'your redirect uri')
-         ->set('scope', 'read_stream');
-
-# oauth flow
-$facebook = $facebook->authorize('https://www.facebook.com/dialog/oauth')
-                     ->access('https://graph.facebook.com/oauth/access_token')
-                     ->then(function($data) use(&$access_token) {
-                         $access_token = $data['access_token'];
-                     });
+                 # oauth flow
+                 ->authorize('https://www.facebook.com/dialog/oauth')
+                 ->access('https://graph.facebook.com/oauth/access_token')
+                 ->finally(function($data) use(&$access_token) {
+                     $access_token = $data['access_token'];
+                 });
 
 # test GET call
 $facebook->GET("https://graph.facebook.com/me/home?access_token=$access_token")
