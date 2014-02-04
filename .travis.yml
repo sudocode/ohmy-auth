@@ -4,10 +4,10 @@ php:
 - 5.5
 env:
   global:
-   - OA=oauth1
-  credenitals:
-   # termie
-   - secure: XLVaWt1e6YNFCu427rEBQPxURbCCPzW3uUVxNgkwSG3prq+0X8d2mbTKS/nQKbb4azetT8B0VvRM3b/G8yiOqYovxhpxydHQY7r9f9HviiLhbYyowxrO9NBWo2/J35s5dpgTWAfDohxx4d7dtEeIYTyna++90fqPcAE57SnAgSI=
+  - OA=oauth1
+  # termi
+  - secure: eR5eq5E58d+hsFPS5jdqqRidmJ8squKtW5DYZ9ERtLCPFUbu9+Ub+BS0SSmPTS7P9V4W1kH8lIu1OrImay1yR/eAUFfBjN298309TbAIBV5isRxr9ppsCcNGkDTCGVHNq3/3Lo8oP8aFEgHgnwHgsEVyxFDXKa+TIe7AuOW69hc=
+  - secure: QflW2td+TJ6tsJbb8+k4DOLXMOsurvZZidCIgyC2y1HkQ6ho8L6OYkYcVk8lLCMvL0sVh9E3CUaWOElKYVN+cHd0NBkHo/WaEwHjPqtor+G/vx4QhLxOaKu7EnrsBgesMmdiD8OQdf5y5+eJvgb3cUsEWxzPAA0uJrCEVHtHCso=
 script: phpunit --colors --configuration phpunit.$OA.xml --coverage-text --coverage-clover=coverage.clover
 after_script:
 - wget https://scrutinizer-ci.com/ocular.phar
