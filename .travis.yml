@@ -4,9 +4,8 @@ php:
 - 5.5
 env:
   global:
-  - OA=oauth1
-  credentials:
-    secure: XLVaWt1e6YNFCu427rEBQPxURbCCPzW3uUVxNgkwSG3prq+0X8d2mbTKS/nQKbb4azetT8B0VvRM3b/G8yiOqYovxhpxydHQY7r9f9HviiLhbYyowxrO9NBWo2/J35s5dpgTWAfDohxx4d7dtEeIYTyna++90fqPcAE57SnAgSI=
+   - OA=oauth1
+   - secure: XLVaWt1e6YNFCu427rEBQPxURbCCPzW3uUVxNgkwSG3prq+0X8d2mbTKS/nQKbb4azetT8B0VvRM3b/G8yiOqYovxhpxydHQY7r9f9HviiLhbYyowxrO9NBWo2/J35s5dpgTWAfDohxx4d7dtEeIYTyna++90fqPcAE57SnAgSI=
 script: phpunit --colors --configuration phpunit.$OA.xml --coverage-text --coverage-clover=coverage.clover
 after_script:
 - wget https://scrutinizer-ci.com/ocular.phar
