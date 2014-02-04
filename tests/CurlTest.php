@@ -12,7 +12,7 @@ class CurlTest extends PHPUnit_Framework_TestCase {
 
     public function setUp(){
 
-        error_log(getenv('OA'));
+        error_log(getenv('TERMIE_CONSUMER_KEY'));
 
         $curl = $this->getMock('ohmy\Http\Curl\Request');
         $response = $this->getMockBuilder('ohmy\Http\Curl\Response')

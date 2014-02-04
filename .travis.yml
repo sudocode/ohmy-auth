@@ -1,22 +1,15 @@
-# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 language: php
-
-# list any PHP version you want to test against
 php:
-  - 5.4
-  - 5.5
-
-# optionally specify a list of environments, for example to test different RDBMS
+- 5.4
+- 5.5
 env:
+  global:
   - OA=oauth1
-
-# omitting "script:" will default to phpunit
+  credentials:
+    secure: XLVaWt1e6YNFCu427rEBQPxURbCCPzW3uUVxNgkwSG3prq+0X8d2mbTKS/nQKbb4azetT8B0VvRM3b/G8yiOqYovxhpxydHQY7r9f9HviiLhbYyowxrO9NBWo2/J35s5dpgTWAfDohxx4d7dtEeIYTyna++90fqPcAE57SnAgSI=
 script: phpunit --colors --configuration phpunit.$OA.xml --coverage-text --coverage-clover=coverage.clover
-
 after_script:
- - wget https://scrutinizer-ci.com/ocular.phar
- - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-
-# configure notifications (email, IRC, campfire etc)
+- wget https://scrutinizer-ci.com/ocular.phar
+- php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 notifications:
-  email: "sudocoder@ymail.com"
+  email: sudocoder@ymail.com
