@@ -13,7 +13,6 @@ class CurlTest extends PHPUnit_Framework_TestCase {
     public function setUp(){
 
         echo 'test';
-        error_log('test');
 
         $curl = $this->getMock('ohmy\Http\Curl\Request');
         $response = $this->getMockBuilder('ohmy\Http\Curl\Response')
