@@ -60,7 +60,7 @@ class ThreeLegged extends Flow {
     ->then(function($data) {
             if (is_array($data)) return $data;
             parse_str($data, $array);
-            $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
+            if (isset($_SESSION)) $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
             return array_merge($this->value, $array);
         });
     }
