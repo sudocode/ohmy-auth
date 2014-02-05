@@ -12,8 +12,6 @@ class CurlTest extends PHPUnit_Framework_TestCase {
 
     public function setUp(){
 
-        error_log(getenv('TERMIE_KEY'));
-
         $curl = $this->getMock('ohmy\Http\Curl\Request');
         $response = $this->getMockBuilder('ohmy\Http\Curl\Response')
                          ->setConstructorArgs(array(function($resolve, $reject) {

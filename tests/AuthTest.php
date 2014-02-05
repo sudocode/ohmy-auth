@@ -9,7 +9,7 @@
 use ohmy\Auth1,
     ohmy\Auth2;
 
-class ExamplesTest extends PHPUnit_Framework_TestCase {
+class AuthTest extends PHPUnit_Framework_TestCase {
 
     public function setUp() {}
     public function tearDown() {}
@@ -26,4 +26,15 @@ class ExamplesTest extends PHPUnit_Framework_TestCase {
              });
     }
 
+    public function testTwitterRequestToken() {
+        Auth1::init(3)
+             ->set('key', getenv('TWITTER_KEY'))
+             ->set('secret', getenv('TWITTER_SECRET'))
+             ->set('callback', getenv('CALLBACK'))
+             ->request('https://api.twitter.com/oauth/request_token')
+             ->finally(function($data) {
+                $this->assertTrue(!empty($data['oauth_token']));
+                $this->assertTrue(!empty($data['oauth_token_secret']));
+             });
+    }
 }
