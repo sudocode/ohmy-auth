@@ -53,12 +53,10 @@ class Signature {
 
     }
 
-    public function __toString() {
-
+    public function getSignature() {
         $base_string = $this->getBaseString();
         $signing_key = $this->getSigningKey();
         $oauth_signature = null;
-        $output = array();
 
         switch($this->type) {
             case 'PLAINTEXT':
@@ -77,11 +75,15 @@ class Signature {
         }
 
         if ($this->debug) error_log("OAUTH_SIGNATURE: $oauth_signature");
+        return $oauth_signature;
+    }
 
+    public function __toString() {
+
+        $output = array();
         $params = $this->params;
-        $params['oauth_signature'] = rawurlencode($oauth_signature);
+        $params['oauth_signature'] = rawurlencode($this->getSignature());
         ksort($params);
-
 
         foreach($params as $key => $value) {
             if (isset($this->oauth[$key])) {
@@ -97,7 +99,7 @@ class Signature {
         return $output;
     }
 
-    private function getQueryString() {
+    public function getQueryString() {
         $output = array();
         foreach($this->params as $key => $value) {
             array_push($output, rawurlencode($key).'='.rawurlencode($value));
@@ -105,7 +107,7 @@ class Signature {
         return implode('&', $output);
     }
 
-    private function getBaseString() {
+    public function getBaseString() {
 
         $output =  $this->method
                    .'&'
@@ -117,7 +119,7 @@ class Signature {
         return $output;
     }
 
-    private function getSigningKey() {
+    public function getSigningKey() {
         $output =  $this->oauth_consumer_secret
                    .'&'
                    .$this->oauth_token_secret;
