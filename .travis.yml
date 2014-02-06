@@ -12,6 +12,8 @@ env:
   - secure: MU22G6UYW1THoky3QcACtVeFIJjiO5U7PncWy4ZNhLF/v/OKCP32a0c4Amrs9ovK7QzR8aCgbqlhbW6IH8//7vu8ykYOvYCcckeOAGyoGhIMZ/q06U/9mz92tn4SUM/sRo0mW1eZSYbMVXt3vsrU+xt1G7BvDN9CJBsgCqchRYs=
   - secure: DqCW/olpUh3MmdvspNleMaxLwGaEJjXV7bXgJxuvvEsnB149JaSIz9SKiTfoeQ4R0PFjaJiAS/+8rlIg7sdj13mIUiVEBQsqSp4qOszOod2esL0bi7e8Nb4q8hdwegbtOLbBIaQqZfjmXUq0S4xD4SV8RGUhshC5Zy1NWmfybg0=
   - secure: faR2gw3HnbaOG+Pxm39fj+2xhdOAqGGGeK94/ph8VstuQ1VZjszKTAIeIfCASlmQrHc7dyXUoVLCYLP5p4rJPxMpjVHV2SWF1M4s2hYJIi7srKfXNl+nUzwiore+48/mbu46zo8z/Orh1tSu2FIuy8KXoErF51FvpChFAZ1ZRSU=
+  - secure: QBEdJNawVjHqzGbWuWDz++62O0X9Y4TR/X9eEsHF0Rm9gkcQNTu9Dmw3H0REGxzQg6rXqkOoooiBBjX4konfDMhNz9RIcWanSh4goN26MxbSzB3KEQS0B64Ype7tebYB9n6NZhbRLNvIUjcg4o4zl1OuVPtj2SOFSV7dDYJ+cb0=
+  - secure: K6dd5bfR3QsrhLT70Erhcn8u4xxJepNXaDNuCoLIEAq/r5djt2hcpEpsntYt1utGyyFgJyu87EoUHQnGv2m6ntkBzgMoRaM6+RaDe/TCk0uH3Kn3UXHuEF2khbzHgUuvXkLpVeDhG6CFOZJE8zlXo5cW+lws4JjRetAXmStroK8=
 script: phpunit --colors --configuration phpunit.$OA.xml --coverage-text --coverage-clover=coverage.clover
 after_script:
 - wget https://scrutinizer-ci.com/ocular.phar

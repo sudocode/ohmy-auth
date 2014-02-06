@@ -37,4 +37,16 @@ class AuthTest extends PHPUnit_Framework_TestCase {
                 $this->assertTrue(!empty($data['oauth_token_secret']));
              });
     }
+
+    public function testRequestToken() {
+        Auth1::init(3)
+            ->set('key', getenv('FITBIT_KEY'))
+            ->set('secret', getenv('FITBIT_SECRET'))
+            ->set('callback', getenv('CALLBACK'))
+            ->request('http://api.fitbit.com/oauth/request_token')
+            ->finally(function($data) {
+                $this->assertTrue(!empty($data['oauth_token']));
+                $this->assertTrue(!empty($data['oauth_token_secret']));
+            });
+    }
 }
