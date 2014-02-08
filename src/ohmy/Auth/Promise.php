@@ -15,7 +15,7 @@ class Promise {
     protected $state = self::PENDING;
     protected $success_pending = array();
     protected $failure_pending = array();
-    protected $value = null;
+    public $value = null;
 
     function __construct($callback) {
         $promise = $this;
