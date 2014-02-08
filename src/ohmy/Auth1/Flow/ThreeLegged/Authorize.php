@@ -12,6 +12,8 @@ use ohmy\Auth\Promise,
 
 class Authorize extends Promise {
 
+    public $client;
+
     public function __construct($callback, Rest $client=null) {
         parent::__construct($callback);
         $this->client = $client;

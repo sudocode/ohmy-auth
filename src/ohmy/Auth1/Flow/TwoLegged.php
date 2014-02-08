@@ -14,7 +14,7 @@ use ohmy\Auth1\Flow,
 
 class TwoLegged extends Flow {
 
-    private $client;
+    public $client;
 
     public function __construct($callback, Rest $client=null) {
         parent::__construct($callback);
