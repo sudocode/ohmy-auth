@@ -16,13 +16,14 @@ class Authorize extends Promise {
     }
 
     public function access($url, Array $options=array()) {
-        $access = new Access(function($resolve, $reject) use($url, $options) {
-            $this->client->POST($url, array(
+        $self = $this;
+        $access = new Access(function($resolve, $reject) use($self, $url, $options) {
+            $self->client->POST($url, array(
                 'grant_type'    => 'authorization_code',
-                'client_id'     => $this->value['client_id'],
-                'client_secret' => $this->value['client_secret'],
-                'code'          => $this->value['code'],
-                'redirect_uri'  => $this->value['redirect_uri']
+                'client_id'     => $self->value['client_id'],
+                'client_secret' => $self->value['client_secret'],
+                'code'          => $self->value['code'],
+                'redirect_uri'  => $self->value['redirect_uri']
             ))
             ->then(function($response) use($resolve) {
                 $resolve($response->text());
@@ -30,15 +31,15 @@ class Authorize extends Promise {
 
         }, $this->client);
 
-        return $access->then(function($data) {
+        return $access->then(function($data) use($self) {
             $value = null;
             parse_str($data, $array);
             if (count($array) === 1) {
                 $json = json_decode($data, true);
-                if ($json) $value = array_merge($this->value, $json);
+                if ($json) $value = array_merge($self->value, $json);
                 else $value['response'] = $data;
             }
-            else $value =  array_merge($this->value, $array);
+            else $value =  array_merge($self->value, $array);
             return $value;
         });
     }

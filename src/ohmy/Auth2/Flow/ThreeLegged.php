@@ -20,19 +20,20 @@ class ThreeLegged extends Flow {
     }
 
     public function authorize($url, Array $options=array()) {
-        return new Authorize(function($resolve, $reject) use($url, $options) {
+        $self = $this;
+        return new Authorize(function($resolve, $reject) use($self, $url, $options) {
 
-            if($this->value['code']) {
-                $resolve($this->value);
+            if($self->value['code']) {
+                $resolve($self->value);
                 return;
             }
 
             $location = $url.'?'.http_build_query(array(
                 'response_type' => 'code',
-                'client_id'     => $this->value['client_id'],
-                'redirect_uri'  => $this->value['redirect_uri'],
-                'scope'         => $this->value['scope'],
-                'state'         => $this->value['state']
+                'client_id'     => $self->value['client_id'],
+                'redirect_uri'  => $self->value['redirect_uri'],
+                'scope'         => $self->value['scope'],
+                'state'         => $self->value['state']
 
             ));
 
@@ -43,9 +44,10 @@ class ThreeLegged extends Flow {
     }
 
     public function access($token) {
+        $self = $this;
         $this->value['access_token'];
-        return new Access(function($resolve) {
-            $resolve($this->value);
+        return new Access(function($resolve) use($self) {
+            $resolve($self->value);
         }, $this->client);
     }
 }

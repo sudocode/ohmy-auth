@@ -22,11 +22,11 @@ class ThreeLegged extends Flow {
     }
 
     public function request($url, $options=array()) {
+        $self = $this;
+        $request = new Request(function($resolve, $reject) use($self, $url, $options) {
 
-        $request = new Request(function($resolve, $reject) use($url, $options) {
-
-            if ($this->value['oauth_token']) {
-                $resolve($this->value);
+            if ($self->value['oauth_token']) {
+                $resolve($self->value);
                 return;
             }
 
@@ -34,7 +34,7 @@ class ThreeLegged extends Flow {
                 'POST',
                 $url,
                 array_intersect_key(
-                    $this->value,
+                    $self->value,
                     array_flip(array(
                         'oauth_callback',
                         'oauth_consumer_key',
@@ -47,7 +47,7 @@ class ThreeLegged extends Flow {
                 )
             );
 
-            $this->client->POST($url, array(), array(
+            $self->client->POST($url, array(), array(
                 'Authorization'  => $signature,
                 'Content-Length' => 0
             ))
@@ -57,19 +57,20 @@ class ThreeLegged extends Flow {
 
         }, $this->client);
 
-        return $request->then(function($data) {
+        return $request->then(function($data) use($self) {
             if (is_array($data)) return $data;
             parse_str($data, $array);
             if (isset($_SESSION)) $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
-            return array_merge($this->value, $array);
+            return array_merge($self->value, $array);
         });
     }
 
     public function access($token, $secret) {
+        $self = $this;
         $this->value['oauth_token'] = $token;
         $this->value['oauth_token_secret'] = $secret;
-        return new Access(function($resolve) {
-            $resolve($this->value);
+        return new Access(function($resolve) use($self) {
+            $resolve($self->value);
         }, $this->client);
     }
 
