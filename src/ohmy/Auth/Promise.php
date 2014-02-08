@@ -15,7 +15,7 @@ class Promise {
     protected $state = self::PENDING;
     protected $success_pending = array();
     protected $failure_pending = array();
-    protected $value = null;
+    public $value = null;
 
     function __construct($callback) {
         $promise = $this;
@@ -32,7 +32,7 @@ class Promise {
      * Also sets state to RESOLVED.
      * @param $value
      */
-    private function _resolve($value) {
+    public function _resolve($value) {
         if ($this->state === self::PENDING) {
             $this->value = $value;
             for ($i = 0; $i < count($this->success_pending); $i++) {
@@ -70,7 +70,7 @@ class Promise {
      * Also sets state to REJECTED.
      * @param $value
      */
-    private function _reject($value) {
+    public function _reject($value) {
         if ($this->state === self::PENDING) {
             $this->value = $value;
             for ($i = 0; $i < count($this->failure_pending); $i++) {

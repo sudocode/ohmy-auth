@@ -70,7 +70,7 @@ class Request implements Rest {
         });
     }
 
-    private function _headers($headers) {
+    public function _headers($headers) {
         $output = array();
         if (!$headers) return $output;
         foreach($headers as $key => $value) {
