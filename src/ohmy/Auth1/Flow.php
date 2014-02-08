@@ -9,6 +9,7 @@
 use ohmy\Auth\Promise;
 
 abstract class Flow extends Promise {
+
     public function set($key, $value) {
         switch($key) {
             case 'oauth_consumer_key':

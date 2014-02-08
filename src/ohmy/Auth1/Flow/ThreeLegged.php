@@ -14,7 +14,7 @@ use ohmy\Auth1\Flow,
 
 class ThreeLegged extends Flow {
 
-    private $client;
+    public $client;
 
     public function __construct($callback, Rest $client=null) {
         parent::__construct($callback);
@@ -24,8 +24,9 @@ class ThreeLegged extends Flow {
     public function request($url, $options=array()) {
         $self = $this;
         $request = new Request(function($resolve, $reject) use($self, $url, $options) {
+        
 
-            if ($self->value['oauth_token']) {
+            if (!empty($self->value['oauth_token'])) {
                 $resolve($self->value);
                 return;
             }
