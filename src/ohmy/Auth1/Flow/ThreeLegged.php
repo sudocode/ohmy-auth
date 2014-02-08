@@ -23,7 +23,7 @@ class ThreeLegged extends Flow {
 
     public function request($url, $options=array()) {
 
-        return (new Request(function($resolve, $reject) use($url, $options) {
+        $request = new Request(function($resolve, $reject) use($url, $options) {
 
             if ($this->value['oauth_token']) {
                 $resolve($this->value);
@@ -55,9 +55,9 @@ class ThreeLegged extends Flow {
                 $resolve($response->text());
             });
 
-        }, $this->client))
+        }, $this->client);
 
-    ->then(function($data) {
+        return $request->then(function($data) {
             if (is_array($data)) return $data;
             parse_str($data, $array);
             if (isset($_SESSION)) $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];

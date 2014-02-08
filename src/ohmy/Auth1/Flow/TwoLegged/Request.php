@@ -18,7 +18,7 @@ class Request extends Promise {
     }
 
     public function access($url, $options=null) {
-        return (new Access(function($resolve, $reject) use($url, $options) {
+        $access = new Access(function($resolve, $reject) use($url, $options) {
 
             # sign request
             $signature = new Signature(
@@ -48,9 +48,9 @@ class Request extends Promise {
             });
 
 
-        }, $this->client))
+        }, $this->client);
 
-        ->then(function($data) {
+        return $access->then(function($data) {
             parse_str($data, $array);
             return array_merge($this->value, $array);
         });

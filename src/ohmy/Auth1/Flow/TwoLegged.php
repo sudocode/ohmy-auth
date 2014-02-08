@@ -22,7 +22,7 @@ class TwoLegged extends Flow {
     }
 
     public function request($url, $options=null) {
-        return (new Request(function($resolve, $reject) use($url, $options) {
+        $request = new Request(function($resolve, $reject) use($url, $options) {
 
             $signature = new Signature(
                 'POST',
@@ -48,9 +48,9 @@ class TwoLegged extends Flow {
                 $resolve($response->text());
             });
 
-        }, $this->client))
+        }, $this->client);
 
-        ->then(function($data) {
+        return $request->then(function($data) {
             parse_str($data, $array);
             return array_merge($this->value, $array);
         });

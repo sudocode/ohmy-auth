@@ -16,7 +16,7 @@ class Authorize extends Promise {
     }
 
     public function access($url, Array $options=array()) {
-        return (new Access(function($resolve, $reject) use($url, $options) {
+        $access = new Access(function($resolve, $reject) use($url, $options) {
             $this->client->POST($url, array(
                 'grant_type'    => 'authorization_code',
                 'client_id'     => $this->value['client_id'],
@@ -28,8 +28,9 @@ class Authorize extends Promise {
                 $resolve($response->text());
             });
 
-        }, $this->client))
-        ->then(function($data) {
+        }, $this->client);
+
+        return $access->then(function($data) {
             $value = null;
             parse_str($data, $array);
             if (count($array) === 1) {
