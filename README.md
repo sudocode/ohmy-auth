@@ -17,7 +17,7 @@ Auth1::init(2)
 ```
 
 ### Dependencies
-Oma only requires PHP (>= 5.3) and Curl. 
+Oma only requires PHP (>= 5.3) and the usual extensions for Curl (```curl_init()```,```curl_setopt()```, etc), JSON (```json_encode()```, ```json_decode()```) and sessions (```session_start()```, ```session_destroy()```). 
 
 ### Installing with Composer
 The best way to install Oma is via Composer. Just add ```ohmy/auth``` to your project's ```composer.json``` and run ```composer install```. eg:
