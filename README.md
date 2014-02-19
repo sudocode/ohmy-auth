@@ -1,7 +1,7 @@
 ohmy-auth [![Build Status](https://travis-ci.org/sudocode/ohmy-auth.png?branch=master)](https://travis-ci.org/sudocode/ohmy-auth) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/sudocode/ohmy-auth/badges/quality-score.png?s=0db8fb20410f28980d8590745312957522b71f0e)](https://scrutinizer-ci.com/g/sudocode/ohmy-auth/) [![License](https://poser.pugx.org/ohmy/auth/license.png)](https://packagist.org/packages/ohmy/auth)
 ========
 
-ohmy-auth (Oma) is a PHP library that simplifies OAuth into a fluent interface using [promises](http://en.wikipedia.org/wiki/Futures_and_promises):
+ohmy-auth (Oma) is a PHP library that simplifies OAuth into a fluent interface:
 
 ```php
 use ohmy\Auth1;
