@@ -53,6 +53,7 @@ $termie->GET('http://term.ie/oauth/example/echo_api.php')
 ```
 
 ### Three-Legged OAuth 1.0a
+*Note: This requires sessions in order to save data between redirects. This will not work properly without sessions!*
 ```php
 use ohmy\Auth1;
 
