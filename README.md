@@ -3,11 +3,28 @@ ohmy-auth [![Build Status](https://travis-ci.org/sudocode/ohmy-auth.png?branch=m
 
 ohmy-auth (Oma) is a PHP library that simplifies OAuth into a fluent interface:
 
+*Note: Both ways are allowed: static and nonstatic, doing use of DI pattern, for behavior improve on test environment.*
+
 ```php
 use ohmy\Auth1;
 use ohmy\OhmyAuth;
 
+// Static way
 OhmyAuth::init(new Auth1, 2)
+     ->set('key', 'key')
+     ->set('secret', 'secret')
+     ->request('http://term.ie/oauth/example/request_token.php')
+     ->access('http://term.ie/oauth/example/access_token.php')
+     ->GET('http://term.ie/oauth/example/echo_api.php')
+     ->then(function($data) {
+         # got data
+     });
+
+
+// Non-static way
+$service = new OhmyAuth(new Auth1, 2);
+
+$service->init()
      ->set('key', 'key')
      ->set('secret', 'secret')
      ->request('http://term.ie/oauth/example/request_token.php')
