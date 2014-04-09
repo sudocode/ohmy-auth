@@ -7,6 +7,7 @@
  */
 
 use ohmy\Auth1;
+use ohmy\OhmyAuth;
 
 class Auth1Test extends PHPUnit_Framework_TestCase {
 
@@ -14,7 +15,7 @@ class Auth1Test extends PHPUnit_Framework_TestCase {
     public function tearDown() {}
     public function testInitTwoLegged() {
         $phpunit = $this;
-        Auth1::init(2)
+        OhmyAuth::init(new Auth1, 2)
              ->then(function($data) use($phpunit) {
                 $phpunit->assertArrayHasKey('oauth_callback', $data);
                 $phpunit->assertArrayHasKey('oauth_consumer_key', $data);
@@ -30,7 +31,7 @@ class Auth1Test extends PHPUnit_Framework_TestCase {
     }
     public function testInitThreeLegged() {
         $phpunit = $this;
-        Auth1::init(2)
+        OhmyAuth::init(new Auth1, 3)
             ->then(function($data) use($phpunit) {
                 $phpunit->assertArrayHasKey('oauth_callback', $data);
                 $phpunit->assertArrayHasKey('oauth_consumer_key', $data);
