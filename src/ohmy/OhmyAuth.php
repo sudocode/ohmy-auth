@@ -1,19 +1,16 @@
 <?php namespace ohmy;
 
 use ohmy\Interfaces\AuthAdapter;
-use ohmy\Support\Traits\OverloadMethod;
 
 /**
  * Unifies all library in a class, OAuth clients load with DI pattern.
  *
- * Uses method overloading (by trait), to modify the 'init' method call.
+ * Uses method overloading, to modify the 'init' method call.
  *
  * It has the functions 'session_start' and 'session_destroy' implicit.
  */
 class OhmyAuth
 {
-    use OverloadMethod;
-
     /**
      * Object instance Auth1/Auth2.
      *
@@ -81,6 +78,32 @@ class OhmyAuth
         $this->auth = $auth::init($instance->flow);
 
         return $this->auth;
+    }
+
+    /**
+     * Handle dynamic method calls into the method.
+     *
+     * @param  string $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array(array($this, $method), $parameters);
+    }
+
+    /**
+     * Handle dynamic static method calls into the method.
+     *
+     * @param  string $method
+     * @param  array  $parameters
+     * @return Mixed
+     */
+    public static function __callStatic($method, $parameters)
+    {
+        $instance = new static;
+
+        return call_user_func_array(array($instance, $method), $parameters);
     }
 
 }
