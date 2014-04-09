@@ -7,7 +7,8 @@
  */
 
 use ohmy\Auth1,
-    ohmy\Auth2;
+    ohmy\Auth2,
+    ohmy\OhmyAuth;
 
 class AuthTest extends PHPUnit_Framework_TestCase {
 
@@ -16,7 +17,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
     public function testYahooRequestToken() {
         $phpunit = $this;
-        Auth1::init(3)
+        OhmyAuth::init(new Auth1, 3)
              ->set('key', getenv('YAHOO_KEY'))
              ->set('secret', getenv('YAHOO_SECRET'))
              ->set('callback', getenv('CALLBACK'))
@@ -29,7 +30,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
     public function testTwitterRequestToken() {
         $phpunit = $this;
-        Auth1::init(3)
+        OhmyAuth::init(new Auth1, 3)
              ->set('key', getenv('TWITTER_KEY'))
              ->set('secret', getenv('TWITTER_SECRET'))
              ->set('callback', getenv('CALLBACK'))
@@ -42,7 +43,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
     public function testRequestToken() {
         $phpunit = $this;
-        Auth1::init(3)
+        OhmyAuth::init(new Auth1, 3)
             ->set('key', getenv('FITBIT_KEY'))
             ->set('secret', getenv('FITBIT_SECRET'))
             ->set('callback', getenv('CALLBACK'))

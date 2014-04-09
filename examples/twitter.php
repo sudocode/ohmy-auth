@@ -7,12 +7,11 @@
  */
 
 use ohmy\Auth1;
+use ohmy\OhmyAuth;
 
-# start a session to save oauth data in-between redirects
-session_start();
 
 # initialize 3-legged oauth
-$twitter = Auth1::init(3)
+$twitter = OhmyAuth::init(new Auth1, 3)
 
                 # configuration
                 ->set('key', 'your consumer key')
@@ -22,8 +21,7 @@ $twitter = Auth1::init(3)
                 # oauth flow
                 ->request('https://api.twitter.com/oauth/request_token')
                 ->authorize('https://api.twitter.com/oauth/authorize')
-                ->access('https://api.twitter.com/oauth/access_token')
-                ->finally(session_destroy);
+                ->access('https://api.twitter.com/oauth/access_token');
 
 # test GET call
 $twitter->GET('https://api.twitter.com/1.1/statuses/home_timeline.json', array('count' => 5))

@@ -7,14 +7,16 @@
  */
 
 use ohmy\Auth2;
+use ohmy\OhmyAuth;
+
 
 # configuration
-$github = Auth2::init(3) 
+$github = OhmyAuth::init(new Auth2, 3)
                ->set('id', 'your client id')
                ->set('secret', 'your client secret')
                ->set('redirect', 'your redirect uri')
 
-               # oauth 
+               # oauth
                ->authorize('https://github.com/login/oauth/authorize')
                ->access('https://github.com/login/oauth/access_token')
 

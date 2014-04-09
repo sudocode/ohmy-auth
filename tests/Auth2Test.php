@@ -7,6 +7,7 @@
  */
 
 use ohmy\Auth2;
+use ohmy\OhmyAuth;
 
 class Auth2Test extends PHPUnit_Framework_TestCase {
 
@@ -14,7 +15,7 @@ class Auth2Test extends PHPUnit_Framework_TestCase {
     public function tearDown() {}
     public function testInitThreeLegged() {
         $phpunit = $this;
-        Auth2::init(3)
+        OhmyAuth::init(new Auth2, 3)
             ->then(function($data) use($phpunit) {
                 $phpunit->assertArrayHasKey('client_id', $data);
                 $phpunit->assertArrayHasKey('client_secret', $data);

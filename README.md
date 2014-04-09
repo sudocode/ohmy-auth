@@ -5,7 +5,24 @@ ohmy-auth (Oma) is a PHP library that simplifies OAuth into a fluent interface:
 
 ```php
 use ohmy\Auth1;
-Auth1::init(2)
+use ohmy\OhmyAuth;
+
+// Static way
+OhmyAuth::init(new Auth1, 2)
+     ->set('key', 'key')
+     ->set('secret', 'secret')
+     ->request('http://term.ie/oauth/example/request_token.php')
+     ->access('http://term.ie/oauth/example/access_token.php')
+     ->GET('http://term.ie/oauth/example/echo_api.php')
+     ->then(function($data) {
+         # got data
+     });
+
+
+// Non-static way
+$service = new OhmyAuth(new Auth1, 2);
+
+$service->init()
      ->set('key', 'key')
      ->set('secret', 'secret')
      ->request('http://term.ie/oauth/example/request_token.php')
@@ -16,8 +33,10 @@ Auth1::init(2)
      });
 ```
 
+*Note: Both ways are allowed: static method call and nonstatic, doing use of DI pattern, for behavior improve on test environment.*
+
 ### Dependencies
-Oma only requires PHP (>= 5.3) and the usual extensions for Curl (```curl_init()```, ```curl_setopt()```, etc), JSON (```json_encode()```, ```json_decode()```) and sessions (```session_start()```, ```session_destroy()```). 
+Oma only requires PHP (>= 5.3) and the usual extensions for Curl (```curl_init()```, ```curl_setopt()```, etc), JSON (```json_encode()```, ```json_decode()```) and sessions (```session_start()```, ```session_destroy()```).
 
 ### Installing with Composer
 The best way to install Oma is via Composer. Just add ```ohmy/auth``` to your project's ```composer.json``` and run ```composer install```. eg:
@@ -30,14 +49,15 @@ The best way to install Oma is via Composer. Just add ```ohmy/auth``` to your pr
 ```
 
 ### Installing manually
-If you prefer not to use Composer, you can download an archive or clone this repo and put ```src/ohmy``` into your project setup. 
+If you prefer not to use Composer, you can download an archive or clone this repo and put ```src/ohmy``` into your project setup.
 
-### Two-Legged OAuth 1.0a 
+### Two-Legged OAuth 1.0a
 ```php
 use ohmy\Auth1;
+use ohmy\OhmyAuth;
 
 # do 2-legged oauth
-$termie = Auth1::init(2)
+$termie = OhmyAuth::init(new Auth1, 2)
                # configuration
                ->set('key', 'key')
                ->set('secret', 'secret')
@@ -53,15 +73,12 @@ $termie->GET('http://term.ie/oauth/example/echo_api.php')
 ```
 
 ### Three-Legged OAuth 1.0a
-*Note: This requires sessions in order to save data between redirects. This will not work properly without sessions!*
 ```php
 use ohmy\Auth1;
-
-# start session for saving data in between redirects
-session_start();
+use ohmy\OhmyAuth;
 
 # do 3-legged oauth
-$tumblr = Auth1::init(3)
+$tumblr = OhmyAuth::init(new Auth1, 3)
                # configuration
                ->set('consumer_key', 'your_consumer_key')
                ->set('consumer_secret', 'your_consumer_secret')
@@ -69,10 +86,9 @@ $tumblr = Auth1::init(3)
                # oauth flow
                ->request('http://www.tumblr.com/oauth/request_token')
                ->authorize('http://www.tumblr.com/oauth/authorize')
-               ->access('http://www.tumblr.com/oauth/access_token') 
-               ->finally(session_destroy);
+               ->access('http://www.tumblr.com/oauth/access_token');
 
-# access tumblr api      
+# access tumblr api
 $tumblr->GET('https://api.tumblr.com/v2/user/info')
        ->then(function($data) {
            # got user data
@@ -82,9 +98,10 @@ $tumblr->GET('https://api.tumblr.com/v2/user/info')
 ### Three-Legged OAuth 2.0
 ```php
 use ohmy\Auth2;
+use ohmy\OhmyAuth;
 
 # do 3-legged oauth
-$github = Auth2::init(3)
+$github = OhmyAuth::init(new Auth2, 3)
                # configuration
                ->set('id', 'your_github_client_id')
                ->set('secret', 'your_github_client_secret')

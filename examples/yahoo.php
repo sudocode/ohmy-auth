@@ -7,12 +7,11 @@
  */
 
 use ohmy\Auth1;
+use ohmy\OhmyAuth;
 
-# start a session to save oauth data in-between redirects
-session_start();
 
 # initialize 3-legged oauth
-$yahoo = Auth1::init(3)
+$yahoo = OhmyAuth::init(new Auth1, 3)
               ->set('key', 'your consumer key')
               ->set('secret', 'your consumer secret')
               ->set('callback', 'your callback')
@@ -20,8 +19,7 @@ $yahoo = Auth1::init(3)
               # oauth
               ->request('https://api.login.yahoo.com/oauth/v2/get_request_token')
               ->authorize('https://api.login.yahoo.com/oauth/v2/request_auth')
-              ->access('https://api.login.yahoo.com/oauth/v2/get_token')
-              ->finally(session_destroy);
+              ->access('https://api.login.yahoo.com/oauth/v2/get_token');
 
 $yahoo->GET('http://social.yahooapis.com/v1/me/guid?format=json')
       ->then(function($response) {

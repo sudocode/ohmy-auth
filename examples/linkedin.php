@@ -7,9 +7,11 @@
  */
 
 use ohmy\Auth2;
+use ohmy\OhmyAuth;
+
 
 # initialize 3-legged oauth
-$linkedin = Auth2::init(3)
+$linkedin = OhmyAuth::init(new Auth2, 3)
                  ->set('id', 'your client id')
                  ->set('secret', 'your client secret')
                  ->set('redirect', 'your redirect uri')
