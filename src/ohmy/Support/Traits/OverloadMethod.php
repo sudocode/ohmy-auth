@@ -11,7 +11,7 @@ trait OverloadMethod
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this, $method], $parameters);
+        return call_user_func_array(array($this, $method), $parameters);
     }
 
     /**
@@ -25,6 +25,6 @@ trait OverloadMethod
     {
         $instance = new static;
 
-        return call_user_func_array([$instance, $method], $parameters);
+        return call_user_func_array(array($instance, $method), $parameters);
     }
 }
