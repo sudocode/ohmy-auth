@@ -3,8 +3,6 @@ ohmy-auth [![Build Status](https://travis-ci.org/sudocode/ohmy-auth.png?branch=m
 
 ohmy-auth (Oma) is a PHP library that simplifies OAuth into a fluent interface:
 
-*Note: Both ways are allowed: static and nonstatic, doing use of DI pattern, for behavior improve on test environment.*
-
 ```php
 use ohmy\Auth1;
 use ohmy\OhmyAuth;
@@ -34,6 +32,8 @@ $service->init()
          # got data
      });
 ```
+
+*Note: Both ways are allowed: static method call and nonstatic, doing use of DI pattern, for behavior improve on test environment.*
 
 ### Dependencies
 Oma only requires PHP (>= 5.3) and the usual extensions for Curl (```curl_init()```, ```curl_setopt()```, etc), JSON (```json_encode()```, ```json_decode()```) and sessions (```session_start()```, ```session_destroy()```).
