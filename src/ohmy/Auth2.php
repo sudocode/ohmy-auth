@@ -7,9 +7,10 @@
  */
 
 use ohmy\Auth2\Flow\ThreeLegged,
-    ohmy\Http\Curl\Request;
+    ohmy\Http\Curl\Request,
+    ohmy\Interfaces\AuthAdapter;
 
-class Auth2 {
+class Auth2 implements AuthAdapter {
 
     public static function init($type) {
 
