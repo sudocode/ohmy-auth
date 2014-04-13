@@ -24,7 +24,6 @@ class Auth1Test extends PHPUnit_Framework_TestCase {
                 $phpunit->assertArrayHasKey('oauth_signature_method', $data);
                 $phpunit->assertArrayHasKey('oauth_timestamp', $data);
                 $phpunit->assertArrayHasKey('oauth_token', $data);
-                $phpunit->assertArrayHasKey('oauth_token_secret', $data);
                 $phpunit->assertArrayHasKey('oauth_verifier', $data);
                 $phpunit->assertArrayHasKey('oauth_version', $data);
             });
@@ -40,7 +39,6 @@ class Auth1Test extends PHPUnit_Framework_TestCase {
                 $phpunit->assertArrayHasKey('oauth_signature_method', $data);
                 $phpunit->assertArrayHasKey('oauth_timestamp', $data);
                 $phpunit->assertArrayHasKey('oauth_token', $data);
-                $phpunit->assertArrayHasKey('oauth_token_secret', $data);
                 $phpunit->assertArrayHasKey('oauth_verifier', $data);
                 $phpunit->assertArrayHasKey('oauth_version', $data);
             });
@@ -56,7 +54,6 @@ class Auth1Test extends PHPUnit_Framework_TestCase {
                 $phpunit->assertArrayHasKey('oauth_signature_method', $data);
                 $phpunit->assertArrayHasKey('oauth_timestamp', $data);
                 $phpunit->assertArrayHasKey('oauth_token', $data);
-                $phpunit->assertArrayHasKey('oauth_token_secret', $data);
                 $phpunit->assertArrayHasKey('oauth_verifier', $data);
                 $phpunit->assertArrayHasKey('oauth_version', $data);
             });
@@ -72,7 +69,6 @@ class Auth1Test extends PHPUnit_Framework_TestCase {
                 $phpunit->assertArrayHasKey('oauth_signature_method', $data);
                 $phpunit->assertArrayHasKey('oauth_timestamp', $data);
                 $phpunit->assertArrayHasKey('oauth_token', $data);
-                $phpunit->assertArrayHasKey('oauth_token_secret', $data);
                 $phpunit->assertArrayHasKey('oauth_verifier', $data);
                 $phpunit->assertArrayHasKey('oauth_version', $data);
             });
