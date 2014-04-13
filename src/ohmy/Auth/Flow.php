@@ -6,9 +6,9 @@
  * See the accompanying LICENSE file for terms.
  */
 
-abstract class Flow {
+abstract class Flow extends Promise {
 
-    public function set($key, $value) {
+    public function set($key, $value=null) {
         (is_array($key)) ? $this->setArray($key) : $this->_set($key, $value);
         return $this;
     }
@@ -28,6 +28,7 @@ abstract class Flow {
                 $this->session = $object;
                 break;
         }
+        return $this;
     }
 
     public abstract function _set($key, $value);

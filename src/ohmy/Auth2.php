@@ -11,6 +11,10 @@ use ohmy\Auth2\Flow\ThreeLegged,
 
 class Auth2 {
 
+    public static function legs($num) {
+        return self::init($num);
+    }
+
     public static function init($type) {
 
         $client = new Request;

@@ -8,9 +8,6 @@
 
 use ohmy\Auth1;
 
-# start a session to save oauth data in-between redirects
-session_start();
-
 # initialize 3-legged oauth
 $tumblr = Auth1::legs(3)
                # configuration
@@ -21,8 +18,7 @@ $tumblr = Auth1::legs(3)
                # oauth flow
                ->request('http://www.tumblr.com/oauth/request_token')
                ->authorize('http://www.tumblr.com/oauth/authorize')
-               ->access('http://www.tumblr.com/oauth/access_token')
-               ->finally(session_destroy);
+               ->access('http://www.tumblr.com/oauth/access_token');
     
 # test GET method
 $tumblr->GET('https://api.tumblr.com/v2/user/info')

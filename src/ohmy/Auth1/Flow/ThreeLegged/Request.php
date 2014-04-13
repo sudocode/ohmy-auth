@@ -7,13 +7,15 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Components\Http;
+    ohmy\Components\Http,
+    ohmy\Components\Session;
 
 class Request extends Promise {
 
-    public function __construct($callback, Http $client=null) {
+    public function __construct($callback, Http $client=null, Session $session=null) {
         parent::__construct($callback);
         $this->client = $client;
+        $this->session = $session;
     }
 
     public function authorize($url, $options=array()) {

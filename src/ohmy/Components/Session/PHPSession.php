@@ -11,15 +11,18 @@ use ohmy\Components\Session;
 class PHPSession implements Session {
 
     public function __construct() {
-        session_start();
     }
 
     public function create($key, $value) {
+        @session_start();
         $_SESSION[$key] = $value;
+        session_write_close();
     }
 
     public function read($key) {
+        @session_start();
         return $_SESSION[$key];
+        session_write_close();
     }
 
     public function update($key, $value) {
@@ -31,6 +34,6 @@ class PHPSession implements Session {
     }
 
     public function __destruct() {
-        session_destroy();
+        # session_destroy();
     }
 }

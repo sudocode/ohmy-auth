@@ -13,8 +13,8 @@ use ohmy\Auth1\Flow\TwoLegged,
 
 class Auth1 {
 
-    public static function legs($number) {
-        return Auth1::init($number);
+    public static function legs($num) {
+        return self::init($num);
     }
 
     public static function init($type) {
@@ -27,7 +27,9 @@ class Auth1 {
             'oauth_nonce'              => md5(mt_rand()),
             'oauth_signature_method'   => 'HMAC-SHA1',
             'oauth_timestamp'          => time(),
-            'oauth_version'            => '1.0'
+            'oauth_version'            => '1.0',
+            'oauth_token'              => isset($_REQUEST['oauth_token']) ? $_REQUEST['oauth_token'] : '',
+            'oauth_verifier'           => isset($_REQUEST['oauth_verifier']) ? $_REQUEST['oauth_verifier'] : ''
         );
 
         # encode all params
@@ -41,9 +43,7 @@ class Auth1 {
                 break;
             case 3:
                 $session = new PHPSession;
-                $oauth['oauth_token'] = $session->read('oauth_token');
                 $oauth['oauth_token_secret'] = $session->read('oauth_token_secret');
-                $oauth['oauth_verifier'] = $session['oauth_verifier'];
                 return new ThreeLegged(function($resolve) use($oauth) {
                     $resolve($oauth);
                 }, $client, $session);
