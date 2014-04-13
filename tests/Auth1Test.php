@@ -7,7 +7,7 @@
  */
 
 use ohmy\Auth1,
-    ohmy\Auth1\Flow;
+    ohmy\Auth1\Auth1Flow;
 
 class Auth1Test extends PHPUnit_Framework_TestCase {
 
@@ -79,7 +79,7 @@ class Auth1Test extends PHPUnit_Framework_TestCase {
     }
 
     public function testFlowSet() {
-        $flow = new Flow(function($resolve) { $resolve(true); });
+        $flow = new Auth1Flow(function($resolve) { $resolve(true); });
         $flow->set('key', 'key');
         $this>assertAreEqual();
     }
