@@ -15,7 +15,7 @@ class Response extends Promise {
 
     public function __construct($callback) {
         parent::__construct($callback);
-        list($headers, $text) = explode("\r\n\r\n", $this->value, 2);
+        list($headers, $text) = @explode("\r\n\r\n", $this->value, 2);
         if (strpos($headers, ' 100 Continue') !== false) {
             list($headers, $text) = explode("\r\n\r\n", $text, 2);
         }
