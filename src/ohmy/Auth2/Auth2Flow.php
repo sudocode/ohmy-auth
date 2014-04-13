@@ -6,10 +6,11 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Promise;
+use ohmy\Auth\Flow;
 
-abstract class Flow extends Promise {
-    public function set($key, $value) {
+class Auth2Flow extends Flow {
+
+    public function _set($key, $value) {
         switch($key) {
             case 'client_id':
             case 'id':
@@ -29,6 +30,4 @@ abstract class Flow extends Promise {
         }
         return $this;
     }
-
-    public abstract function access($token);
 }

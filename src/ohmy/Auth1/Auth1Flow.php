@@ -6,11 +6,11 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Promise;
+use ohmy\Auth\Flow;
 
-abstract class Flow extends Promise {
+class Auth1Flow extends Flow {
 
-    public function set($key, $value) {
+    public function _set($key, $value) {
         switch($key) {
             case 'oauth_consumer_key':
             case 'consumer_key':
@@ -26,11 +26,16 @@ abstract class Flow extends Promise {
             case 'callback':
                 $this->value['oauth_callback'] = $value;
                 break;
+            case 'oauth_token':
+            case 'token':
+                $this->value['oauth_token'] = $value;
+                break;
+            case 'oauth_token_secret':
+            case 'token_secret':
+                $this->value['oauth_token_secret'] = $value;
+                break;
             default:
                 $this->value[$key] = $value;
         }
-        return $this;
     }
-
-    public abstract function access($token, $secret);
 }

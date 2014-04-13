@@ -9,7 +9,7 @@
 use ohmy\Auth2;
 
 # initialize 3-legged oauth
-$google = Auth2::init(3)
+$google = Auth2::legs(3)
                ->set('id', 'your client id')
                ->set('secret', 'your client secret')
                ->set('redirect', 'your redirect uri')

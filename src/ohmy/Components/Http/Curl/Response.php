@@ -1,4 +1,4 @@
-<?php namespace ohmy\Http\Curl;
+<?php namespace ohmy\Components\Http\Curl;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.

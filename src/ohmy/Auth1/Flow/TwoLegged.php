@@ -6,17 +6,17 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth1\Flow,
+use ohmy\Auth1\Auth1Flow,
     ohmy\Auth1\Security\Signature,
     ohmy\Auth1\Flow\TwoLegged\Request,
     ohmy\Auth1\Flow\TwoLegged\Access,
-    ohmy\Http\Rest;
+    ohmy\Components\Http;
 
-class TwoLegged extends Flow {
+class TwoLegged extends Auth1Flow {
 
     public $client;
 
-    public function __construct($callback, Rest $client=null) {
+    public function __construct($callback, Http $client=null) {
         parent::__construct($callback);
         $this->client = $client;
     }

@@ -6,11 +6,11 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth2\Flow,
+use ohmy\Auth2\Auth2Flow,
     ohmy\Auth2\Flow\ThreeLegged\Authorize,
     ohmy\Auth2\Flow\ThreeLegged\Access;
 
-class ThreeLegged extends Flow {
+class ThreeLegged extends Auth2Flow {
 
     private $client;
 

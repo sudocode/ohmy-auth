@@ -6,13 +6,14 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth\Promise;
+use ohmy\Auth\Promise,
+    ohmy\Components\Http;
 
 class Authorize extends Promise {
 
     public $client;
 
-    public function __construct($callback, $client=null) {
+    public function __construct($callback, Http $client=null) {
         parent::__construct($callback);
         $this->client = $client;
     }

@@ -6,19 +6,21 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth1\Flow,
+use ohmy\Auth1\Auth1Flow,
     ohmy\Auth1\Security\Signature,
     ohmy\Auth1\Flow\ThreeLegged\Request,
     ohmy\Auth1\Flow\ThreeLegged\Access,
-    ohmy\Http\Rest;
+    ohmy\Components\Http,
+    ohmy\Components\Session;
 
-class ThreeLegged extends Flow {
+class ThreeLegged extends Auth1Flow {
 
     public $client;
 
-    public function __construct($callback, Rest $client=null) {
+    public function __construct($callback, Http $client=null, Session $session=null) {
         parent::__construct($callback);
         $this->client = $client;
+        $this->session = $session;
     }
 
     public function request($url, $options=array()) {
@@ -61,7 +63,7 @@ class ThreeLegged extends Flow {
         return $request->then(function($data) use($self) {
             if (is_array($data)) return $data;
             parse_str($data, $array);
-            if (isset($_SESSION)) $_SESSION['oauth_token_secret'] = $array['oauth_token_secret'];
+            $self->session->create('oauth_token_secret', $array['oauth_token_secret']);
             return array_merge($self->value, $array);
         });
     }

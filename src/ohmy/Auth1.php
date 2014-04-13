@@ -8,25 +8,28 @@
 
 use ohmy\Auth1\Flow\TwoLegged,
     ohmy\Auth1\Flow\ThreeLegged,
-    ohmy\Http\Curl\Request;
+    ohmy\Components\Http\Curl\Request,
+    ohmy\Components\Session\PHPSession;
 
 class Auth1 {
+
+    public static function legs($num) {
+        return self::init($num);
+    }
 
     public static function init($type) {
 
         $client = new Request;
         $oauth = array(
             'oauth_callback'           => '',
-            # 'oauth_callback_confirmed' => ''
             'oauth_consumer_key'       => '',
             'oauth_consumer_secret'    => '',
             'oauth_nonce'              => md5(mt_rand()),
             'oauth_signature_method'   => 'HMAC-SHA1',
             'oauth_timestamp'          => time(),
+            'oauth_version'            => '1.0',
             'oauth_token'              => isset($_REQUEST['oauth_token']) ? $_REQUEST['oauth_token'] : '',
-            'oauth_token_secret'       => isset($_SESSION['oauth_token_secret']) ? $_SESSION['oauth_token_secret'] : '',
-            'oauth_verifier'           => isset($_REQUEST['oauth_verifier']) ? $_REQUEST['oauth_verifier'] : '',
-            'oauth_version'            => '1.0'
+            'oauth_verifier'           => isset($_REQUEST['oauth_verifier']) ? $_REQUEST['oauth_verifier'] : ''
         );
 
         # encode all params
@@ -39,9 +42,11 @@ class Auth1 {
                 }, $client);
                 break;
             case 3:
+                $session = new PHPSession;
+                $oauth['oauth_token_secret'] = $session->read('oauth_token_secret');
                 return new ThreeLegged(function($resolve) use($oauth) {
                     $resolve($oauth);
-                }, $client);
+                }, $client, $session);
                 break;
             default:
         }

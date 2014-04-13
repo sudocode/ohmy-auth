@@ -7,9 +7,13 @@
  */
 
 use ohmy\Auth2\Flow\ThreeLegged,
-    ohmy\Http\Curl\Request;
+    ohmy\Components\Http\Curl\Request;
 
 class Auth2 {
+
+    public static function legs($num) {
+        return self::init($num);
+    }
 
     public static function init($type) {
 

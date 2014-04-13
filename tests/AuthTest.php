@@ -14,6 +14,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
     public function setUp() {}
     public function tearDown() {}
 
+    /*
     public function testYahooRequestToken() {
         $phpunit = $this;
         Auth1::init(3)
@@ -25,7 +26,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
                  $phpunit->assertTrue(!empty($data['oauth_token']));
                  $phpunit->assertTrue(!empty($data['oauth_token_secret']));
              });
-    }
+    }*/
 
     public function testTwitterRequestToken() {
         $phpunit = $this;
