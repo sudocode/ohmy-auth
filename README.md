@@ -5,7 +5,7 @@ ohmy-auth (Oma) is a PHP library that simplifies OAuth into a fluent interface:
 
 ```php
 use ohmy\Auth1;
-Auth1::init(2)
+Auth1::legs(2)
      ->set('key', 'key')
      ->set('secret', 'secret')
      ->request('http://term.ie/oauth/example/request_token.php')
@@ -37,7 +37,7 @@ If you prefer not to use Composer, you can download an archive or clone this rep
 use ohmy\Auth1;
 
 # do 2-legged oauth
-$termie = Auth1::init(2)
+$termie = Auth1::legs(2)
                # configuration
                ->set('key', 'key')
                ->set('secret', 'secret')
@@ -61,11 +61,13 @@ use ohmy\Auth1;
 session_start();
 
 # do 3-legged oauth
-$tumblr = Auth1::init(3)
+$tumblr = Auth1::legs(3)
                # configuration
-               ->set('consumer_key', 'your_consumer_key')
-               ->set('consumer_secret', 'your_consumer_secret')
-               ->set('callback', 'your_callback_url');
+               ->set(array(
+                    'consumer_key'    => 'your_consumer_key',
+                    'consumer_secret' => 'your_consumer_secret',
+                    'callback'        => 'your_callback_url'
+               ))
                # oauth flow
                ->request('http://www.tumblr.com/oauth/request_token')
                ->authorize('http://www.tumblr.com/oauth/authorize')
@@ -84,11 +86,13 @@ $tumblr->GET('https://api.tumblr.com/v2/user/info')
 use ohmy\Auth2;
 
 # do 3-legged oauth
-$github = Auth2::init(3)
+$github = Auth2::legs(3)
                # configuration
-               ->set('id', 'your_github_client_id')
-               ->set('secret', 'your_github_client_secret')
-               ->set('redirect', 'your_redirect_uri');
+               ->set(array(
+                    'id'       => 'your_github_client_id',
+                    'secret'   => 'your_github_client_secret',
+                    'redirect' => 'your_redirect_uri'
+               ))
                # oauth flow
                ->authorize('https://github.com/login/oauth/authorize')
                ->access('https://github.com/login/oauth/access_token')
