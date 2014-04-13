@@ -75,7 +75,7 @@ class Auth1Test extends PHPUnit_Framework_TestCase {
     }
 
     public function testFlowSet() {
-        $flow = new Auth1Flow(function($resolve) { $resolve(true); });
+        $flow = new Auth1Flow(function($resolve) { $resolve(array()); });
         $flow->set('key', 'key');
         $this>assertAreEqual();
     }
