@@ -12,7 +12,7 @@ use ohmy\Auth1;
 session_start();
 
 # initialize 3-legged oauth
-$fitbit = Auth1::init(3)
+$fitbit = Auth1::legs(3)
                ->set('key', 'your consumer key')
                ->set('secret', 'your consumer secret')
                ->set('callback', 'your callback url')

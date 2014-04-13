@@ -7,7 +7,7 @@
  */
 
 use ohmy\Auth2\Flow\ThreeLegged,
-    ohmy\Http\Curl\Request;
+    ohmy\Components\Http\Curl\Request;
 
 class Auth2 {
 

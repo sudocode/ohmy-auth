@@ -9,7 +9,7 @@
 use ohmy\Auth2;
 
 # initialize 3-legged oauth
-$instagram = Auth2::init(3)
+$instagram = Auth2::legs(3)
 
                   # configuration
                   ->set('id', 'your client id')

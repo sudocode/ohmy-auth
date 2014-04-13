@@ -9,7 +9,7 @@
 use ohmy\Auth2;
 
 # configuration
-$github = Auth2::init(3) 
+$github = Auth2::legs(3)
                ->set('id', 'your client id')
                ->set('secret', 'your client secret')
                ->set('redirect', 'your redirect uri')

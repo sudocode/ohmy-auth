@@ -1,4 +1,4 @@
-<?php namespace ohmy\http;
+<?php namespace ohmy\Components;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
@@ -6,7 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-interface Rest {
+interface Http {
 
     public function POST($url, Array $arguments, Array $headers);
     public function GET($url, Array $arguments, Array $headers);

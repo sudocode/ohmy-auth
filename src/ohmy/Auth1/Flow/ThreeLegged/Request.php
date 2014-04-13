@@ -7,11 +7,11 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Http\Rest;
+    ohmy\Components\Http;
 
 class Request extends Promise {
 
-    public function __construct($callback, Rest $client=null) {
+    public function __construct($callback, Http $client=null) {
         parent::__construct($callback);
         $this->client = $client;
     }

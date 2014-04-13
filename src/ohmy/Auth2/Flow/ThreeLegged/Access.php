@@ -7,11 +7,11 @@
  */
 
 use ohmy\Auth\Promise,
-    ohmy\Auth\Response;
+    ohmy\Components\Http;
 
 class Access extends Promise {
 
-    public function __construct($callback, $client=null) {
+    public function __construct($callback, Http $client=null) {
         parent::__construct($callback);
         $this->client = $client;
     }

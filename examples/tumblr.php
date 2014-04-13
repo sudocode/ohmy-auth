@@ -12,7 +12,7 @@ use ohmy\Auth1;
 session_start();
 
 # initialize 3-legged oauth
-$tumblr = Auth1::init(3)
+$tumblr = Auth1::legs(3)
                # configuration
                ->set('key', 'your consumer key')
                ->set('secret', 'your consumer secret')

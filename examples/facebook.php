@@ -9,11 +9,13 @@
 use ohmy\Auth2;
 
 # initialize 3-legged oauth
-$facebook = Auth2::init(3)
-                 ->set('id', 'your client id')
-                 ->set('secret', 'your client secret')
-                 ->set('redirect', 'your redirect uri')
-                 ->set('scope', 'read_stream')
+$facebook = Auth2::legs(3)
+                 ->set(array(
+                    'id'       => 'your client id',
+                    'secret'   => 'your client secret',
+                    'redirect' => 'your redirect uri',
+                    'scope'    => 'read_stream'
+                 ))
 
                  # oauth flow
                  ->authorize('https://www.facebook.com/dialog/oauth')

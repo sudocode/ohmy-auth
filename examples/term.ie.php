@@ -10,7 +10,7 @@ use ohmy\Auth1;
 
 
 # initialize 2-legged oauth
-$termie = Auth1::init(2)
+$termie = Auth1::legs(2)
                ->set('oauth_consumer_key', 'key')
                ->set('oauth_consumer_secret', 'secret')
                ->request('http://term.ie/oauth/example/request_token.php')
