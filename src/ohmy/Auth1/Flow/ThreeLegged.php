@@ -63,7 +63,7 @@ class ThreeLegged extends Auth1Flow {
         return $request->then(function($data) use($self) {
             if (is_array($data)) return $data;
             parse_str($data, $array);
-            $this->session->create('oauth_token_secret', $array['oauth_token_secret']);
+            $self->session->create('oauth_token_secret', $array['oauth_token_secret']);
             return array_merge($self->value, $array);
         });
     }
