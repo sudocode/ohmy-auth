@@ -21,8 +21,9 @@ class PHPSession implements Session {
 
     public function read($key) {
         @session_start();
-        return $_SESSION[$key];
+        $value = ($_SESSION) ? $_SESSION[$key] : '';
         session_write_close();
+        return $value;
     }
 
     public function update($key, $value) {
