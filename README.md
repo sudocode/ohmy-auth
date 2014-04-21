@@ -40,14 +40,13 @@ If you prefer not to use Composer, you can download an archive or clone this rep
 ```php
 use ohmy\Auth;
 
-# do 2-legged oauth
-
 # configuration
 $credentials = array(
     'key'    => 'key',
     'secret' => 'secret'
 );
 
+# do 2-legged oauth
 $termie = Auth::init($credentials)
               # oauth flow
               ->request('http://term.ie/oauth/example/request_token.php')
@@ -65,8 +64,6 @@ $termie->GET('http://term.ie/oauth/example/echo_api.php')
 ```php
 use ohmy\Auth;
 
-# do 3-legged oauth
-
 # configuration
 $credentials = array(
     'consumer_key'    => 'your_consumer_key',
@@ -74,6 +71,7 @@ $credentials = array(
     'callback'        => 'your_callback_url'
 );
 
+# do 3-legged oauth
 $tumblr = Auth::init($credentials)
                # oauth flow
                ->request('http://www.tumblr.com/oauth/request_token')
@@ -91,8 +89,6 @@ $tumblr->GET('https://api.tumblr.com/v2/user/info')
 ```php
 use ohmy\Auth;
 
-# do 3-legged oauth
-
 # configuration
 $credentials = array(
     'id'       => 'your_github_client_id',
@@ -100,10 +96,12 @@ $credentials = array(
     'redirect' => 'your_redirect_uri'
 );
 
+# do 3-legged oauth
 $github = Auth::init($credentials)
               # oauth flow
               ->authorize('https://github.com/login/oauth/authorize')
               ->access('https://github.com/login/oauth/access_token')
+              # save access token
               ->finally(function($data) use(&$access_token) {
                  $access_token = $data['access_token'];
               });
