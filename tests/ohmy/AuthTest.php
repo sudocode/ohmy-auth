@@ -51,7 +51,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function testRunProtocolReturn($clientCredentials, $expected)
     {
-        $protocol = Auth::run($clientCredentials);
+        $protocol = Auth::init($clientCredentials);
 
         $this->assertInstanceOf($expected, $protocol);
 
