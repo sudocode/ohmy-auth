@@ -13,11 +13,11 @@ $credentials = array(
 
 Auth::init($credentials)
     ->request('http://term.ie/oauth/example/request_token.php')
-     ->access('http://term.ie/oauth/example/access_token.php')
-     ->GET('http://term.ie/oauth/example/echo_api.php')
-     ->then(function($data) {
-         # got data
-     });
+    ->access('http://term.ie/oauth/example/access_token.php')
+    ->GET('http://term.ie/oauth/example/echo_api.php')
+    ->then(function($data) {
+       # got data
+    });
 ```
 
 ### Dependencies
@@ -49,6 +49,7 @@ $credentials = array(
 );
 
 $termie = Auth::init($credentials)
+              # oauth flow
               ->request('http://term.ie/oauth/example/request_token.php')
               ->access('http://term.ie/oauth/example/access_token.php')
 
