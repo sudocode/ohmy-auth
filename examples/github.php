@@ -6,22 +6,23 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth2;
+use ohmy\Auth;
 
-# configuration
-$github = Auth2::legs(3)
-               ->set('id', 'your client id')
-               ->set('secret', 'your client secret')
-               ->set('redirect', 'your redirect uri')
+# initialize OAuth2 3-legged
+$github = Auth::init(array(
+                  'id'       => 'your client id',
+                  'secret'   => 'your client secret',
+                  'redirect' => 'your redirect uri'
+              ))
 
-               # oauth 
-               ->authorize('https://github.com/login/oauth/authorize')
-               ->access('https://github.com/login/oauth/access_token')
+              # oauth
+              ->authorize('https://github.com/login/oauth/authorize')
+              ->access('https://github.com/login/oauth/access_token')
 
-               # save access token
-               ->finally(function($data) use(&$access_token) {
-                   $access_token = $data['access_token'];
-               });
+              # save access token
+              ->finally(function($data) use(&$access_token) {
+                 $access_token = $data['access_token'];
+              });
 
 # access github api
 $github->GET("https://api.github.com/user?access_token=$access_token", null, array('User-Agent' => 'ohmy-auth'))

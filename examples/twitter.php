@@ -6,13 +6,10 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth1;
+use ohmy\Auth;
 
-# initialize 3-legged oauth
-$twitter = Auth1::legs(3)
-
-                # configuration
-                ->set(array(
+# initialize OAuth1 3-legged
+$twitter = Auth::init(array(
                     'key'      => 'your consumer key',
                     'secret'   => 'your consumer secret',
                     'callback' => 'your callback url'
