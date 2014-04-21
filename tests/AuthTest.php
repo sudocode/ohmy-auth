@@ -1,56 +1,66 @@
 <?php
 
-/*
- * Copyright (c) 2014, Yahoo! Inc. All rights reserved.
- * Copyrights licensed under the New BSD License.
- * See the accompanying LICENSE file for terms.
+use ohmy\Auth;
+
+/**
+ * AuthTest description.
  */
-
-use ohmy\Auth1,
-    ohmy\Auth2;
-
-class AuthTest extends PHPUnit_Framework_TestCase {
-
-    public function setUp() {}
-    public function tearDown() {}
-
-    /*
-    public function testYahooRequestToken() {
-        $phpunit = $this;
-        Auth1::init(3)
-             ->set('key', getenv('YAHOO_KEY'))
-             ->set('secret', getenv('YAHOO_SECRET'))
-             ->set('callback', getenv('CALLBACK'))
-             ->request('https://api.login.yahoo.com/oauth/v2/get_request_token')
-             ->finally(function($data) use($phpunit) {
-                 $phpunit->assertTrue(!empty($data['oauth_token']));
-                 $phpunit->assertTrue(!empty($data['oauth_token_secret']));
-             });
-    }*/
-
-    public function testTwitterRequestToken() {
-        $phpunit = $this;
-        Auth1::init(3)
-             ->set('key', getenv('TWITTER_KEY'))
-             ->set('secret', getenv('TWITTER_SECRET'))
-             ->set('callback', getenv('CALLBACK'))
-             ->request('https://api.twitter.com/oauth/request_token')
-             ->finally(function($data) use($phpunit) {
-                $phpunit->assertTrue(!empty($data['oauth_token']));
-                $phpunit->assertTrue(!empty($data['oauth_token_secret']));
-             });
+class AuthTest extends PHPUnit_Framework_TestCase
+{
+    public function setUp()
+    {
+        //
     }
 
-    public function testRequestToken() {
-        $phpunit = $this;
-        Auth1::init(3)
-            ->set('key', getenv('FITBIT_KEY'))
-            ->set('secret', getenv('FITBIT_SECRET'))
-            ->set('callback', getenv('CALLBACK'))
-            ->request('http://api.fitbit.com/oauth/request_token')
-            ->finally(function($data) use($phpunit) {
-                $phpunit->assertTrue(!empty($data['oauth_token']));
-                $phpunit->assertTrue(!empty($data['oauth_token_secret']));
-            });
+    public function tearDown()
+    {
+        //
+    }
+
+    public function provider()
+    {
+        $auth1TwoLegged = array(
+            array(
+                'key'    => 'dummy-key',
+                'secret' => 'dummy-secret',
+            ),
+            'ohmy\\Auth1\\Flow\\TwoLegged'
+        );
+
+        $auth1ThreeLegged = array(
+            array(
+                'key'      => 'dummy-key',
+                'secret'   => 'dummy-secret',
+                'callback' => 'dummy-callback',
+            ),
+            'ohmy\\Auth1\\Flow\\ThreeLegged'
+        );
+
+        $auth2ThreeLegged = array(
+            array(
+                'id'       => 'dummy-id',
+                'secret'   => 'dummy-secret',
+                'redirect' => 'dummy-redirect',
+            ),
+            'ohmy\\Auth2\\Flow\\ThreeLegged'
+        );
+
+
+        return array(
+            $auth1TwoLegged,
+            $auth1ThreeLegged,
+            $auth2ThreeLegged,
+        );
+    }
+
+    /**
+     * @dataProvider provider
+     */
+    public function testRunProtocolReturn($clientCredentials, $expected)
+    {
+        $protocol = Auth::run($clientCredentials);
+
+        $this->assertInstanceOf($expected, $protocol);
+
     }
 }

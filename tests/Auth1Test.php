@@ -6,7 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth1,
+use ohmy\Protocols\Auth1,
     ohmy\Auth1\Auth1Flow;
 
 class Auth1Test extends PHPUnit_Framework_TestCase {
