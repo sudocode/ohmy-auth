@@ -3,11 +3,23 @@
 use ohmy\Exceptions\AuthException;
 
 /**
- * OAuth description.
+ * A facade class to use OAuth and OAuth2 protocols implicity and intelligently.
+ * The keys from client credentials are used to know what protocol is necessary, and return it.
  */
 class Auth
 {
+    /**
+     * Current keys with its protocol standard names.
+     *
+     * @var array
+     */
     protected $protocolKeys;
+
+    /**
+     * Client Credentials from a consumer.
+     *
+     * @var array
+     */
     protected $clientCredentials;
 
     public static function init(array $clientCredentials)
@@ -17,22 +29,24 @@ class Auth
         $instance->setClientCredentials($clientCredentials);
 
         return $instance->getAuth();
+
     }
 
     /**
-     * [setClientCredentials description]
+     * Sets input credentials.
      *
-     * @param [type] $clientCredentials [description]
+     * @param array $clientCredentials
      */
     public function setClientCredentials($clientCredentials)
     {
         $this->clientCredentials = array_change_key_case($clientCredentials, CASE_LOWER);
+
     }
 
     /**
-     * [getAuthorization description]
+     * Gets protocol object of Oauth or Oauth2
      *
-     * @return [type] [description]
+     * @return mixed
      */
     public function getAuth()
     {
@@ -47,14 +61,14 @@ class Auth
     }
 
     /**
-     * [getProtocol description]
+     * Determines which protocol is needed and returns it.
      *
-     * @return [type] [description]
+     * @return array
      */
     protected function getProtocol()
     {
-        $protocolKeys      = $this->getDefaultProtocolKeys();
         $clientCredentials = array_keys($this->clientCredentials);
+        $protocolKeys      = $this->getDefaultProtocolKeys();
 
         foreach ($protocolKeys as $protocol => $legs) {
 
@@ -77,13 +91,14 @@ class Auth
         }
 
         throw new AuthException('Doesn\'t exist protocol for this parameters: (' . implode(', ', $clientCredentials) . ')');
+
     }
 
     /**
-     * [setProtocolKeys description]
+     * Sets current OAuth parameters used.
      *
-     * @param [type] $protocol     [description]
-     * @param [type] $protocolKeys [description]
+     * @param array   $protocol
+     * @param integer $protocolKeys
      */
     protected function setCurrentProtocolKeys($clientCredentials, $protocol)
     {
@@ -98,10 +113,10 @@ class Auth
     }
 
     /**
-     * [getAuth1Key description]
+     * Normalizes to parameter name of OAuth.
      *
-     * @param  [type] $value [description]
-     * @return [type]        [description]
+     * @param  string $value
+     * @return mixed
      */
     protected function getAuth1Key($value)
     {
@@ -131,13 +146,14 @@ class Auth
             default:
                 return null;
         }
+
     }
 
     /**
-     * [getAuth2Key description]
+     * Normalizes to parameter name of OAuth2.
      *
-     * @param  [type] $value [description]
-     * @return [type]        [description]
+     * @param  string $value
+     * @return mixed
      */
     protected function getAuth2Key($value)
     {
@@ -158,12 +174,13 @@ class Auth
             default:
                 return null;
         }
+
     }
 
     /**
-     * [getDefaultProtocolKeys description]
+     * Gets the default names OAuth/OAuth2 parameters.
      *
-     * @return [type] [description]
+     * @return array
      */
     protected function getDefaultProtocolKeys()
     {
@@ -176,8 +193,7 @@ class Auth
                 3 => ['client_id', 'client_secret', 'redirect_uri']
             ],
         ];
+
     }
-
-
 
 }

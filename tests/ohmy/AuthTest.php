@@ -6,15 +6,8 @@ use ohmy\Auth;
 
 class AuthTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        //
-    }
-
-    public function tearDown()
-    {
-        //
-    }
+    public function setUp() {}
+    public function tearDown() {}
 
     public function provider()
     {
@@ -50,6 +43,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
             $auth1ThreeLegged,
             $auth2ThreeLegged,
         );
+
     }
 
     /**
