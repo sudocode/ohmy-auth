@@ -3,7 +3,7 @@
 use ohmy\Exceptions\AuthException;
 
 /**
- * A facade class to use OAuth and OAuth2 protocols implicity and intelligently.
+ * A factory class to use OAuth and OAuth2 protocols implicity and intelligently.
  * The keys from client credentials are used to know what protocol is necessary, and return it.
  */
 class Auth
