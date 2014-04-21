@@ -63,6 +63,7 @@ class Auth
     /**
      * Determines which protocol is needed and returns it.
      *
+     * @throws AuthException
      * @return array
      */
     protected function getProtocol()
@@ -97,8 +98,8 @@ class Auth
     /**
      * Sets current OAuth parameters used.
      *
-     * @param array   $protocol
-     * @param integer $protocolKeys
+     * @param array   $clientCredentials
+     * @param integer $protocol
      */
     protected function setCurrentProtocolKeys($clientCredentials, $protocol)
     {
