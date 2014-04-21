@@ -185,15 +185,15 @@ class Auth
      */
     protected function getDefaultProtocolKeys()
     {
-        return [
-            'Auth1' => [
-                2 => ['oauth_consumer_key', 'oauth_consumer_secret'],
-                3 => ['oauth_consumer_key', 'oauth_consumer_secret', 'oauth_callback'],
-            ],
-            'Auth2' => [
-                3 => ['client_id', 'client_secret', 'redirect_uri']
-            ],
-        ];
+        return array(
+            'Auth1' => array(
+                2 => array('oauth_consumer_key', 'oauth_consumer_secret'),
+                3 => array('oauth_consumer_key', 'oauth_consumer_secret', 'oauth_callback'),
+            ),
+            'Auth2' => array(
+                3 => array('client_id', 'client_secret', 'redirect_uri'),
+            ),
+        );
 
     }
 
