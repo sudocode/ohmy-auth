@@ -10,7 +10,7 @@ class Auth
     protected $protocolKeys;
     protected $clientCredentials;
 
-    public static function run(array $clientCredentials)
+    public static function init(array $clientCredentials)
     {
         $instance = new Auth();
 

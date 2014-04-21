@@ -2,9 +2,8 @@
 
 use ohmy\Auth;
 
-/**
- * AuthTest description.
- */
+
+
 class AuthTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
