@@ -6,16 +6,13 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth1;
+use ohmy\Auth;
 
-# initialize 3-legged oauth
-$yahoo = Auth1::legs(3)
-
-              # set key, secret, and callback
-              ->set(array(
-                'key'      => 'your consumer key',
-                'secret'   => 'your consumer secret',
-                'callback' => 'your callback'
+# initialize OAuth1 3-legged
+$yahoo = Auth::init(array(
+                  'key'      => 'your consumer key',
+                  'secret'   => 'your consumer secret',
+                  'callback' => 'your callback url'
               ))
 
               # oauth

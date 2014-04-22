@@ -1,4 +1,4 @@
-<?php namespace ohmy;
+<?php namespace ohmy\Protocols;
 
 /*
  * Copyright (c) 2014, Yahoo! Inc. All rights reserved.

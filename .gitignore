@@ -3,3 +3,8 @@ Gruntfile.js
 node_modules
 .idea
 index.php
+
+# Ignore composer generated files
+composer.phar
+composer.lock
+composer-test.lock

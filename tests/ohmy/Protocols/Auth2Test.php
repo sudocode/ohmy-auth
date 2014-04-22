@@ -6,7 +6,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth2;
+use ohmy\Protocols\Auth2;
 
 class Auth2Test extends PHPUnit_Framework_TestCase {
 

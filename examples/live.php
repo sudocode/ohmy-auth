@@ -6,23 +6,24 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth2;
+use ohmy\Auth;
 
-# initialize 3-legged oauth
-$instagram = Auth2::legs(3)
+# initialize OAuth2 3-legged
+$instagram = Auth::init(array(
+                    'id'       => 'your client id',
+                    'secret'   => 'your client secret',
+                    'redirect' => 'your redirect uri',
+                    'scope'    => 'wl.basic'
+                ))
 
-                  # configuration
-                  ->set('id', 'your client id')
-                  ->set('secret', 'your client secret')
-                  ->set('redirect', 'your redirect uri')
-                  ->set('scope', 'wl.basic')
+                # oauth flow
+                ->authorize('https://login.live.com/oauth20_authorize.srf')
+                ->access('https://login.live.com/oauth20_token.srf')
 
-                  # oauth flow
-                  ->authorize('https://login.live.com/oauth20_authorize.srf')
-                  ->access('https://login.live.com/oauth20_token.srf')
-                  ->finally(function($data) use(&$access_token) {
-                      $access_token = $data['access_token'];
-                  });
+                # save data
+                ->finally(function($data) use(&$access_token) {
+                    $access_token = $data['access_token'];
+                });
 
 # test GET call
 $instagram->GET("https://apis.live.net/v5.0/me?access_token=$access_token")

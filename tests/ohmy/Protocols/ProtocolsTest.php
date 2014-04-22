@@ -6,10 +6,10 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth1,
-    ohmy\Auth2;
+use ohmy\Protocols\Auth1,
+    ohmy\Protocols\Auth2;
 
-class AuthTest extends PHPUnit_Framework_TestCase {
+class ProtocolsTest extends PHPUnit_Framework_TestCase {
 
     public function setUp() {}
     public function tearDown() {}

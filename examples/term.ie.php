@@ -6,19 +6,24 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth1;
+use ohmy\Auth;
 
 
-# initialize 2-legged oauth
-$termie = Auth1::legs(2)
-               ->set('oauth_consumer_key', 'key')
-               ->set('oauth_consumer_secret', 'secret')
-               ->request('http://term.ie/oauth/example/request_token.php')
-               ->access('http://term.ie/oauth/example/access_token.php')
-               ->finally(function($data) use(&$token, &$secret) {
-                   $token = $data['oauth_token'];
-                   $secret = $data['oauth_token_secret'];
-               });
+# initialize OAuth1 2-legged
+$termie = Auth::init(array(
+                  'oauth_consumer_key'    => 'key',
+                  'oauth_consumer_secret' => 'secret',
+              ))
+
+              # oauth flow
+              ->request('http://term.ie/oauth/example/request_token.php')
+              ->access('http://term.ie/oauth/example/access_token.php')
+
+              # save data
+              ->finally(function($data) use(&$token, &$secret) {
+                 $token = $data['oauth_token'];
+                 $secret = $data['oauth_token_secret'];
+              });
 
 # test GET call
 $termie->GET('http://term.ie/oauth/example/echo_api.php?method=get')
@@ -34,10 +39,15 @@ $termie->POST('http://term.ie/oauth/example/echo_api.php', array('method' => 'po
 
 
 # test revival
-$termie2 = Auth1::init(2)
-                ->set('oauth_consumer_key', 'key')
-                ->set('oauth_consumer_secret', 'secret')
+$termie2 = Auth::init(array(
+                    'oauth_consumer_key'    => 'key',
+                    'oauth_consumer_secret' => 'secret',
+                ))
+
+                # oauth flow
                 ->access($token, $secret)
+
+                # view data
                 ->GET('http://term.ie/oauth/example/echo_api.php?method=revive')
                 ->then(function($response) {
                     var_dump($response->text());

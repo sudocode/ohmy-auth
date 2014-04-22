@@ -6,11 +6,10 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth2;
+use ohmy\Auth;
 
-# initialize 3-legged oauth
-$facebook = Auth2::legs(3)
-                 ->set(array(
+# initialize OAuth2 3-legged
+$facebook = Auth::init(array(
                     'id'       => 'your client id',
                     'secret'   => 'your client secret',
                     'redirect' => 'your redirect uri',

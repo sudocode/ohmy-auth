@@ -6,18 +6,21 @@
  * See the accompanying LICENSE file for terms.
  */
 
-use ohmy\Auth2;
+use ohmy\Auth;
 
-# initialize 3-legged oauth
-$instagram = Auth2::legs(3)
-                  ->set('id', 'your client id')
-                  ->set('secret', 'your client secret')
-                  ->set('redirect', 'your redirect uri')
-                  ->set('scope', 'basic')
+# initialize OAuth2 3-legged
+$instagram = Auth::init(array(
+                      'id'       => 'your client id',
+                      'secret'   => 'your client secret',
+                      'redirect' => 'your redirect uri',
+                      'scope'    => 'basic'
+                  ))
 
                   # oauth flow
                   ->authorize('https://api.instagram.com/oauth/authorize')
                   ->access('https://api.instagram.com/oauth/access_token')
+
+                  # save data
                   ->finally(function($data) use(&$access_token) {
                       $access_token = $data['access_token'];
                   });
