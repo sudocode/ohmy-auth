@@ -23,6 +23,9 @@ class Request extends Promise {
         $self = $this;
         $access = new Access(function($resolve, $reject) use($self, $url, $options) {
 
+            # make oauth_nonce unique for each request
+            $self->value['oauth_nonce'] = md5(mt_rand());
+
             # sign request
             $signature = new Signature(
                 ($options['method']) ? $options['method'] : 'POST',

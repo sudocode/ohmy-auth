@@ -25,6 +25,9 @@ class TwoLegged extends Auth1Flow {
         $self = $this;
         $request = new Request(function($resolve, $reject) use($self, $url, $options) {
 
+            # make oauth_nonce unique for each request
+            $self->value['oauth_nonce'] = md5(mt_rand());
+
             $signature = new Signature(
                 'POST',
                 $url,
