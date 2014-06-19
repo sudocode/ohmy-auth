@@ -41,6 +41,10 @@ class Access extends Promise {
 
     private function request($method, $url, $params=array(), $headers=array()) {
 
+        # make oauth_nonce unique for each request
+        $self->value['oauth_nonce'] = md5(mt_rand());
+        $params['oauth_nonce']      = $self->value['oauth_nonce'];
+
         # sign request
         $signature = new Signature(
             $method,
