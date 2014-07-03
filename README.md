@@ -103,6 +103,7 @@ $github->GET("https://api.github.com/user?access_token=$access_token", null, arr
        });
 ```
 ### More examples
+ - [Evernote](https://github.com/sudocode/ohmy-auth/blob/master/examples/evernote.php)
  - [Facebook](https://github.com/sudocode/ohmy-auth/blob/master/examples/facebook.php)
  - [Fitbit](https://github.com/sudocode/ohmy-auth/blob/master/examples/fitbit.php)
  - [GitHub](https://github.com/sudocode/ohmy-auth/blob/master/examples/github.php)
