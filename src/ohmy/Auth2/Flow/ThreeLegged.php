@@ -28,14 +28,14 @@ class ThreeLegged extends Auth2Flow {
                 return;
             }
 
-            $location = $url.'?'.http_build_query(array(
+            $location = $url.'?'.http_build_query(array_merge(array(
                 'response_type' => 'code',
                 'client_id'     => $self->value['client_id'],
                 'redirect_uri'  => $self->value['redirect_uri'],
                 'scope'         => $self->value['scope'],
                 'state'         => $self->value['state']
 
-            ));
+            ), $options));
 
             header("Location: $location");
             exit();
