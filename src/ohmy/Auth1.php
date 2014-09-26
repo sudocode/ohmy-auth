@@ -45,7 +45,7 @@ class Auth1 {
                 $oauth['oauth_token_secret'] = '';
                 return new ThreeLegged(function($resolve) use($oauth) {
                     $resolve($oauth);
-                }, $client, $session);
+                }, $client);
                 break;
             default:
         }
