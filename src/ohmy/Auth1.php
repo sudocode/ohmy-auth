@@ -42,11 +42,10 @@ class Auth1 {
                 }, $client);
                 break;
             case 3:
-                $session = new PHPSession;
-                $oauth['oauth_token_secret'] = $session->read('oauth_token_secret');
+                $oauth['oauth_token_secret'] = '';
                 return new ThreeLegged(function($resolve) use($oauth) {
                     $resolve($oauth);
-                }, $client, $session);
+                }, $client);
                 break;
             default:
         }

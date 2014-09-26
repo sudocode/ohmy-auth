@@ -20,7 +20,11 @@ class ThreeLegged extends Auth1Flow {
     public function __construct($callback, Http $client=null, Session $session=null) {
         parent::__construct($callback);
         $this->client = $client;
-        $this->session = $session;
+        if(isset($session)){
+            $this->session = $session;
+        }else{
+            $this->session = new Session\PHPSession();
+        }
     }
 
     public function request($url, $options=array()) {
