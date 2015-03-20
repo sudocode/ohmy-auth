@@ -82,13 +82,12 @@ class Signature {
 
         $output = array();
         $params = $this->params;
-        $params['oauth_signature'] = rawurlencode($this->getSignature());
+        $params['oauth_signature'] = $this->getSignature();
         ksort($params);
 
         foreach($params as $key => $value) {
             if (isset($this->oauth[$key])) {
-                if ($key == 'oauth_token') array_push($output, "$key=\"". rawurlencode($value) ."\"");
-                else array_push($output, "$key=\"". $value ."\"");
+                array_push($output, "$key=\"". rawurlencode($value) ."\"");
             }
         }
 
