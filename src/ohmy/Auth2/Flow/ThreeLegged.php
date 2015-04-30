@@ -8,7 +8,8 @@
 
 use ohmy\Auth2\Auth2Flow,
     ohmy\Auth2\Flow\ThreeLegged\Authorize,
-    ohmy\Auth2\Flow\ThreeLegged\Access;
+    ohmy\Auth2\Flow\ThreeLegged\Access,
+    ohmy\Auth2\Flow\ThreeLegged\Refresh;
 
 class ThreeLegged extends Auth2Flow {
 
@@ -45,9 +46,20 @@ class ThreeLegged extends Auth2Flow {
 
     public function access($token) {
         $self = $this;
-        $this->value['access_token'];
+        $this->value['access_token'] = $token;
         return new Access(function($resolve) use($self) {
             $resolve($self->value);
         }, $this->client);
+    }
+    
+    public function refresh($refreshToken, $url){
+        $self = $this;
+        $this->value['refresh_token'] = $refreshToken;
+        
+        $refresh = new Refresh(function($resolve) use($self) {
+            $resolve($self->value);
+        }, $this->client);
+        
+        return $refresh->access($url);
     }
 }
