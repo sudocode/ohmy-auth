@@ -102,6 +102,30 @@ $github->GET("https://api.github.com/user?access_token=$access_token", null, arr
            # got user data
        });
 ```
+
+### OAuth 2.0 Refresh Token
+```php
+use ohmy\Auth2;
+
+# do 3-legged oauth
+$apiClient = Auth2::legs(3)
+               # configuration
+               ->set(array(
+                    'id'       => 'your_client_id',
+                    'secret'   => 'your_client_secret',
+               ))
+               # refresh oauth flow
+               ->refresh('a_valid_refresh_token','https://example.com/login/oauth/refresh_token')
+               ->finally(function($data) use(&$access_token) {
+                   $access_token = $data['access_token'];
+               });
+
+#continue on with normal requests
+$apiClient->GET("https://api.example.com/user?access_token=$access_token", null, array('User-Agent' => 'ohmy-auth'))
+       ->then(function($data) {
+           # got user data
+       });
+```
 ### More examples
  - [Facebook](https://github.com/sudocode/ohmy-auth/blob/master/examples/facebook.php)
  - [Fitbit](https://github.com/sudocode/ohmy-auth/blob/master/examples/fitbit.php)
