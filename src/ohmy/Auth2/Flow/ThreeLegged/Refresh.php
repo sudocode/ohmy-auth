@@ -28,11 +28,21 @@ class Refresh extends Promise {
                 'client_secret' => $self->value['client_secret']
             ))
             ->then(function($response) use($resolve) {
-                $resolve($response);
+                $resolve($response->text());
             });
 
         }, $this->client);
 
-        return $access;
+        return $access->then(function($data) use($self) {
+            $value = null;
+            parse_str($data, $array);
+            if (count($array) === 1) {
+                $json = json_decode($data, true);
+                if ($json) $value = array_merge($self->value, $json);
+                else $value['response'] = $data;
+            }
+            else $value =  array_merge($self->value, $array);
+            return $value;
+        });
     }
 }
